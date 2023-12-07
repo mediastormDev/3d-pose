@@ -9,6 +9,8 @@ const AXIS = {
   z: new THREE.Vector3(0, 0, 1),
 };
 
+const material = new THREE.MeshBasicMaterial({ color: 0xffffff });
+
 export let renderer: THREE.WebGLRenderer;
 export let scene: THREE.Scene;
 export let camera: THREE.PerspectiveCamera;
@@ -66,7 +68,7 @@ export function createScene() {
   onWindowResize();
 
   var ground = new THREE.Mesh(
-    new THREE.PlaneGeometry(1000, 1000),
+    new THREE.PlaneGeometry(100, 100),
     new THREE.MeshLambertMaterial({
       color: "antiquewhite",
     })
@@ -209,16 +211,18 @@ class ParametricGeometry extends THREE.BufferGeometry {
 }
 //==============================================
 
+// basic monochromatic energy preservation
+const diffuseColor = new THREE.Color().setHSL(1, 1, 1).multiplyScalar(0.9);
 // create parametric surface
 class ParametricShape extends THREE.Group {
   constructor(tex: any, col: any, func: any, nU = 3, nV = 3) {
     super();
     var obj = new THREE.Mesh(
       new ParametricGeometry(func, nU, nV),
-      new THREE.MeshStandardMaterial({
-        color: col,
-        //				shininess: 1,
-        map: tex,
+      new THREE.MeshToonMaterial({
+        color: diffuseColor,
+        // shininess: 1,
+        // map: tex,
       })
     );
     obj.receiveShadow = true;
@@ -229,8 +233,8 @@ class ParametricShape extends THREE.Group {
   addSphere(r: number, y: number, x = 0, z = 0) {
     var s = new THREE.Mesh(
       Mannequin.sphereGeometry,
-      new THREE.MeshLambertMaterial({
-        color: Mannequin.colors[3],
+      new THREE.MeshToonMaterial({
+        color: diffuseColor,
       })
     );
     s.castShadow = true;
@@ -1654,15 +1658,26 @@ class Child extends Mannequin {
   } // Child.constructor
 } // Child
 
+// // default body parts colours
+// Mannequin.colors = [
+//   "antiquewhite", // head
+//   "gray", // shoes
+//   "antiquewhite", // pelvis
+//   "burlywood", // joints
+//   "antiquewhite", // limbs
+//   "bisque", // torso
+//   "burlywood", // nails
+// ];
+
 // default body parts colours
 Mannequin.colors = [
-  "antiquewhite", // head
-  "gray", // shoes
-  "antiquewhite", // pelvis
-  "burlywood", // joints
-  "antiquewhite", // limbs
-  "bisque", // torso
-  "burlywood", // nails
+  "white", // head
+  "white", // shoes
+  "white", // pelvis
+  "white", // joints
+  "white", // limbs
+  "white", // torso
+  "white", // nails
 ];
 
 // head texture

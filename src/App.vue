@@ -29,38 +29,48 @@ const createSceneFn = () => {
 
   // LIGHTS
 
-  const hemiLight = new THREE.HemisphereLight(0xffffff, 0xffffff, 2);
-  hemiLight.color.setHSL(0.6, 1, 0.6);
-  hemiLight.groundColor.setHSL(0.095, 1, 0.75);
-  hemiLight.position.set(0, 50, 0);
-  scene.add(hemiLight);
+  // const hemiLight = new THREE.HemisphereLight(0xffffff, 0xffffff, 1);
+  // hemiLight.color.setHSL(0.6, 1, 0.6);
+  // hemiLight.groundColor.setHSL(0.095, 1, 0.75);
+  // hemiLight.position.set(0, 50, 0);
+  // scene.add(hemiLight);
 
-  const hemiLightHelper = new THREE.HemisphereLightHelper(hemiLight, 10);
-  scene.add(hemiLightHelper);
+  // const hemiLightHelper = new THREE.HemisphereLightHelper(hemiLight, 10);
+  // scene.add(hemiLightHelper);
 
-  const dirLight = new THREE.DirectionalLight(0xffffff, 2);
-  dirLight.color.setHSL(0.1, 1, 0.95);
-  dirLight.position.set(-1, 1.75, 1);
-  dirLight.position.multiplyScalar(30);
-  scene.add(dirLight);
+  // const dirLight = new THREE.DirectionalLight(0xffffff, 1);
+  // dirLight.color.setHSL(0.1, 1, 0.95);
+  // dirLight.position.set(-1, 1.75, 1);
+  // dirLight.position.multiplyScalar(30);
+  // scene.add(dirLight);
 
-  dirLight.castShadow = true;
+  // dirLight.castShadow = true;
 
-  dirLight.shadow.mapSize.width = 2048;
-  dirLight.shadow.mapSize.height = 2048;
+  // dirLight.shadow.mapSize.width = 2048;
+  // dirLight.shadow.mapSize.height = 2048;
 
-  const d = 50;
+  // const d = 50;
 
-  dirLight.shadow.camera.left = -d;
-  dirLight.shadow.camera.right = d;
-  dirLight.shadow.camera.top = d;
-  dirLight.shadow.camera.bottom = -d;
+  // dirLight.shadow.camera.left = -d;
+  // dirLight.shadow.camera.right = d;
+  // dirLight.shadow.camera.top = d;
+  // dirLight.shadow.camera.bottom = -d;
 
-  dirLight.shadow.camera.far = 3500;
-  dirLight.shadow.bias = -0.0001;
+  // dirLight.shadow.camera.far = 3500;
+  // dirLight.shadow.bias = -0.0001;
 
-  const dirLightHelper = new THREE.DirectionalLightHelper(dirLight, 10);
-  scene.add(dirLightHelper);
+  // const dirLightHelper = new THREE.DirectionalLightHelper(dirLight, 10);
+  // scene.add(dirLightHelper);
+
+  // Lights
+
+  scene.add(new THREE.AmbientLight(0xffffff, 1));
+
+  const pointLight = new THREE.PointLight(0xffffff, 2, 800, 0);
+  pointLight.position.set(-50, 80, 50);
+  scene.add(pointLight);
+
+  //
 
   const controls = new OrbitControls(camera, renderer.domElement);
 
@@ -80,12 +90,14 @@ const createSceneFn = () => {
     [man]
   );
   outlinePass.renderToScreen = true;
-  outlinePass.edgeStrength = 3; //粗
-  outlinePass.edgeGlow = 2; //发光
-  outlinePass.edgeThickness = 4; //光晕粗
+  outlinePass.edgeStrength = 8; //粗
+  // outlinePass.edgeGlow = 2; //发光
+  outlinePass.edgeThickness = 3; //光晕粗
+  outlinePass.overlayMaterial.blending = THREE.CustomBlending;
+
   // outlinePass.pulsePeriod = 1; //闪烁
   outlinePass.usePatternTexture = false; //是否使用贴图
-  outlinePass.visibleEdgeColor.set(0xffffff);
+  outlinePass.visibleEdgeColor.set(0x000000);
   // outlinePass.visibleEdgeColor.set("white"); // 设置显示的颜色
   // outlinePass.hiddenEdgeColor.set("black"); // 设置隐藏的颜色
 
@@ -100,7 +112,10 @@ const createSceneFn = () => {
   //获取.setPixelRatio()设置的设备像素比
   const pixelRatio = renderer.getPixelRatio();
   // width、height是canva画布的宽高度
-  const smaaPass = new SMAAPass(window.innerWidth * pixelRatio, window.innerHeight * pixelRatio);
+  const smaaPass = new SMAAPass(
+    window.innerWidth * pixelRatio,
+    window.innerHeight * pixelRatio
+  );
   bloomComposer.addPass(smaaPass);
 
   function animate() {
