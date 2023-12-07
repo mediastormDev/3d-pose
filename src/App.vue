@@ -18,7 +18,6 @@ const createSceneFn = () => {
   const axesHelper = new THREE.AxesHelper(50);
   scene.add(axesHelper);
 
-  const man = new Male();
   scene.remove(light);
   renderer.shadowMap.type = THREE.PCFSoftShadowMap;
 
@@ -58,6 +57,8 @@ const createSceneFn = () => {
   scene.add(dirLightHelper);
 
   const controls = new OrbitControls(camera, renderer.domElement);
+
+  const man = new Male();
 };
 
 onMounted(() => {
