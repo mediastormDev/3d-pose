@@ -2,6 +2,12 @@
 import { onMounted } from "vue";
 import * as THREE from "three";
 import { OrbitControls } from "@three-ts/orbit-controls";
+import { EffectComposer } from "three/addons/postprocessing/EffectComposer.js";
+import { RenderPass } from "three/addons/postprocessing/RenderPass.js";
+import { OutlinePass } from "three/addons/postprocessing/OutlinePass.js";
+// SMAA抗锯齿通道
+import { SMAAPass } from "three/addons/postprocessing/SMAAPass.js";
+
 import {
   createScene,
   scene,
@@ -59,7 +65,55 @@ const createSceneFn = () => {
   const controls = new OrbitControls(camera, renderer.domElement);
 
   const man = new Male();
+
+  // RenderPass这个通道会渲染场景，但不会将渲染结果输出到屏幕上
+  const renderScene = new RenderPass(scene, camera);
+  // THREE.OutlinePass(resolution, scene, camera, selectedObjects)
+  // resolution 分辨率
+  // scene 场景
+  // camera 相机
+  // selectedObjects 需要选中的物体对象, 传入需要边界线进行高亮处理的对象
+  const outlinePass = new OutlinePass(
+    new THREE.Vector2(window.innerWidth, window.innerHeight),
+    scene,
+    camera,
+    [man]
+  );
+  outlinePass.renderToScreen = true;
+  outlinePass.edgeStrength = 3; //粗
+  outlinePass.edgeGlow = 2; //发光
+  outlinePass.edgeThickness = 4; //光晕粗
+  // outlinePass.pulsePeriod = 1; //闪烁
+  outlinePass.usePatternTexture = false; //是否使用贴图
+  outlinePass.visibleEdgeColor.set(0xffffff);
+  // outlinePass.visibleEdgeColor.set("white"); // 设置显示的颜色
+  // outlinePass.hiddenEdgeColor.set("black"); // 设置隐藏的颜色
+
+  //创建效果组合器对象，可以在该对象上添加后期处理通道，通过配置该对象，使它可以渲染我们的场景，并应用额外的后期处理步骤，在render循环中，使用EffectComposer渲染场景、应用通道，并输出结果。
+  const bloomComposer = new EffectComposer(renderer);
+  bloomComposer.setSize(window.innerWidth, window.innerHeight);
+  bloomComposer.addPass(renderScene);
+  // 眩光通道bloomPass插入到composer
+  bloomComposer.addPass(outlinePass);
+  // bloomComposer.render();
+
+  //获取.setPixelRatio()设置的设备像素比
+  const pixelRatio = renderer.getPixelRatio();
+  // width、height是canva画布的宽高度
+  const smaaPass = new SMAAPass(window.innerWidth * pixelRatio, window.innerHeight * pixelRatio);
+  bloomComposer.addPass(smaaPass);
+
+  function animate() {
+    requestAnimationFrame(animate);
+    bloomComposer.render();
+  }
+
+  animate();
 };
+
+// function render() {
+//   renderer.render(scene, camera);
+// }
 
 onMounted(() => {
   createSceneFn();
