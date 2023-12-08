@@ -87,8 +87,8 @@ export function drawFrame() {
 }
 
 // a placeholder function, should be overwritten by the user
-function animate(time: number) {
-  // console.log("animate time:", time);
+export function animate(time: number) {
+  console.log("animate time:", time);
 }
 
 // helper functions working with degrees
@@ -597,7 +597,7 @@ class Joint extends THREE.Group {
   } // Joint.select
 } // Joint
 
-class Pelvis extends Joint {
+export class Pelvis extends Joint {
   constructor(parentJoint) {
     super(
       parentJoint,
@@ -662,7 +662,7 @@ class Body extends Joint {
   }
 } // Body
 
-class Torso extends Joint {
+export class Torso extends Joint {
   constructor(parentJoint) {
     super(
       parentJoint,
@@ -722,7 +722,7 @@ class Neck extends Joint {
   } // Neck.constructor
 } // Neck
 
-class Head extends Joint {
+export class Head extends Joint {
   static SIZE = { sx: 3, sy: 4, sz: 2.5 };
 
   constructor(parentJoint) {
@@ -984,7 +984,7 @@ class Elbow extends Joint {
   }
 } // Elbow
 
-class Wrist extends Joint {
+export class Wrist extends Joint {
   constructor(parentJoint) {
     super(
       parentJoint,

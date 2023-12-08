@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { onMounted } from "vue";
+import { onMounted, ref } from "vue";
 import * as THREE from "three";
 import { OrbitControls } from "@three-ts/orbit-controls";
 import { EffectComposer } from "three/addons/postprocessing/EffectComposer.js";
@@ -20,7 +20,14 @@ import {
   Mannequin,
   Ankle,
   drawFrame,
+  Pelvis,
+  Torso,
+  Head,
+  Wrist,
+  animate,
 } from "./mannequin/mannequin";
+
+const EPS = 0.00001;
 
 let mouse = new THREE.Vector2(); // mouse 3D position
 let mouseButton: any = undefined; // pressed mouse buttons
@@ -32,19 +39,27 @@ const models: any[] = [];
 let controls: any = null;
 let man: any = null;
 
-let cbInverseKinematics = document.getElementById("inverse-kinematics");
-let cbBiologicalConstraints = document.getElementById("biological-constraints");
-let cbRotZ = document.getElementById("rot-z");
-let cbRotX = document.getElementById("rot-x");
-let cbRotY = document.getElementById("rot-y");
-let cbMovX = document.getElementById("mov-x");
-let cbMovY = document.getElementById("mov-y");
-let cbMovZ = document.getElementById("mov-z");
-let btnGetPosture = document.getElementById("gp");
-let btnSetPosture = document.getElementById("sp");
-let btnExportPosture = document.getElementById("ep");
-let btnAddModel = document.getElementById("am");
-let btnRemoveModel = document.getElementById("rm");
+// let cbInverseKinematics = document.getElementById("inverse-kinematics");
+// let cbBiologicalConstraints = document.getElementById("biological-constraints");
+// let cbRotZ = document.getElementById("rot-z");
+// let cbRotX = document.getElementById("rot-x");
+// let cbRotY = document.getElementById("rot-y");
+// let cbMovX = document.getElementById("mov-x");
+// let cbMovY = document.getElementById("mov-y");
+// let cbMovZ = document.getElementById("mov-z");
+let inverseKinematicsRef = ref(null);
+let biologicalConstraintsRef = ref(null);
+let rotZRef = ref(null);
+let rotXRef = ref(null);
+let rotYRef = ref(null);
+let movXRef = ref(null);
+let movYRef = ref(null);
+let movZRef = ref(null);
+// let btnGetPosture = document.getElementById("gp");
+// let btnSetPosture = document.getElementById("sp");
+// let btnExportPosture = document.getElementById("ep");
+// let btnAddModel = document.getElementById("am");
+// let btnRemoveModel = document.getElementById("rm");
 
 // name body parts and their motions
 const names = [
@@ -269,12 +284,167 @@ const createSceneFn = () => {
   );
   bloomComposer.addPass(smaaPass);
 
-  function animate() {
-    requestAnimationFrame(animate);
-    bloomComposer.render();
+  // function animate() {
+  //   requestAnimationFrame(animate);
+  //   bloomComposer.render();
+  // }
+
+  // animate();
+};
+
+function relativeTurn(joint, rotationalAngle, angle) {
+  if (rotationalAngle.startsWith("position.")) {
+    // it is translation, not rotation
+    rotationalAngle = rotationalAngle.split(".").pop();
+    joint.position[rotationalAngle] += angle;
+    return;
   }
 
-  animate();
+  if (joint.biologicallyImpossibleLevel) {
+    if (biologicalConstraintsRef.value.checked) {
+      // there is a dedicated function to check biological possibility of joint
+      var oldImpossibility = joint.biologicallyImpossibleLevel();
+
+      joint[rotationalAngle] += angle;
+      joint.updateMatrix();
+      joint.updateWorldMatrix(true); // ! important, otherwise get's stuck
+
+      var newImpossibility = joint.biologicallyImpossibleLevel();
+
+      if (
+        newImpossibility > EPS &&
+        newImpossibility >= oldImpossibility - EPS
+      ) {
+        // undo rotation
+        joint[rotationalAngle] -= angle;
+        return;
+      }
+    } else {
+      joint.biologicallyImpossibleLevel();
+      joint[rotationalAngle] += angle;
+    }
+    // keep the rotation, it is either possible, or improves impossible situation
+  } else {
+    // there is no dedicated function, test with individual rotation range
+
+    var val = joint[rotationalAngle] + angle,
+      min = joint.minRot[rotationalAngle],
+      max = joint.maxRot[rotationalAngle];
+
+    if (biologicalConstraintsRef.value.checked || min == max) {
+      if (val < min - EPS && angle < 0) return;
+      if (val > max + EPS && angle > 0) return;
+      if (min == max) return;
+    }
+
+    joint[rotationalAngle] = val;
+  }
+  joint.updateMatrix();
+} // relativeTurn
+
+function kinematic2D(joint, rotationalAngle, angle, ignoreIfPositive) {
+  // returns >0 if this turn gets closer
+
+  // swap Z<->X for wrist
+  if (joint instanceof Wrist) {
+    if (rotationalAngle == "x") rotationalAngle = "z";
+    else if (rotationalAngle == "z") rotationalAngle = "x";
+  }
+
+  var screenPoint = new THREE.Vector3().copy(dragPoint.position);
+  screenPoint = obj.localToWorld(screenPoint).project(camera);
+
+  var distOriginal = mouse.distanceTo(screenPoint),
+    oldAngle = joint[rotationalAngle];
+
+  let oldParentAngle;
+  if (joint instanceof Head) {
+    // head and neck
+    oldParentAngle = joint.parentJoint[rotationalAngle];
+    relativeTurn(joint, rotationalAngle, angle / 2);
+    relativeTurn(joint.parentJoint, rotationalAngle, angle / 2);
+    joint.parentJoint.updateMatrixWorld(true);
+  } else {
+    relativeTurn(joint, rotationalAngle, angle);
+  }
+  joint.updateMatrixWorld(true);
+
+  screenPoint.copy(dragPoint.position);
+  screenPoint = obj.localToWorld(screenPoint).project(camera);
+
+  var distProposed = mouse.distanceTo(screenPoint),
+    dist = distOriginal - distProposed;
+
+  if (ignoreIfPositive && dist > 0) return dist;
+
+  joint[rotationalAngle] = oldAngle;
+  if (joint instanceof Head) {
+    // head and neck
+    joint.parentJoint[rotationalAngle] = oldParentAngle;
+  }
+  joint.updateMatrixWorld(true);
+
+  return dist;
+}
+
+function inverseKinematics(joint, rotationalAngle, step) {
+  // try going in postive or negative direction
+  var kPos = kinematic2D(joint, rotationalAngle, 0.001),
+    kNeg = kinematic2D(joint, rotationalAngle, -0.001);
+
+  // if any of them improves closeness, then turn in this direction
+  if (kPos > 0 || kNeg > 0) {
+    if (kPos < kNeg) step = -step;
+    kinematic2D(joint, rotationalAngle, step, true);
+  }
+}
+
+const animate = (time: number) => {
+  // no selected object
+  if (!obj || !mouseButton) return;
+
+  const elemNone =
+    !rotZRef.value?.checked &&
+    !rotXRef.value?.checked &&
+    !rotYRef.value?.checked &&
+    !movXRef.value?.checked &&
+    !movYRef.value?.checked &&
+    !movZRef.value?.checked;
+  const spinA = obj instanceof Ankle ? Math.PI / 2 : 0;
+
+  gauge.rotation.set(0, 0, -spinA);
+  if (rotXRef.value.checked || (elemNone && mouseButton & 0x2))
+    gauge.rotation.set(0, Math.PI / 2, 2 * spinA);
+  if (rotYRef.value.checked || (elemNone && mouseButton & 0x4))
+    gauge.rotation.set(Math.PI / 2, 0, -Math.PI / 2);
+
+  var joint =
+    movXRef.value.checked || movYRef.value.checked || movZRef.value.checked
+      ? man.body
+      : obj;
+
+  do {
+    for (var step = 5; step > 0.1; step *= 0.75) {
+      if (rotZRef.value.checked || (elemNone && mouseButton & 0x1))
+        inverseKinematics(joint, "z", step);
+      if (rotXRef.value.checked || (elemNone && mouseButton & 0x2))
+        inverseKinematics(joint, "x", step);
+      if (rotYRef.value.checked || (elemNone && mouseButton & 0x4))
+        inverseKinematics(joint, "y", step);
+
+      if (movXRef.value.checked) inverseKinematics(joint, "position.x", step);
+      if (movYRef.value.checked) inverseKinematics(joint, "position.y", step);
+      if (movZRef.value.checked) inverseKinematics(joint, "position.z", step);
+    }
+
+    joint = joint.parentJoint;
+  } while (
+    joint &&
+    !(joint instanceof Mannequin) &&
+    !(joint instanceof Pelvis) &&
+    !(joint instanceof Torso) &&
+    inverseKinematicsRef.value.checked
+  );
 };
 
 function gaugeTexture(size = 256) {
@@ -368,7 +538,6 @@ document.addEventListener("pointerup", onPointerUp);
 document.addEventListener("pointermove", onPointerMove);
 
 function onPointerMove(event: any) {
-  console.log("onPointerMove");
   if (obj) userInput(event);
 }
 
@@ -404,29 +573,27 @@ function deselect() {
 function processCheckBoxes(event: any) {
   if (event) {
     if (event.target.checked) {
-      cbRotX.checked =
-        cbRotY.checked =
-        cbRotY.checked =
-        cbRotZ.checked =
-        cbMovX.checked =
-        cbMovY.checked =
-        cbMovZ.checked =
-          false;
+      rotXRef.value.checked = false;
+      rotYRef.value.checked = false;
+      rotZRef.value.checked = false;
+      movXRef.value.checked = false;
+      movYRef.value.checked = false;
+      movZRef.value.checked = false;
       event.target.checked = true;
     }
   }
 
   if (!obj) return;
 
-  if (cbRotZ.checked) {
+  if (rotZRef.value?.checked) {
     obj.rotation.reorder("XYZ");
   }
 
-  if (cbRotX.checked) {
+  if (rotXRef.value?.checked) {
     obj.rotation.reorder("YZX");
   }
 
-  if (cbRotY.checked) {
+  if (rotYRef.value?.checked) {
     obj.rotation.reorder("ZXY");
   }
 }
@@ -473,8 +640,11 @@ function onPointerDown(event: any) {
 
     dragPoint.position.copy(obj.worldToLocal(intersects[0].point));
     obj.imageWrapper.add(dragPoint);
-
-    if (!cbMovX.checked && !cbMovY.checked && !cbMovZ.checked)
+    if (
+      !movXRef.value?.checked &&
+      !movYRef.value?.checked &&
+      !movZRef.value?.checked
+    )
       obj.imageWrapper.add(gauge);
     gauge.position.y = obj instanceof Ankle ? 2 : 0;
 
@@ -490,7 +660,70 @@ onMounted(() => {
 </script>
 
 <template>
-  <div></div>
+  <div>
+    <label
+      ><input ref="inverseKinematicsRef" type="checkbox" class="toggle" /><span
+        >Inverse<br />kinematics</span
+      ></label
+    >
+    <label
+      ><input
+        ref="biologicalConstraintsRef"
+        type="checkbox"
+        class="toggle"
+        checked=""
+      /><span>Biological<br />constraints</span></label
+    >
+  </div>
+  <div>
+    <input
+      ref="rotZRef"
+      id="rot-z"
+      type="checkbox"
+      class="toggle"
+      :checked="true"
+    />
+    <span id="rot-z-name">raise</span>
+    <input
+      ref="rotXRef"
+      id="rot-x"
+      type="checkbox"
+      class="toggle"
+      :checked="false"
+    />
+    <span id="rot-x-name">straddle</span>
+    <input
+      ref="rotYRef"
+      id="rot-y"
+      type="checkbox"
+      class="toggle"
+      :checked="false"
+    />
+    <span id="rot-y-name">turn</span>
+  </div>
+  <div>
+    <input
+      ref="movXRef"
+      id="mov-x"
+      type="checkbox"
+      class="toggle"
+      :checked="true"
+    /><span>Move X</span>
+    <input
+      ref="movYRef"
+      id="mov-y"
+      type="checkbox"
+      class="toggle"
+      :checked="false"
+    /><span>Move Y</span>
+    <input
+      ref="movZRef"
+      id="mov-z"
+      type="checkbox"
+      class="toggle"
+      :checked="false"
+    /><span>Move Z</span>
+  </div>
 </template>
 
 <style scoped></style>
