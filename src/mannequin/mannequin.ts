@@ -81,7 +81,7 @@ export function createScene() {
   clock = new THREE.Clock();
 } // createScene
 
-function drawFrame() {
+export function drawFrame() {
   animate(100 * clock.getElapsedTime());
   renderer.render(scene, camera);
 }
@@ -859,7 +859,7 @@ class Knee extends Joint {
   }
 } // Knee
 
-class Ankle extends Joint {
+export class Ankle extends Joint {
   static SIZE = { sx: 1, sy: 4, sz: 2 };
 
   constructor(parentJoint) {
@@ -1313,7 +1313,7 @@ class Nails extends Joint {
   }
 } // Nails
 
-class Mannequin extends THREE.Group {
+export class Mannequin extends THREE.Group {
   constructor(feminine, height = 1) {
     super();
 
