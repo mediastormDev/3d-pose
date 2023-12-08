@@ -16,6 +16,11 @@ export let scene: THREE.Scene;
 export let camera: THREE.PerspectiveCamera;
 export let light: THREE.PointLight;
 export let clock: THREE.Clock;
+let animateFn: (time: number) => void;
+
+export const setAnimateFn = (animate: any) => {
+  animateFn = animate;
+};
 
 export class MannequinPostureVersionError extends Error {
   constructor(version: number) {
@@ -88,7 +93,8 @@ export function drawFrame() {
 
 // a placeholder function, should be overwritten by the user
 export function animate(time: number) {
-  console.log("animate time:", time);
+  // console.log("animate time:", time);
+  animateFn(time);
 }
 
 // helper functions working with degrees

@@ -24,7 +24,7 @@ import {
   Torso,
   Head,
   Wrist,
-  animate,
+  setAnimateFn,
 } from "./mannequin/mannequin";
 
 const EPS = 0.00001;
@@ -400,6 +400,7 @@ function inverseKinematics(joint, rotationalAngle, step) {
 }
 
 const animate = (time: number) => {
+  // console.log("animate", time);
   // no selected object
   if (!obj || !mouseButton) return;
 
@@ -446,6 +447,8 @@ const animate = (time: number) => {
     inverseKinematicsRef.value.checked
   );
 };
+
+setAnimateFn(animate);
 
 function gaugeTexture(size = 256) {
   var canvas = document.createElement("canvas");
@@ -542,6 +545,7 @@ function onPointerMove(event: any) {
 }
 
 function onPointerUp(event: any) {
+  console.log("onPointerUp");
   controls.enabled = true;
   mouseButton = undefined;
   deselect();
@@ -656,74 +660,105 @@ function onPointerDown(event: any) {
 onMounted(() => {
   createSceneFn();
   addGauge();
+
+  controls.addEventListener("start", function () {
+    renderer.setAnimationLoop(drawFrame);
+  });
+
+  controls.addEventListener("end", function () {
+    renderer.setAnimationLoop(null);
+    renderer.render(scene, camera);
+  });
+
+  window.addEventListener("resize", function () {
+    renderer.render(scene, camera);
+  });
 });
 </script>
 
 <template>
-  <div>
-    <label
-      ><input ref="inverseKinematicsRef" type="checkbox" class="toggle" /><span
-        >Inverse<br />kinematics</span
-      ></label
-    >
-    <label
-      ><input
-        ref="biologicalConstraintsRef"
+  <div class="panel">
+    <div>
+      <label
+        ><input
+          ref="inverseKinematicsRef"
+          type="checkbox"
+          class="toggle"
+        /><span>Inverse<br />kinematics</span></label
+      >
+      <label
+        ><input
+          ref="biologicalConstraintsRef"
+          type="checkbox"
+          class="toggle"
+          checked=""
+        /><span>Biological<br />constraints</span></label
+      >
+    </div>
+    <div>
+      <input
+        ref="rotZRef"
+        id="rot-z"
         type="checkbox"
         class="toggle"
-        checked=""
-      /><span>Biological<br />constraints</span></label
-    >
-  </div>
-  <div>
-    <input
-      ref="rotZRef"
-      id="rot-z"
-      type="checkbox"
-      class="toggle"
-      :checked="true"
-    />
-    <span id="rot-z-name">raise</span>
-    <input
-      ref="rotXRef"
-      id="rot-x"
-      type="checkbox"
-      class="toggle"
-      :checked="false"
-    />
-    <span id="rot-x-name">straddle</span>
-    <input
-      ref="rotYRef"
-      id="rot-y"
-      type="checkbox"
-      class="toggle"
-      :checked="false"
-    />
-    <span id="rot-y-name">turn</span>
-  </div>
-  <div>
-    <input
-      ref="movXRef"
-      id="mov-x"
-      type="checkbox"
-      class="toggle"
-      :checked="true"
-    /><span>Move X</span>
-    <input
-      ref="movYRef"
-      id="mov-y"
-      type="checkbox"
-      class="toggle"
-      :checked="false"
-    /><span>Move Y</span>
-    <input
-      ref="movZRef"
-      id="mov-z"
-      type="checkbox"
-      class="toggle"
-      :checked="false"
-    /><span>Move Z</span>
+        :checked="true"
+      />
+      <span id="rot-z-name">raise</span>
+      <input
+        ref="rotXRef"
+        id="rot-x"
+        type="checkbox"
+        class="toggle"
+        :checked="false"
+      />
+      <span id="rot-x-name">straddle</span>
+      <input
+        ref="rotYRef"
+        id="rot-y"
+        type="checkbox"
+        class="toggle"
+        :checked="false"
+      />
+      <span id="rot-y-name">turn</span>
+    </div>
+    <div>
+      <input
+        ref="movXRef"
+        id="mov-x"
+        type="checkbox"
+        class="toggle"
+        :checked="true"
+      /><span>Move X</span>
+      <input
+        ref="movYRef"
+        id="mov-y"
+        type="checkbox"
+        class="toggle"
+        :checked="false"
+      /><span>Move Y</span>
+      <input
+        ref="movZRef"
+        id="mov-z"
+        type="checkbox"
+        class="toggle"
+        :checked="false"
+      /><span>Move Z</span>
+    </div>
   </div>
 </template>
 
-<style scoped></style>
+<style scoped>
+.panel {
+  margin: 0.3em;
+  padding: 0.3em;
+  width: 12em;
+  position: fixed;
+  top: 0;
+  z-index: 10;
+  border-radius: 1em;
+  background: rgba(0, 0, 0, 0.01);
+  border: solid 1px rgba(0, 0, 0, 0.05);
+  box-shadow: inset 0 0 0.1em rgba(0, 0, 0, 0.1);
+  backdrop-filter: blur(0.3em);
+}
+</style>
