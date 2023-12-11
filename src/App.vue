@@ -5,6 +5,7 @@ import { OrbitControls } from "@three-ts/orbit-controls";
 import { EffectComposer } from "three/addons/postprocessing/EffectComposer.js";
 import { RenderPass } from "three/addons/postprocessing/RenderPass.js";
 import { OutlinePass } from "three/addons/postprocessing/OutlinePass.js";
+import { ShaderPass } from "three/addons/postprocessing/ShaderPass.js";
 import { STLLoader } from "three/examples/jsm/loaders/STLLoader";
 // SMAA抗锯齿通道
 import { SMAAPass } from "three/addons/postprocessing/SMAAPass.js";
@@ -26,6 +27,7 @@ import {
   Wrist,
   setAnimateFn,
 } from "./mannequin/mannequin";
+import { GammaCorrectionShader } from "three/examples/jsm/shaders/GammaCorrectionShader.js";
 
 const EPS = 0.00001;
 
@@ -172,11 +174,10 @@ const changeBodyPart = (man: any) => {
 const addOutLine = () => {
   // RenderPass这个通道会渲染场景，但不会将渲染结果输出到屏幕上
   const renderScene = new RenderPass(scene, camera);
-  // THREE.OutlinePass(resolution, scene, camera, selectedObjects)
-  // resolution 分辨率
-  // scene 场景
-  // camera 相机
-  // selectedObjects 需要选中的物体对象, 传入需要边界线进行高亮处理的对象
+  // 放在renderPass之后
+  // https://blog.csdn.net/mmiaoChong/article/details/131668253 修复场景变暗的 bug
+  const gammaCorrectionShader = new ShaderPass(GammaCorrectionShader);
+
   const outlinePass = new OutlinePass(
     new THREE.Vector2(window.innerWidth, window.innerHeight),
     scene,
@@ -188,18 +189,13 @@ const addOutLine = () => {
   outlinePass.edgeGlow = 1; //发光
   outlinePass.edgeThickness = 1; //光晕粗
   outlinePass.overlayMaterial.blending = THREE.CustomBlending;
-
-  // outlinePass.pulsePeriod = 1; //闪烁
   outlinePass.usePatternTexture = false; //是否使用贴图
   outlinePass.visibleEdgeColor.set(0x000000);
-  // outlinePass.visibleEdgeColor.set("white"); // 设置显示的颜色
-  // outlinePass.hiddenEdgeColor.set("black"); // 设置隐藏的颜色
 
-  //创建效果组合器对象，可以在该对象上添加后期处理通道，通过配置该对象，使它可以渲染我们的场景，并应用额外的后期处理步骤，在render循环中，使用EffectComposer渲染场景、应用通道，并输出结果。
   bloomComposer = new EffectComposer(renderer);
   bloomComposer.setSize(window.innerWidth, window.innerHeight);
   bloomComposer.addPass(renderScene);
-  // 眩光通道bloomPass插入到composer
+  bloomComposer.addPass(gammaCorrectionShader);
   bloomComposer.addPass(outlinePass);
 
   renderer.autoClear = false;
@@ -222,9 +218,7 @@ const createSceneFn = () => {
   scene.remove(light);
   renderer.shadowMap.type = THREE.PCFSoftShadowMap;
   // Lights
-
   scene.add(new THREE.AmbientLight(0xffffff, 1));
-
   const pointLight = new THREE.PointLight(0xffffff, 2, 800, 0);
   pointLight.position.set(-50, 80, 50);
   scene.add(pointLight);
