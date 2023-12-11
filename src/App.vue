@@ -55,6 +55,9 @@ let rotYRef = ref(null);
 let movXRef = ref(null);
 let movYRef = ref(null);
 let movZRef = ref(null);
+
+const rot = ref("");
+const mov = ref("");
 // let btnGetPosture = document.getElementById("gp");
 // let btnSetPosture = document.getElementById("sp");
 // let btnExportPosture = document.getElementById("ep");
@@ -404,38 +407,29 @@ const animate = (time: number) => {
   // no selected object
   if (!obj || !mouseButton) return;
 
-  const elemNone =
-    !rotZRef.value?.checked &&
-    !rotXRef.value?.checked &&
-    !rotYRef.value?.checked &&
-    !movXRef.value?.checked &&
-    !movYRef.value?.checked &&
-    !movZRef.value?.checked;
+  const elemNone = !rot.value && !mov.value;
   const spinA = obj instanceof Ankle ? Math.PI / 2 : 0;
 
   gauge.rotation.set(0, 0, -spinA);
-  if (rotXRef.value.checked || (elemNone && mouseButton & 0x2))
+  if (rot.value === "rotX" || (elemNone && mouseButton & 0x2))
     gauge.rotation.set(0, Math.PI / 2, 2 * spinA);
-  if (rotYRef.value.checked || (elemNone && mouseButton & 0x4))
+  if (rot.value === "rotY" || (elemNone && mouseButton & 0x4))
     gauge.rotation.set(Math.PI / 2, 0, -Math.PI / 2);
 
-  var joint =
-    movXRef.value.checked || movYRef.value.checked || movZRef.value.checked
-      ? man.body
-      : obj;
+  var joint = mov.value ? man.body : obj;
 
   do {
     for (var step = 5; step > 0.1; step *= 0.75) {
-      if (rotZRef.value.checked || (elemNone && mouseButton & 0x1))
+      if (rot.value === "rotZ" || (elemNone && mouseButton & 0x1))
         inverseKinematics(joint, "z", step);
-      if (rotXRef.value.checked || (elemNone && mouseButton & 0x2))
+      if (rot.value === "rotX" || (elemNone && mouseButton & 0x2))
         inverseKinematics(joint, "x", step);
-      if (rotYRef.value.checked || (elemNone && mouseButton & 0x4))
+      if (rot.value === "rotY" || (elemNone && mouseButton & 0x4))
         inverseKinematics(joint, "y", step);
 
-      if (movXRef.value.checked) inverseKinematics(joint, "position.x", step);
-      if (movYRef.value.checked) inverseKinematics(joint, "position.y", step);
-      if (movZRef.value.checked) inverseKinematics(joint, "position.z", step);
+      if (mov.value === "movX") inverseKinematics(joint, "position.x", step);
+      if (mov.value === "movY") inverseKinematics(joint, "position.y", step);
+      if (mov.value === "movZ") inverseKinematics(joint, "position.z", step);
     }
 
     joint = joint.parentJoint;
@@ -577,27 +571,23 @@ function deselect() {
 function processCheckBoxes(event: any) {
   if (event) {
     if (event.target.checked) {
-      rotXRef.value.checked = false;
-      rotYRef.value.checked = false;
-      rotZRef.value.checked = false;
-      movXRef.value.checked = false;
-      movYRef.value.checked = false;
-      movZRef.value.checked = false;
+      rot.value = "";
+      mov.value = "";
       event.target.checked = true;
     }
   }
 
   if (!obj) return;
 
-  if (rotZRef.value?.checked) {
+  if (rot.value === "rotZ") {
     obj.rotation.reorder("XYZ");
   }
 
-  if (rotXRef.value?.checked) {
+  if (rot.value === "rotX") {
     obj.rotation.reorder("YZX");
   }
 
-  if (rotYRef.value?.checked) {
+  if (rot.value === "rotY") {
     obj.rotation.reorder("ZXY");
   }
 }
@@ -644,12 +634,7 @@ function onPointerDown(event: any) {
 
     dragPoint.position.copy(obj.worldToLocal(intersects[0].point));
     obj.imageWrapper.add(dragPoint);
-    if (
-      !movXRef.value?.checked &&
-      !movYRef.value?.checked &&
-      !movZRef.value?.checked
-    )
-      obj.imageWrapper.add(gauge);
+    if (!mov.value) obj.imageWrapper.add(gauge);
     gauge.position.y = obj instanceof Ankle ? 2 : 0;
 
     processCheckBoxes();
@@ -695,55 +680,69 @@ onMounted(() => {
         /><span>Biological<br />constraints</span></label
       >
     </div>
-    <div>
-      <input
-        ref="rotZRef"
-        id="rot-z"
-        type="checkbox"
-        class="toggle"
-        :checked="true"
-      />
-      <span id="rot-z-name">raise</span>
-      <input
-        ref="rotXRef"
-        id="rot-x"
-        type="checkbox"
-        class="toggle"
-        :checked="false"
-      />
-      <span id="rot-x-name">straddle</span>
-      <input
-        ref="rotYRef"
-        id="rot-y"
-        type="checkbox"
-        class="toggle"
-        :checked="false"
-      />
-      <span id="rot-y-name">turn</span>
-    </div>
-    <div>
-      <input
-        ref="movXRef"
-        id="mov-x"
-        type="checkbox"
-        class="toggle"
-        :checked="true"
-      /><span>Move X</span>
-      <input
-        ref="movYRef"
-        id="mov-y"
-        type="checkbox"
-        class="toggle"
-        :checked="false"
-      /><span>Move Y</span>
-      <input
-        ref="movZRef"
-        id="mov-z"
-        type="checkbox"
-        class="toggle"
-        :checked="false"
-      /><span>Move Z</span>
-    </div>
+    <fieldset id="group1">
+      <div>
+        <input
+          ref="rotZRef"
+          id="rot-z"
+          type="radio"
+          class="toggle"
+          v-model="rot"
+          value="rotZ"
+          name="group1"
+        />
+        <span id="rot-z-name">raise</span>
+        <input
+          ref="rotXRef"
+          id="rot-x"
+          type="radio"
+          class="toggle"
+          v-model="rot"
+          value="rotX"
+          name="group1"
+        />
+        <span id="rot-x-name">straddle</span>
+        <input
+          ref="rotYRef"
+          id="rot-y"
+          type="radio"
+          class="toggle"
+          v-model="rot"
+          value="rotY"
+          name="group1"
+        />
+        <span id="rot-y-name">turn</span>
+      </div>
+      <div>
+        <input
+          ref="movXRef"
+          id="mov-x"
+          type="radio"
+          class="toggle"
+          v-model="mov"
+          value="movX"
+          name="group1"
+        /><span>Move X</span>
+        <input
+          ref="movYRef"
+          id="mov-y"
+          type="radio"
+          class="toggle"
+          v-model="mov"
+          value="movY"
+          name="group1"
+        /><span>Move Y</span>
+        <input
+          ref="movZRef"
+          id="mov-z"
+          type="radio"
+          class="toggle"
+          v-model="mov"
+          value="movZ"
+          name="group1"
+        /><span>Move Z</span>
+      </div>
+    </fieldset>
   </div>
 </template>
 
