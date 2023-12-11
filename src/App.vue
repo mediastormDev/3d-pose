@@ -184,9 +184,9 @@ const addOutLine = () => {
     [man]
   );
   outlinePass.renderToScreen = true;
-  outlinePass.edgeStrength = 8; //粗
-  // outlinePass.edgeGlow = 2; //发光
-  outlinePass.edgeThickness = 3; //光晕粗
+  outlinePass.edgeStrength = 1; //粗
+  outlinePass.edgeGlow = 1; //发光
+  outlinePass.edgeThickness = 1; //光晕粗
   outlinePass.overlayMaterial.blending = THREE.CustomBlending;
 
   // outlinePass.pulsePeriod = 1; //闪烁
@@ -201,16 +201,15 @@ const addOutLine = () => {
   bloomComposer.addPass(renderScene);
   // 眩光通道bloomPass插入到composer
   bloomComposer.addPass(outlinePass);
-  // bloomComposer.render();
 
-  //获取.setPixelRatio()设置的设备像素比
+  renderer.autoClear = false;
   const pixelRatio = renderer.getPixelRatio();
-  // width、height是canva画布的宽高度
   const smaaPass = new SMAAPass(
     window.innerWidth * pixelRatio,
     window.innerHeight * pixelRatio
   );
   bloomComposer.addPass(smaaPass);
+  bloomComposer.render();
 };
 
 const createSceneFn = () => {
@@ -222,42 +221,6 @@ const createSceneFn = () => {
 
   scene.remove(light);
   renderer.shadowMap.type = THREE.PCFSoftShadowMap;
-
-  // LIGHTS
-
-  // const hemiLight = new THREE.HemisphereLight(0xffffff, 0xffffff, 1);
-  // hemiLight.color.setHSL(0.6, 1, 0.6);
-  // hemiLight.groundColor.setHSL(0.095, 1, 0.75);
-  // hemiLight.position.set(0, 50, 0);
-  // scene.add(hemiLight);
-
-  // const hemiLightHelper = new THREE.HemisphereLightHelper(hemiLight, 10);
-  // scene.add(hemiLightHelper);
-
-  // const dirLight = new THREE.DirectionalLight(0xffffff, 1);
-  // dirLight.color.setHSL(0.1, 1, 0.95);
-  // dirLight.position.set(-1, 1.75, 1);
-  // dirLight.position.multiplyScalar(30);
-  // scene.add(dirLight);
-
-  // dirLight.castShadow = true;
-
-  // dirLight.shadow.mapSize.width = 2048;
-  // dirLight.shadow.mapSize.height = 2048;
-
-  // const d = 50;
-
-  // dirLight.shadow.camera.left = -d;
-  // dirLight.shadow.camera.right = d;
-  // dirLight.shadow.camera.top = d;
-  // dirLight.shadow.camera.bottom = -d;
-
-  // dirLight.shadow.camera.far = 3500;
-  // dirLight.shadow.bias = -0.0001;
-
-  // const dirLightHelper = new THREE.DirectionalLightHelper(dirLight, 10);
-  // scene.add(dirLightHelper);
-
   // Lights
 
   scene.add(new THREE.AmbientLight(0xffffff, 1));
@@ -268,8 +231,8 @@ const createSceneFn = () => {
 
   controls = new OrbitControls(camera, renderer.domElement);
   addModel();
-  changeBodyPart(man);
   addOutLine();
+  changeBodyPart(man);
 };
 
 function relativeTurn(joint, rotationalAngle, angle) {
@@ -379,8 +342,11 @@ function inverseKinematics(joint, rotationalAngle, step) {
   }
 }
 
-const animate = (time: number) => {
+const renderBloomComposer = () => {
   bloomComposer.render();
+};
+
+const animateETC = () => {
   if (!obj || !mouseButton) return;
 
   console.log("rotMov", rotMov.value);
@@ -417,6 +383,11 @@ const animate = (time: number) => {
     !(joint instanceof Torso) &&
     inverseKinematic.value
   );
+};
+
+const animate = (time: number) => {
+  requestAnimationFrame(renderBloomComposer);
+  animateETC();
 };
 
 setAnimateFn(animate);
@@ -501,10 +472,6 @@ const addGauge = () => {
     )
   );
 };
-
-// function render() {
-//   renderer.render(scene, camera);
-// }
 
 // set up event handlers
 document.addEventListener("pointerdown", onPointerDown);
