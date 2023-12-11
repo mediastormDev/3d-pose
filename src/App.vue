@@ -26,6 +26,7 @@ import {
   Head,
   Wrist,
   setAnimateFn,
+  bloomComposer,
 } from "./mannequin/mannequin";
 import { GammaCorrectionShader } from "three/examples/jsm/shaders/GammaCorrectionShader.js";
 
@@ -40,7 +41,7 @@ let gauge: any = null;
 const models: any[] = [];
 let controls: any = null;
 let man: any = null;
-let bloomComposer: any = null;
+// let bloomComposer: any = null;
 
 const inverseKinematic = ref(false);
 const biologicalConstraints = ref(true);
@@ -192,7 +193,7 @@ const addOutLine = () => {
   outlinePass.usePatternTexture = false; //是否使用贴图
   outlinePass.visibleEdgeColor.set(0x000000);
 
-  bloomComposer = new EffectComposer(renderer);
+  // bloomComposer = new EffectComposer(renderer);
   bloomComposer.setSize(window.innerWidth, window.innerHeight);
   bloomComposer.addPass(renderScene);
   bloomComposer.addPass(gammaCorrectionShader);
@@ -336,14 +337,16 @@ function inverseKinematics(joint, rotationalAngle, step) {
   }
 }
 
+// 渲染函数，取消drawFrame
 const renderBloomComposer = () => {
   bloomComposer.render();
+  animate();
+  requestAnimationFrame(renderBloomComposer);
 };
 
-const animateETC = () => {
+const animate = () => {
   if (!obj || !mouseButton) return;
 
-  console.log("rotMov", rotMov.value);
   const elemNone = !rotMov.value;
   const spinA = obj instanceof Ankle ? Math.PI / 2 : 0;
 
@@ -377,11 +380,6 @@ const animateETC = () => {
     !(joint instanceof Torso) &&
     inverseKinematic.value
   );
-};
-
-const animate = (time: number) => {
-  requestAnimationFrame(renderBloomComposer);
-  animateETC();
 };
 
 setAnimateFn(animate);
@@ -481,7 +479,7 @@ function onPointerUp(event: any) {
   controls.enabled = true;
   mouseButton = undefined;
   deselect();
-  renderer.setAnimationLoop(null);
+  // renderer.setAnimationLoop(null);
   renderer.render(scene, camera);
 }
 
@@ -532,7 +530,7 @@ function onPointerDown(event: any) {
 
     processCheckBoxes();
   }
-  renderer.setAnimationLoop(drawFrame);
+  // renderer.setAnimationLoop(drawFrame);
 }
 
 function userInput(event: any) {
@@ -582,13 +580,13 @@ function processCheckBoxes(event: any) {
 onMounted(() => {
   createSceneFn();
   addGauge();
-
+  renderBloomComposer();
   controls.addEventListener("start", function () {
-    renderer.setAnimationLoop(drawFrame);
+    // renderer.setAnimationLoop(drawFrame);
   });
 
   controls.addEventListener("end", function () {
-    renderer.setAnimationLoop(null);
+    // renderer.setAnimationLoop(null);
     renderer.render(scene, camera);
   });
 

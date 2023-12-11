@@ -1,4 +1,5 @@
 import * as THREE from "three";
+import { EffectComposer } from "three/addons/postprocessing/EffectComposer.js";
 
 const MANNEQUIN_VERSION = 4.5;
 const MANNEQUIN_POSTURE_VERSION = 7;
@@ -12,6 +13,7 @@ const AXIS = {
 const material = new THREE.MeshBasicMaterial({ color: 0xffffff });
 
 export let renderer: THREE.WebGLRenderer;
+export let bloomComposer: any;
 export let scene: THREE.Scene;
 export let camera: THREE.PerspectiveCamera;
 export let light: THREE.PointLight;
@@ -37,6 +39,7 @@ export class MannequinPostureVersionError extends Error {
 
 export function createScene() {
   renderer = new THREE.WebGLRenderer({ antialias: true });
+  bloomComposer = new EffectComposer(renderer);
   renderer.setSize(window.innerWidth, window.innerHeight);
   renderer.domElement.style =
     "width:100%; height:100%; position:fixed; top:0; left:0;";
@@ -88,6 +91,7 @@ export function createScene() {
 
 export function drawFrame() {
   animate(100 * clock.getElapsedTime());
+  bloomComposer && bloomComposer.render();
   renderer.render(scene, camera);
 }
 
