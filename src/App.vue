@@ -38,6 +38,7 @@ let gauge: any = null;
 const models: any[] = [];
 let controls: any = null;
 let man: any = null;
+let bloomComposer: any = null;
 
 const inverseKinematic = ref(false);
 const biologicalConstraints = ref(true);
@@ -141,11 +142,7 @@ function addModel() {
       z: nameData[3],
     };
   }
-
-  renderer.render(scene, camera);
 }
-
-// addModel();
 
 const changeBodyPart = (man: any) => {
   man.head.hide();
@@ -159,7 +156,7 @@ const changeBodyPart = (man: any) => {
     function (geometry: any) {
       const mesh = new THREE.Mesh(geometry, material);
       mesh.scale.set(0.1, 0.1, 0.1);
-      mesh.position.y = 10;
+      mesh.position.y = 5;
       mesh.castShadow = true;
       man.head.attach(mesh);
     },
@@ -170,6 +167,50 @@ const changeBodyPart = (man: any) => {
       console.log(error);
     }
   );
+};
+
+const addOutLine = () => {
+  // RenderPass这个通道会渲染场景，但不会将渲染结果输出到屏幕上
+  const renderScene = new RenderPass(scene, camera);
+  // THREE.OutlinePass(resolution, scene, camera, selectedObjects)
+  // resolution 分辨率
+  // scene 场景
+  // camera 相机
+  // selectedObjects 需要选中的物体对象, 传入需要边界线进行高亮处理的对象
+  const outlinePass = new OutlinePass(
+    new THREE.Vector2(window.innerWidth, window.innerHeight),
+    scene,
+    camera,
+    [man]
+  );
+  outlinePass.renderToScreen = true;
+  outlinePass.edgeStrength = 8; //粗
+  // outlinePass.edgeGlow = 2; //发光
+  outlinePass.edgeThickness = 3; //光晕粗
+  outlinePass.overlayMaterial.blending = THREE.CustomBlending;
+
+  // outlinePass.pulsePeriod = 1; //闪烁
+  outlinePass.usePatternTexture = false; //是否使用贴图
+  outlinePass.visibleEdgeColor.set(0x000000);
+  // outlinePass.visibleEdgeColor.set("white"); // 设置显示的颜色
+  // outlinePass.hiddenEdgeColor.set("black"); // 设置隐藏的颜色
+
+  //创建效果组合器对象，可以在该对象上添加后期处理通道，通过配置该对象，使它可以渲染我们的场景，并应用额外的后期处理步骤，在render循环中，使用EffectComposer渲染场景、应用通道，并输出结果。
+  bloomComposer = new EffectComposer(renderer);
+  bloomComposer.setSize(window.innerWidth, window.innerHeight);
+  bloomComposer.addPass(renderScene);
+  // 眩光通道bloomPass插入到composer
+  bloomComposer.addPass(outlinePass);
+  // bloomComposer.render();
+
+  //获取.setPixelRatio()设置的设备像素比
+  const pixelRatio = renderer.getPixelRatio();
+  // width、height是canva画布的宽高度
+  const smaaPass = new SMAAPass(
+    window.innerWidth * pixelRatio,
+    window.innerHeight * pixelRatio
+  );
+  bloomComposer.addPass(smaaPass);
 };
 
 const createSceneFn = () => {
@@ -228,55 +269,7 @@ const createSceneFn = () => {
   controls = new OrbitControls(camera, renderer.domElement);
   addModel();
   changeBodyPart(man);
-
-  // RenderPass这个通道会渲染场景，但不会将渲染结果输出到屏幕上
-  const renderScene = new RenderPass(scene, camera);
-  // THREE.OutlinePass(resolution, scene, camera, selectedObjects)
-  // resolution 分辨率
-  // scene 场景
-  // camera 相机
-  // selectedObjects 需要选中的物体对象, 传入需要边界线进行高亮处理的对象
-  const outlinePass = new OutlinePass(
-    new THREE.Vector2(window.innerWidth, window.innerHeight),
-    scene,
-    camera,
-    [man]
-  );
-  outlinePass.renderToScreen = true;
-  outlinePass.edgeStrength = 8; //粗
-  // outlinePass.edgeGlow = 2; //发光
-  outlinePass.edgeThickness = 3; //光晕粗
-  outlinePass.overlayMaterial.blending = THREE.CustomBlending;
-
-  // outlinePass.pulsePeriod = 1; //闪烁
-  outlinePass.usePatternTexture = false; //是否使用贴图
-  outlinePass.visibleEdgeColor.set(0x000000);
-  // outlinePass.visibleEdgeColor.set("white"); // 设置显示的颜色
-  // outlinePass.hiddenEdgeColor.set("black"); // 设置隐藏的颜色
-
-  //创建效果组合器对象，可以在该对象上添加后期处理通道，通过配置该对象，使它可以渲染我们的场景，并应用额外的后期处理步骤，在render循环中，使用EffectComposer渲染场景、应用通道，并输出结果。
-  const bloomComposer = new EffectComposer(renderer);
-  bloomComposer.setSize(window.innerWidth, window.innerHeight);
-  bloomComposer.addPass(renderScene);
-  // 眩光通道bloomPass插入到composer
-  bloomComposer.addPass(outlinePass);
-  // bloomComposer.render();
-
-  //获取.setPixelRatio()设置的设备像素比
-  const pixelRatio = renderer.getPixelRatio();
-  // width、height是canva画布的宽高度
-  const smaaPass = new SMAAPass(
-    window.innerWidth * pixelRatio,
-    window.innerHeight * pixelRatio
-  );
-  bloomComposer.addPass(smaaPass);
-
-  // function animate() {
-  //   requestAnimationFrame(animate);
-  //   bloomComposer.render();
-  // }
-
-  // animate();
+  addOutLine();
 };
 
 function relativeTurn(joint, rotationalAngle, angle) {
@@ -387,8 +380,7 @@ function inverseKinematics(joint, rotationalAngle, step) {
 }
 
 const animate = (time: number) => {
-  // console.log("animate", time);
-  // no selected object
+  bloomComposer.render();
   if (!obj || !mouseButton) return;
 
   console.log("rotMov", rotMov.value);
@@ -532,50 +524,6 @@ function onPointerUp(event: any) {
   renderer.render(scene, camera);
 }
 
-function userInput(event: any) {
-  event.preventDefault();
-
-  mouseButton = event.buttons || 0x1;
-
-  mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
-  mouse.y = (-event.clientY / window.innerHeight) * 2 + 1;
-}
-
-function select(object: any) {
-  deselect();
-  obj = object;
-  obj?.select(true);
-}
-
-function deselect() {
-  gauge.parent?.remove(gauge);
-  obj?.select(false);
-  obj = undefined;
-}
-
-function processCheckBoxes(event: any) {
-  if (event) {
-    if (event.target.checked) {
-      rotMov.value = "";
-      event.target.checked = true;
-    }
-  }
-
-  if (!obj) return;
-
-  if (rotMov.value === "rotZ") {
-    obj.rotation.reorder("XYZ");
-  }
-
-  if (rotMov.value === "rotX") {
-    obj.rotation.reorder("YZX");
-  }
-
-  if (rotMov.value === "rotY") {
-    obj.rotation.reorder("ZXY");
-  }
-}
-
 function onPointerDown(event: any) {
   console.log("onPointerDown");
   userInput(event);
@@ -624,6 +572,50 @@ function onPointerDown(event: any) {
     processCheckBoxes();
   }
   renderer.setAnimationLoop(drawFrame);
+}
+
+function userInput(event: any) {
+  // event.preventDefault();
+
+  mouseButton = event.buttons || 0x1;
+
+  mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
+  mouse.y = (-event.clientY / window.innerHeight) * 2 + 1;
+}
+
+function select(object: any) {
+  deselect();
+  obj = object;
+  obj?.select(true);
+}
+
+function deselect() {
+  gauge.parent?.remove(gauge);
+  obj?.select(false);
+  obj = undefined;
+}
+
+function processCheckBoxes(event: any) {
+  if (event) {
+    if (event.target.checked) {
+      rotMov.value = "";
+      event.target.checked = true;
+    }
+  }
+
+  if (!obj) return;
+
+  if (rotMov.value === "rotZ") {
+    obj.rotation.reorder("XYZ");
+  }
+
+  if (rotMov.value === "rotX") {
+    obj.rotation.reorder("YZX");
+  }
+
+  if (rotMov.value === "rotY") {
+    obj.rotation.reorder("ZXY");
+  }
 }
 
 onMounted(() => {
