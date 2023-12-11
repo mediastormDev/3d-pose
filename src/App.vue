@@ -58,6 +58,8 @@ let movZRef = ref(null);
 
 const rot = ref("");
 const mov = ref("");
+
+const rotMov = ref("");
 // let btnGetPosture = document.getElementById("gp");
 // let btnSetPosture = document.getElementById("sp");
 // let btnExportPosture = document.getElementById("ep");
@@ -407,29 +409,29 @@ const animate = (time: number) => {
   // no selected object
   if (!obj || !mouseButton) return;
 
-  const elemNone = !rot.value && !mov.value;
+  const elemNone = !rotMov.value;
   const spinA = obj instanceof Ankle ? Math.PI / 2 : 0;
 
   gauge.rotation.set(0, 0, -spinA);
-  if (rot.value === "rotX" || (elemNone && mouseButton & 0x2))
+  if (rotMov.value === "rotX" || (elemNone && mouseButton & 0x2))
     gauge.rotation.set(0, Math.PI / 2, 2 * spinA);
-  if (rot.value === "rotY" || (elemNone && mouseButton & 0x4))
+  if (rotMov.value === "rotY" || (elemNone && mouseButton & 0x4))
     gauge.rotation.set(Math.PI / 2, 0, -Math.PI / 2);
 
-  var joint = mov.value ? man.body : obj;
+  var joint = rotMov.value ? man.body : obj;
 
   do {
     for (var step = 5; step > 0.1; step *= 0.75) {
-      if (rot.value === "rotZ" || (elemNone && mouseButton & 0x1))
+      if (rotMov.value === "rotZ" || (elemNone && mouseButton & 0x1))
         inverseKinematics(joint, "z", step);
-      if (rot.value === "rotX" || (elemNone && mouseButton & 0x2))
+      if (rotMov.value === "rotX" || (elemNone && mouseButton & 0x2))
         inverseKinematics(joint, "x", step);
-      if (rot.value === "rotY" || (elemNone && mouseButton & 0x4))
+      if (rotMov.value === "rotY" || (elemNone && mouseButton & 0x4))
         inverseKinematics(joint, "y", step);
 
-      if (mov.value === "movX") inverseKinematics(joint, "position.x", step);
-      if (mov.value === "movY") inverseKinematics(joint, "position.y", step);
-      if (mov.value === "movZ") inverseKinematics(joint, "position.z", step);
+      if (rotMov.value === "movX") inverseKinematics(joint, "position.x", step);
+      if (rotMov.value === "movY") inverseKinematics(joint, "position.y", step);
+      if (rotMov.value === "movZ") inverseKinematics(joint, "position.z", step);
     }
 
     joint = joint.parentJoint;
@@ -571,23 +573,22 @@ function deselect() {
 function processCheckBoxes(event: any) {
   if (event) {
     if (event.target.checked) {
-      rot.value = "";
-      mov.value = "";
+      rotMov.value = "";
       event.target.checked = true;
     }
   }
 
   if (!obj) return;
 
-  if (rot.value === "rotZ") {
+  if (rotMov.value === "rotZ") {
     obj.rotation.reorder("XYZ");
   }
 
-  if (rot.value === "rotX") {
+  if (rotMov.value === "rotX") {
     obj.rotation.reorder("YZX");
   }
 
-  if (rot.value === "rotY") {
+  if (rotMov.value === "rotY") {
     obj.rotation.reorder("ZXY");
   }
 }
@@ -634,7 +635,7 @@ function onPointerDown(event: any) {
 
     dragPoint.position.copy(obj.worldToLocal(intersects[0].point));
     obj.imageWrapper.add(dragPoint);
-    if (!mov.value) obj.imageWrapper.add(gauge);
+    if (!rotMov.value) obj.imageWrapper.add(gauge);
     gauge.position.y = obj instanceof Ankle ? 2 : 0;
 
     processCheckBoxes();
@@ -681,13 +682,14 @@ onMounted(() => {
       >
     </div>
     <fieldset id="group1">
+      <div>rotMov: {{ rotMov }}</div>
       <div>
         <input
           ref="rotZRef"
           id="rot-z"
           type="radio"
           class="toggle"
-          v-model="rot"
+          v-model="rotMov"
           value="rotZ"
           name="group1"
         />
@@ -697,7 +699,7 @@ onMounted(() => {
           id="rot-x"
           type="radio"
           class="toggle"
-          v-model="rot"
+          v-model="rotMov"
           value="rotX"
           name="group1"
         />
@@ -707,7 +709,7 @@ onMounted(() => {
           id="rot-y"
           type="radio"
           class="toggle"
-          v-model="rot"
+          v-model="rotMov"
           value="rotY"
           name="group1"
         />
@@ -719,7 +721,7 @@ onMounted(() => {
           id="mov-x"
           type="radio"
           class="toggle"
-          v-model="mov"
+          v-model="rotMov"
           value="movX"
           name="group1"
         /><span>Move X</span>
@@ -728,7 +730,7 @@ onMounted(() => {
           id="mov-y"
           type="radio"
           class="toggle"
-          v-model="mov"
+          v-model="rotMov"
           value="movY"
           name="group1"
         /><span>Move Y</span>
@@ -737,7 +739,7 @@ onMounted(() => {
           id="mov-z"
           type="radio"
           class="toggle"
-          v-model="mov"
+          v-model="rotMov"
           value="movZ"
           name="group1"
         /><span>Move Z</span>
