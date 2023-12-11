@@ -56,10 +56,7 @@ let movXRef = ref(null);
 let movYRef = ref(null);
 let movZRef = ref(null);
 
-const rot = ref("");
-const mov = ref("");
-
-const rotMov = ref("");
+const rotMov = ref("rotZ");
 // let btnGetPosture = document.getElementById("gp");
 // let btnSetPosture = document.getElementById("sp");
 // let btnExportPosture = document.getElementById("ep");
@@ -409,6 +406,7 @@ const animate = (time: number) => {
   // no selected object
   if (!obj || !mouseButton) return;
 
+  console.log("rotMov", rotMov.value);
   const elemNone = !rotMov.value;
   const spinA = obj instanceof Ankle ? Math.PI / 2 : 0;
 
@@ -418,7 +416,7 @@ const animate = (time: number) => {
   if (rotMov.value === "rotY" || (elemNone && mouseButton & 0x4))
     gauge.rotation.set(Math.PI / 2, 0, -Math.PI / 2);
 
-  var joint = rotMov.value ? man.body : obj;
+  var joint = rotMov.value.indexOf("mov") > -1 ? man.body : obj;
 
   do {
     for (var step = 5; step > 0.1; step *= 0.75) {
@@ -635,7 +633,7 @@ function onPointerDown(event: any) {
 
     dragPoint.position.copy(obj.worldToLocal(intersects[0].point));
     obj.imageWrapper.add(dragPoint);
-    if (!rotMov.value) obj.imageWrapper.add(gauge);
+    if (rotMov.value.indexOf("rot") > -1) obj.imageWrapper.add(gauge);
     gauge.position.y = obj instanceof Ankle ? 2 : 0;
 
     processCheckBoxes();
@@ -685,8 +683,6 @@ onMounted(() => {
       <div>rotMov: {{ rotMov }}</div>
       <div>
         <input
-          ref="rotZRef"
-          id="rot-z"
           type="radio"
           class="toggle"
           v-model="rotMov"
@@ -695,8 +691,6 @@ onMounted(() => {
         />
         <span id="rot-z-name">raise</span>
         <input
-          ref="rotXRef"
-          id="rot-x"
           type="radio"
           class="toggle"
           v-model="rotMov"
@@ -705,8 +699,6 @@ onMounted(() => {
         />
         <span id="rot-x-name">straddle</span>
         <input
-          ref="rotYRef"
-          id="rot-y"
           type="radio"
           class="toggle"
           v-model="rotMov"
@@ -717,8 +709,6 @@ onMounted(() => {
       </div>
       <div>
         <input
-          ref="movXRef"
-          id="mov-x"
           type="radio"
           class="toggle"
           v-model="rotMov"
@@ -726,8 +716,6 @@ onMounted(() => {
           name="group1"
         /><span>Move X</span>
         <input
-          ref="movYRef"
-          id="mov-y"
           type="radio"
           class="toggle"
           v-model="rotMov"
@@ -735,8 +723,6 @@ onMounted(() => {
           name="group1"
         /><span>Move Y</span>
         <input
-          ref="movZRef"
-          id="mov-z"
           type="radio"
           class="toggle"
           v-model="rotMov"
