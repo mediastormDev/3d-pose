@@ -39,23 +39,8 @@ const models: any[] = [];
 let controls: any = null;
 let man: any = null;
 
-// let cbInverseKinematics = document.getElementById("inverse-kinematics");
-// let cbBiologicalConstraints = document.getElementById("biological-constraints");
-// let cbRotZ = document.getElementById("rot-z");
-// let cbRotX = document.getElementById("rot-x");
-// let cbRotY = document.getElementById("rot-y");
-// let cbMovX = document.getElementById("mov-x");
-// let cbMovY = document.getElementById("mov-y");
-// let cbMovZ = document.getElementById("mov-z");
-let inverseKinematicsRef = ref(null);
-let biologicalConstraintsRef = ref(null);
-let rotZRef = ref(null);
-let rotXRef = ref(null);
-let rotYRef = ref(null);
-let movXRef = ref(null);
-let movYRef = ref(null);
-let movZRef = ref(null);
-
+const inverseKinematic = ref(false);
+const biologicalConstraints = ref(true);
 const rotMov = ref("rotZ");
 // let btnGetPosture = document.getElementById("gp");
 // let btnSetPosture = document.getElementById("sp");
@@ -303,7 +288,7 @@ function relativeTurn(joint, rotationalAngle, angle) {
   }
 
   if (joint.biologicallyImpossibleLevel) {
-    if (biologicalConstraintsRef.value.checked) {
+    if (biologicalConstraints.value) {
       // there is a dedicated function to check biological possibility of joint
       var oldImpossibility = joint.biologicallyImpossibleLevel();
 
@@ -333,7 +318,7 @@ function relativeTurn(joint, rotationalAngle, angle) {
       min = joint.minRot[rotationalAngle],
       max = joint.maxRot[rotationalAngle];
 
-    if (biologicalConstraintsRef.value.checked || min == max) {
+    if (biologicalConstraints.value || min == max) {
       if (val < min - EPS && angle < 0) return;
       if (val > max + EPS && angle > 0) return;
       if (min == max) return;
@@ -438,7 +423,7 @@ const animate = (time: number) => {
     !(joint instanceof Mannequin) &&
     !(joint instanceof Pelvis) &&
     !(joint instanceof Torso) &&
-    inverseKinematicsRef.value.checked
+    inverseKinematic.value
   );
 };
 
@@ -662,25 +647,7 @@ onMounted(() => {
 
 <template>
   <div class="panel">
-    <div>
-      <label
-        ><input
-          ref="inverseKinematicsRef"
-          type="checkbox"
-          class="toggle"
-        /><span>Inverse<br />kinematics</span></label
-      >
-      <label
-        ><input
-          ref="biologicalConstraintsRef"
-          type="checkbox"
-          class="toggle"
-          checked=""
-        /><span>Biological<br />constraints</span></label
-      >
-    </div>
     <fieldset id="group1">
-      <div>rotMov: {{ rotMov }}</div>
       <div>
         <input
           type="radio"
