@@ -1,8 +1,7 @@
 <script setup lang="ts">
-import { onMounted, ref } from "vue";
+import { onMounted, ref, reactive } from "vue";
 import * as THREE from "three";
 import { OrbitControls } from "@three-ts/orbit-controls";
-import { EffectComposer } from "three/addons/postprocessing/EffectComposer.js";
 import { RenderPass } from "three/addons/postprocessing/RenderPass.js";
 import { OutlinePass } from "three/addons/postprocessing/OutlinePass.js";
 import { ShaderPass } from "three/addons/postprocessing/ShaderPass.js";
@@ -20,7 +19,6 @@ import {
   Male,
   Mannequin,
   Ankle,
-  drawFrame,
   Pelvis,
   Torso,
   Head,
@@ -43,6 +41,7 @@ let controls: any = null;
 let man: any = null;
 // let bloomComposer: any = null;
 
+const manPosition = reactive({ x: 0, y: 0, z: 0 });
 const inverseKinematic = ref(false);
 const biologicalConstraints = ref(true);
 const rotMov = ref("rotZ");
@@ -235,6 +234,9 @@ function relativeTurn(joint, rotationalAngle, angle) {
     // it is translation, not rotation
     rotationalAngle = rotationalAngle.split(".").pop();
     joint.position[rotationalAngle] += angle;
+    manPosition.x = joint.position.x;
+    manPosition.y = joint.position.y;
+    manPosition.z = joint.position.z;
     return;
   }
 
@@ -280,7 +282,7 @@ function relativeTurn(joint, rotationalAngle, angle) {
   joint.updateMatrix();
 } // relativeTurn
 
-function kinematic2D(joint, rotationalAngle, angle, ignoreIfPositive) {
+function kinematic2D(joint, rotationalAngle, angle, ignoreIfPositive = false) {
   // returns >0 if this turn gets closer
 
   // swap Z<->X for wrist
@@ -310,8 +312,8 @@ function kinematic2D(joint, rotationalAngle, angle, ignoreIfPositive) {
   screenPoint.copy(dragPoint.position);
   screenPoint = obj.localToWorld(screenPoint).project(camera);
 
-  var distProposed = mouse.distanceTo(screenPoint),
-    dist = distOriginal - distProposed;
+  const distProposed = mouse.distanceTo(screenPoint);
+  const dist = distOriginal - distProposed;
 
   if (ignoreIfPositive && dist > 0) return dist;
 
@@ -321,7 +323,6 @@ function kinematic2D(joint, rotationalAngle, angle, ignoreIfPositive) {
     joint.parentJoint[rotationalAngle] = oldParentAngle;
   }
   joint.updateMatrixWorld(true);
-
   return dist;
 }
 
@@ -598,6 +599,7 @@ onMounted(() => {
 
 <template>
   <div class="panel">
+    <div>俯视图: {{ manPosition }}</div>
     <fieldset id="group1">
       <div>
         <input
