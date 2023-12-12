@@ -76,7 +76,7 @@ export function createScene() {
   onWindowResize();
 
   var ground = new THREE.Mesh(
-    new THREE.PlaneGeometry(500, 500),
+    new THREE.PlaneGeometry(200, 200),
     new THREE.MeshLambertMaterial({
       color: "antiquewhite",
     })
