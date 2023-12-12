@@ -49,7 +49,7 @@ export function createScene() {
 
   scene = new THREE.Scene();
   scene.background = new THREE.Color("gainsboro");
-  scene.fog = new THREE.Fog("gainsboro", 100, 600);
+  // scene.fog = new THREE.Fog("gainsboro", 100, 600);
 
   camera = new THREE.PerspectiveCamera(
     30,
@@ -1629,7 +1629,7 @@ export class Mannequin extends THREE.Group {
   } // Mannequin.exportGLTF
 }
 
-class Female extends Mannequin {
+export class Female extends Mannequin {
   constructor(height = 0.95) {
     super(true, height);
     this.body.position.y = 2.2;

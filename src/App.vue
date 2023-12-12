@@ -17,6 +17,7 @@ import {
   renderer,
   camera,
   Male,
+  Female,
   Mannequin,
   Ankle,
   Pelvis,
@@ -39,6 +40,7 @@ let gauge: any = null;
 const models: any[] = [];
 let controls: any = null;
 let man: any = null;
+let female: any = null;
 let balls: any[] = [];
 // let bloomComposer: any = null;
 
@@ -212,6 +214,11 @@ const addOutLine = () => {
 const createSceneFn = () => {
   createScene();
 
+  // set up event handlers
+  renderer.domElement.addEventListener("pointerdown", onPointerDown);
+  renderer.domElement.addEventListener("pointerup", onPointerUp);
+  renderer.domElement.addEventListener("pointermove", onPointerMove);
+
   // Axes helper
   const axesHelper = new THREE.AxesHelper(50);
   scene.add(axesHelper);
@@ -225,6 +232,7 @@ const createSceneFn = () => {
   scene.add(pointLight);
 
   controls = new OrbitControls(camera, renderer.domElement);
+  addModel();
   addModel();
   addOutLine();
   changeBodyPart(man);
@@ -468,11 +476,6 @@ const addGauge = () => {
     )
   );
 };
-
-// set up event handlers
-document.addEventListener("pointerdown", onPointerDown);
-document.addEventListener("pointerup", onPointerUp);
-document.addEventListener("pointermove", onPointerMove);
 
 function onPointerMove(event: any) {
   if (obj) userInput(event);
@@ -728,6 +731,7 @@ const loadPositionCanvas = () => {
   canvasTopView.addEventListener(
     "mousedown",
     () => {
+      console.log("canvasTopView");
       balls.some((ball) => {
         if (ball.isContainsPoint(mouse.x, mouse.y)) {
           // 记录下选中的小球
@@ -742,9 +746,9 @@ const loadPositionCanvas = () => {
       function onMouseMove() {
         selectedBall.x = mouse.x;
         selectedBall.y = mouse.y;
-        console.log("mousemove1x", selectedBall.x);
-        console.log("mousemove1y", selectedBall.y);
-        console.log("man.body", man.body);
+        // console.log("mousemove1x", selectedBall.x);
+        // console.log("mousemove1y", selectedBall.y);
+        // console.log("man.body", man.body);
         man.body.position.x = selectedBall.x - 100;
         man.body.position.z = selectedBall.y - 100;
         selectedBall.vx = 0;
@@ -784,7 +788,7 @@ onMounted(() => {
 
 <template>
   <div class="panel">
-    <div>俯视图: {{ manPosition }}</div>
+    <!-- <div>俯视图: {{ manPosition }}</div> -->
     <div>
       <canvas
         id="canvasball"
