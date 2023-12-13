@@ -26,6 +26,9 @@ import {
 } from "../mannequin/mannequin";
 import { GammaCorrectionShader } from "three/examples/jsm/shaders/GammaCorrectionShader.js";
 
+const models: any[] = [];
+let selectedBody: any;
+
 export default () => {
   const names = [
     ["body", "tilt", "turn", "bend"],
@@ -88,9 +91,7 @@ export default () => {
   let dragPoint = new THREE.Mesh(); // point of grabbing
   let obj: any = undefined; // currently selected body part
   let gauge: any = null;
-  const models: any[] = [];
   let controls: any = null;
-  let man: any = null;
 
   function select(object: any) {
     deselect();
@@ -148,7 +149,7 @@ export default () => {
   }
 
   function onPointerDown(event: any) {
-    console.log("onPointerDown");
+    console.log("onPointerDown", event);
     userInput(event);
 
     gauge.parent?.remove(gauge);
@@ -156,7 +157,7 @@ export default () => {
 
     raycaster.setFromCamera(mouse, camera);
 
-    var intersects = raycaster.intersectObjects(models, true);
+    const intersects = raycaster.intersectObjects(models, true);
     console.log("intersects", intersects);
     if (
       intersects.length &&
@@ -171,21 +172,21 @@ export default () => {
         scanObj = scanObj?.parent
       ) {}
 
-      if (scanObj instanceof Mannequin) man = scanObj;
+      if (scanObj instanceof Mannequin) selectedBody = scanObj;
 
       var name = intersects[0].object.name || intersects[0].object.parent.name;
 
       if (name == "neck") name = "head";
       if (name == "pelvis") name = "body";
 
-      select(man[name]);
+      select(selectedBody[name]);
 
       document.getElementById("rot-x-name").innerHTML =
-        man[name].nameUI.x || "N/A";
+        selectedBody[name].nameUI.x || "N/A";
       document.getElementById("rot-y-name").innerHTML =
-        man[name].nameUI.y || "N/A";
+        selectedBody[name].nameUI.y || "N/A";
       document.getElementById("rot-z-name").innerHTML =
-        man[name].nameUI.z || "N/A";
+        selectedBody[name].nameUI.z || "N/A";
 
       dragPoint.position.copy(obj.worldToLocal(intersects[0].point));
       obj.imageWrapper.add(dragPoint);
@@ -197,7 +198,7 @@ export default () => {
     // renderer.setAnimationLoop(drawFrame);
   }
 
-  const addOutLine = () => {
+  const addOutLine = (body: any) => {
     // RenderPass这个通道会渲染场景，但不会将渲染结果输出到屏幕上
     const renderScene = new RenderPass(scene, camera);
     // 放在renderPass之后
@@ -208,7 +209,7 @@ export default () => {
       new THREE.Vector2(window.innerWidth, window.innerHeight),
       scene,
       camera,
-      [man]
+      [body]
     );
     outlinePass.renderToScreen = true;
     outlinePass.edgeStrength = 1; //粗
@@ -234,52 +235,65 @@ export default () => {
     bloomComposer.render();
   };
 
-  function addModel() {
-    man = new Male();
-    models.push(man);
+  const switchModelType = (type: string, _id: string) => {
+    switch (type) {
+      case "Male":
+        return new Male(1, _id);
+      case "Female":
+        return new Female(0.95, _id);
+      default:
+        return new Male(1, _id);
+    }
+  };
 
-    man.l_mid_0 = man.l_finger_0.mid;
-    man.l_mid_1 = man.l_finger_1.mid;
-    man.l_mid_2 = man.l_finger_2.mid;
-    man.l_mid_3 = man.l_finger_3.mid;
-    man.l_mid_4 = man.l_finger_4.mid;
+  const createBody = (_id: string, type: string) => {
+    const model: any = switchModelType(type, _id);
+    models.push(model);
 
-    man.r_mid_0 = man.r_finger_0.mid;
-    man.r_mid_1 = man.r_finger_1.mid;
-    man.r_mid_2 = man.r_finger_2.mid;
-    man.r_mid_3 = man.r_finger_3.mid;
-    man.r_mid_4 = man.r_finger_4.mid;
+    model.l_mid_0 = model.l_finger_0.mid;
+    model.l_mid_1 = model.l_finger_1.mid;
+    model.l_mid_2 = model.l_finger_2.mid;
+    model.l_mid_3 = model.l_finger_3.mid;
+    model.l_mid_4 = model.l_finger_4.mid;
 
-    man.l_tip_0 = man.l_finger_0.tip;
-    man.l_tip_1 = man.l_finger_1.tip;
-    man.l_tip_2 = man.l_finger_2.tip;
-    man.l_tip_3 = man.l_finger_3.tip;
-    man.l_tip_4 = man.l_finger_4.tip;
+    model.r_mid_0 = model.r_finger_0.mid;
+    model.r_mid_1 = model.r_finger_1.mid;
+    model.r_mid_2 = model.r_finger_2.mid;
+    model.r_mid_3 = model.r_finger_3.mid;
+    model.r_mid_4 = model.r_finger_4.mid;
 
-    man.r_tip_0 = man.r_finger_0.tip;
-    man.r_tip_1 = man.r_finger_1.tip;
-    man.r_tip_2 = man.r_finger_2.tip;
-    man.r_tip_3 = man.r_finger_3.tip;
-    man.r_tip_4 = man.r_finger_4.tip;
+    model.l_tip_0 = model.l_finger_0.tip;
+    model.l_tip_1 = model.l_finger_1.tip;
+    model.l_tip_2 = model.l_finger_2.tip;
+    model.l_tip_3 = model.l_finger_3.tip;
+    model.l_tip_4 = model.l_finger_4.tip;
+
+    model.r_tip_0 = model.r_finger_0.tip;
+    model.r_tip_1 = model.r_finger_1.tip;
+    model.r_tip_2 = model.r_finger_2.tip;
+    model.r_tip_3 = model.r_finger_3.tip;
+    model.r_tip_4 = model.r_finger_4.tip;
 
     for (var nameData of names) {
       var name = nameData[0];
-      for (var part of man[name].children[0].children) part.name = name;
-      for (var part of man[name].children[0].children[0].children)
+      for (var part of model[name].children[0].children) part.name = name;
+      for (var part of model[name].children[0].children[0].children)
         part.name = name;
-      if (man[name].children[0].children[1])
-        for (var part of man[name].children[0].children[1].children)
+      if (model[name].children[0].children[1])
+        for (var part of model[name].children[0].children[1].children)
           part.name = name;
-      man[name].nameUI = {
+      model[name].nameUI = {
         x: nameData[1],
         y: nameData[2],
         z: nameData[3],
       };
     }
-  }
 
-  const changeBodyPart = (man: any) => {
-    man.head.hide();
+    addOutLine(model);
+  };
+
+  const changeBodyPart = (body: any) => {
+    body.head.hide();
     const material = new THREE.MeshToonMaterial({
       color: "white",
     });
@@ -292,7 +306,7 @@ export default () => {
         mesh.scale.set(0.1, 0.1, 0.1);
         mesh.position.y = 5;
         mesh.castShadow = true;
-        man.head.attach(mesh);
+        body.head.attach(mesh);
       },
       (xhr: any) => {
         console.log((xhr.loaded / xhr.total) * 100 + "% loaded");
@@ -514,7 +528,7 @@ export default () => {
     if (rotMov.value === "rotY" || (elemNone && mouseButton & 0x4))
       gauge.rotation.set(Math.PI / 2, 0, -Math.PI / 2);
 
-    var joint = rotMov.value.indexOf("mov") > -1 ? man.body : obj;
+    var joint = rotMov.value.indexOf("mov") > -1 ? selectedBody.body : obj;
 
     do {
       for (var step = 5; step > 0.1; step *= 0.75) {
@@ -575,10 +589,6 @@ export default () => {
 
     controls = new OrbitControls(camera, renderer.domElement);
 
-    addModel();
-    addOutLine();
-    // changeBodyPart(man);
-
     controls.addEventListener("start", function () {
       // renderer.setAnimationLoop(drawFrame);
     });
@@ -596,5 +606,6 @@ export default () => {
   return {
     init,
     rotMov,
+    createBody,
   };
 };

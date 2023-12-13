@@ -1319,12 +1319,12 @@ class Nails extends Joint {
 } // Nails
 
 export class Mannequin extends THREE.Group {
-  constructor(feminine, height = 1) {
+  constructor(feminine, height = 1, _id = "") {
     super();
 
     const LEFT = -1;
     const RIGHT = 1;
-
+    this._id = _id;
     this.scale.set(height, height, height);
 
     this.feminine = feminine;
@@ -1625,8 +1625,8 @@ export class Mannequin extends THREE.Group {
 }
 
 export class Female extends Mannequin {
-  constructor(height = 0.95) {
-    super(true, height);
+  constructor(height = 0.95, _id = "") {
+    super(true, height, _id);
     this.body.position.y = 2.2;
 
     this.l_leg.straddle -= 4;
@@ -1638,8 +1638,8 @@ export class Female extends Mannequin {
 } // Female
 
 export class Male extends Mannequin {
-  constructor(height = 1) {
-    super(false, height);
+  constructor(height = 1, _id = "") {
+    super(false, height, _id);
     this.body.position.y = 3.8;
 
     this.l_leg.straddle += 6;

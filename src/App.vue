@@ -3,11 +3,17 @@ import { onMounted } from "vue";
 import TopView from "./components/TopView/index.vue";
 
 import UseMannequin from "./composables/useMannequin";
+import UseTopView from "./composables/useTopView";
 
-const { init, rotMov } = UseMannequin();
+const { createBall } = UseTopView();
+
+const { init, rotMov, createBody } = UseMannequin();
 
 onMounted(() => {
   init();
+  const id = "testId";
+  createBall(id);
+  createBody(id, "Male");
 });
 </script>
 
