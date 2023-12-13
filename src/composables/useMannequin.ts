@@ -562,7 +562,7 @@ export default () => {
     renderer.domElement.addEventListener("pointermove", onPointerMove);
 
     // Axes helper
-    const axesHelper = new THREE.AxesHelper(50);
+    const axesHelper = new THREE.AxesHelper(100);
     scene.add(axesHelper);
 
     scene.remove(light);

@@ -9,8 +9,19 @@ let canvasTopView;
 let context;
 
 class Ball {
+  context: any;
+  id?: string;
+  x: number;
+  y: number;
+  radius: number;
+  color: string;
+  vx: number;
+  vy: number;
+  ax: number;
+  ay: number;
   constructor(context, options = {}) {
     this.context = context;
+    this.id = options.id;
     this.x = options.x || 0;
     this.y = options.y || 0;
     this.radius = options.radius || 20;
@@ -21,7 +32,7 @@ class Ball {
     this.ay = options.ay || 0;
   }
 
-  isContainsPoint(x, y) {
+  isContainsPoint(x: number, y: number) {
     return Math.hypot(this.x - x, this.y - y) < this.radius;
   }
 
@@ -47,7 +58,7 @@ class Ball {
   }
 }
 
-function checkWalls(ball) {
+function checkWalls(ball: Ball) {
   // 边界反弹
   if (ball.x < ball.radius) {
     ball.x = ball.radius;
@@ -67,7 +78,7 @@ function checkWalls(ball) {
   }
 }
 
-function draw(ball) {
+function draw(ball: Ball) {
   ball.draw();
 }
 
