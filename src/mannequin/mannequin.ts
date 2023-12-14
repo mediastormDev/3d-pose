@@ -34,6 +34,7 @@ export class MannequinPostureVersionError extends Error {
 
 export function createScene() {
   renderer = new THREE.WebGLRenderer({ antialias: true });
+  // renderer.setPixelRatio(window.devicePixelRatio);
   bloomComposer = new EffectComposer(renderer);
   renderer.setSize(window.innerWidth, window.innerHeight);
   renderer.domElement.style =
@@ -43,7 +44,7 @@ export function createScene() {
   document.body.appendChild(renderer.domElement);
 
   scene = new THREE.Scene();
-  scene.background = new THREE.Color("gainsboro");
+  scene.background = new THREE.Color("#3d3d3d");
   // scene.fog = new THREE.Fog("gainsboro", 100, 600);
 
   camera = new THREE.PerspectiveCamera(
@@ -79,7 +80,7 @@ export function createScene() {
   ground.receiveShadow = true;
   ground.position.y = -29.5;
   ground.rotation.x = -Math.PI / 2;
-  scene.add(ground);
+  // scene.add(ground);
 
   clock = new THREE.Clock();
 } // createScene
