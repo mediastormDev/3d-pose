@@ -47,6 +47,18 @@ export class Ball {
     this.context.fillStyle = this.color;
     this.context.closePath();
     this.context.fill();
+
+    /*把起点放到圆心位置*/
+    this.context.moveTo(this.x, this.y);
+    this.context.arc(
+      this.x,
+      this.y,
+      this.radius + 20,
+      Math.PI / 4,
+      (Math.PI / 4) * 3
+    );
+    this.context.closePath();
+    this.context.fill();
   }
 }
 
