@@ -49,7 +49,7 @@ export class Ball {
 }
 
 // let man: any = null;
-const balls: Ball[] = [];
+export const balls: Ball[] = [];
 // 获取元素
 let canvasTopView;
 // 获取上下文

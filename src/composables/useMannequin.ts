@@ -25,6 +25,7 @@ import {
   bloomComposer,
 } from "../mannequin/mannequin";
 import { GammaCorrectionShader } from "three/examples/jsm/shaders/GammaCorrectionShader.js";
+import { balls } from "./useTopView";
 
 const models: any[] = [];
 let selectedBody: any;
@@ -325,14 +326,19 @@ export default () => {
 
   function relativeTurn(joint, rotationalAngle, angle) {
     if (rotationalAngle.startsWith("position.")) {
+      console.log("position joint", joint);
       // it is translation, not rotation
       rotationalAngle = rotationalAngle.split(".").pop();
       joint.position[rotationalAngle] += angle;
-      // manPosition.x = joint.position.x;
-      // manPosition.y = joint.position.y;
-      // manPosition.z = joint.position.z;
-      // balls[0].x = joint.position.x + 100;
-      // balls[0].y = joint.position.z + 100;
+      const bodyId = joint.parent._id;
+      if (bodyId) {
+        const targetBalls = balls.filter((ball: any) => ball.id === bodyId);
+        console.log(targetBalls);
+        if (targetBalls.length) {
+          targetBalls[0].x = joint.position.x + 100;
+          targetBalls[0].y = joint.position.z + 100;
+        }
+      }
       return;
     }
 
