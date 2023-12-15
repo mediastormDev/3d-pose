@@ -1,3 +1,5 @@
+import { models } from "./useMannequin";
+
 export class Ball {
   context: any;
   id?: string;
@@ -157,11 +159,16 @@ export default () => {
           if (!selectedBall) return;
           selectedBall.x = mouse.x;
           selectedBall.y = mouse.y;
-          // console.log("mousemove1x", selectedBall.x);
-          // console.log("mousemove1y", selectedBall.y);
-          // console.log("man.body", man.body);
-          // man.body.position.x = selectedBall.x - 100;
-          // man.body.position.z = selectedBall.y - 100;
+          const bodyId = selectedBall.id;
+          if (bodyId) {
+            const targetBody = models.filter(
+              (body: any) => body._id === bodyId
+            );
+            if (targetBody.length) {
+              targetBody[0].position.x = selectedBall.x - 100;
+              targetBody[0].position.z = selectedBall.y - 100;
+            }
+          }
           selectedBall.vx = 0;
           selectedBall.vy = 0;
         }

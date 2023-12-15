@@ -27,7 +27,7 @@ import {
 import { GammaCorrectionShader } from "three/examples/jsm/shaders/GammaCorrectionShader.js";
 import { balls } from "./useTopView";
 
-const models: any[] = [];
+export const models: any[] = [];
 let selectedBody: any;
 
 export default () => {
