@@ -28,6 +28,13 @@ export class Ball {
     return Math.hypot(this.x - x, this.y - y) < this.radius;
   }
 
+  isContainsPointSector(x: number, y: number) {
+    return (
+      Math.hypot(this.x - x, this.y - y) > this.radius &&
+      Math.hypot(this.x - x, this.y - y) < this.radius + 20
+    );
+  }
+
   update() {
     // this.vx += this.ax;
     // this.vy += this.ay;
@@ -164,6 +171,14 @@ export default () => {
             canvasTopView.addEventListener("mousemove", onMouseMove, false);
             canvasTopView.addEventListener("mouseup", onMouseUp, false);
             return true;
+          } else if (ball.isContainsPointSector(mouse.x, mouse.y)) {
+            console.log("isContainsPointSector", ball);
+            canvasTopView.addEventListener(
+              "mousemove",
+              onMouseMoveSector,
+              false
+            );
+            canvasTopView.addEventListener("mouseup", onMouseUpSector, false);
           }
         });
 
@@ -185,11 +200,25 @@ export default () => {
           selectedBall.vy = 0;
         }
 
+        function onMouseMoveSector() {
+          console.log("onMouseMoveSector");
+        }
+
         function onMouseUp() {
           selectedBall = null;
           // 清除事件
           canvasTopView.removeEventListener("mousemove", onMouseMove, false);
           canvasTopView.removeEventListener("mouseup", onMouseUp, false);
+        }
+
+        function onMouseUpSector() {
+          // 清除事件
+          canvasTopView.removeEventListener(
+            "mousemove",
+            onMouseMoveSector,
+            false
+          );
+          canvasTopView.removeEventListener("mouseup", onMouseUpSector, false);
         }
       },
       false
