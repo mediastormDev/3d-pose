@@ -35,11 +35,16 @@ const { init, rotMov, createBody } = UseMannequin();
 //   }
 // }
 
+const addBody = (id: string, type: string) => {
+  createBall(id);
+  createBody(id, type);
+};
+
 onMounted(() => {
   init();
   const id = "testId";
-  createBall(id);
-  createBody(id, "Male");
+  addBody(id, "Male");
+  addBody(id + "1", "Female");
 });
 </script>
 
