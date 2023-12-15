@@ -5,6 +5,7 @@ export class Ball {
   id?: string;
   x: number;
   y: number;
+  rotate: number;
   radius: number;
   color: string;
   vx: number;
@@ -13,6 +14,7 @@ export class Ball {
   ay: number;
   constructor(context, options = {}) {
     this.context = context;
+    this.rotate = options.rotate || 0;
     this.id = options.id;
     this.x = options.x || 0;
     this.y = options.y || 0;
@@ -61,8 +63,8 @@ export class Ball {
       this.x,
       this.y,
       this.radius + 20,
-      Math.PI / 4,
-      (Math.PI / 4) * 3
+      Math.PI / 4 - this.rotate,
+      (Math.PI / 4) * 3 - this.rotate
     );
     this.context.closePath();
     this.context.fill();
@@ -76,7 +78,32 @@ let canvasTopView;
 // 获取上下文
 let context;
 
+//初始化旋转角度是0，没有旋转。
+let rotate = 0;
+//这里用改变坐标原点的方式来画图，让坐标原点始终在图片的中心
+let PO = { x: 0, y: 0 };
+
 export default () => {
+  //window屏幕坐标转化为canvas坐标
+  const convertCoordinate = (x, y) => {
+    //在屏幕坐标系中，相对canvas坐标系原点PO的偏移,所以要减去canvas坐标原点
+    x = x - PO.x;
+    y = y - PO.y;
+    //如果没有旋转，那么只计算偏移量就行，不用考虑角度
+    if (rotate != 0) {
+      //Math.sqrt是两点之间的距离图中OM的距离，简化版本，正确用法应该是Math.sqrt((x-0)*(x-0) + (y-0)*(y-0))
+      var len = Math.sqrt(x * x + y * y);
+      //屏幕坐标系中 PO与按下点连线 与屏幕坐标系X轴的夹角弧度
+      var oldR = Math.atan2(y, x);
+      //canvas坐标系中PO与按下点连线 与canvas坐标系x轴的夹角弧度
+      var newR = oldR - rotate;
+      //最终算出来canvas坐标系上的M点
+      x = len * Math.cos(newR);
+      y = len * Math.sin(newR);
+    }
+    return { x: x, y: y };
+  };
+
   function checkWalls(ball: Ball) {
     // 边界反弹
     if (ball.x < ball.radius) {
@@ -149,13 +176,24 @@ export default () => {
     return mouse;
   }
 
-  const init = (dom, ctxt) => {
+  const init = (dom: HTMLElement, ctxt) => {
     canvasTopView = dom;
     context = ctxt;
+    PO = { x: dom.clientWidth / 2, y: dom.clientHeight / 2 };
     // Canvas中的坐标
     const mouse = captureMouse(canvasTopView);
     // 选中的小球
     let selectedBall: Ball | null = null;
+
+    const getTarget = (bodyId?: string) => {
+      if (bodyId) {
+        const targetBody = models.filter((body: any) => body._id === bodyId);
+        if (targetBody.length) {
+          return targetBody[0];
+        }
+      }
+      return null;
+    };
 
     // 拖拽
     canvasTopView.addEventListener(
@@ -172,6 +210,7 @@ export default () => {
             canvasTopView.addEventListener("mouseup", onMouseUp, false);
             return true;
           } else if (ball.isContainsPointSector(mouse.x, mouse.y)) {
+            selectedBall = ball;
             console.log("isContainsPointSector", ball);
             canvasTopView.addEventListener(
               "mousemove",
@@ -182,26 +221,30 @@ export default () => {
           }
         });
 
+        // 移动
         function onMouseMove() {
           if (!selectedBall) return;
           selectedBall.x = mouse.x;
           selectedBall.y = mouse.y;
-          const bodyId = selectedBall.id;
-          if (bodyId) {
-            const targetBody = models.filter(
-              (body: any) => body._id === bodyId
-            );
-            if (targetBody.length) {
-              targetBody[0].position.x = selectedBall.x - 100;
-              targetBody[0].position.z = selectedBall.y - 100;
-            }
-          }
+          const targetBody = getTarget(selectedBall.id);
+          targetBody.position.x = selectedBall.x - 100;
+          targetBody.position.z = selectedBall.y - 100;
           selectedBall.vx = 0;
           selectedBall.vy = 0;
         }
 
+        // 旋转
         function onMouseMoveSector() {
-          console.log("onMouseMoveSector");
+          if (!selectedBall) return;
+          //还是先算出来canvas坐标
+          const CP = convertCoordinate(mouse.x, mouse.y);
+          const Cx = CP.x;
+          const Cy = CP.y;
+          const newR = Math.atan2(Cx, Cy) - Math.PI / 180;
+          selectedBall.rotate = newR;
+
+          const targetBody = getTarget(selectedBall.id);
+          targetBody.rotation.y = newR;
         }
 
         function onMouseUp() {
