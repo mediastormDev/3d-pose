@@ -324,25 +324,30 @@ export default () => {
     );
   };
 
+  const getTarget = (bodyId?: string) => {
+    if (bodyId) {
+      const targetBalls = balls.filter((ball: any) => ball.id === bodyId);
+      if (targetBalls.length) {
+        return targetBalls[0];
+      }
+    }
+    return null;
+  };
+
   function relativeTurn(joint, rotationalAngle, angle) {
     if (rotationalAngle.startsWith("position.")) {
       console.log("position joint", joint);
       // it is translation, not rotation
       rotationalAngle = rotationalAngle.split(".").pop();
       joint.position[rotationalAngle] += angle;
-      const bodyId = joint.parent._id;
-      if (bodyId) {
-        const targetBalls = balls.filter((ball: any) => ball.id === bodyId);
-        console.log(targetBalls);
-        if (targetBalls.length) {
-          targetBalls[0].x = joint.position.x + 100;
-          targetBalls[0].y = joint.position.z + 100;
-        }
-      }
+      const targetBall = getTarget(joint.parent._id);
+      targetBall.x = joint.position.x + 100;
+      targetBall.y = joint.position.z + 100;
       return;
     }
 
     if (joint.biologicallyImpossibleLevel) {
+      console.log("angle1", angle);
       if (biologicalConstraints.value) {
         // there is a dedicated function to check biological possibility of joint
         var oldImpossibility = joint.biologicallyImpossibleLevel();
@@ -379,6 +384,9 @@ export default () => {
         if (min == max) return;
       }
 
+      console.log("val2", val / 180);
+      const targetBall = getTarget(joint.parent._id);
+      targetBall.rotate = val / 180;
       joint[rotationalAngle] = val;
     }
     joint.updateMatrix();

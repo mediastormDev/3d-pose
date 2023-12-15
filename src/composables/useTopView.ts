@@ -80,15 +80,13 @@ let context;
 
 //初始化旋转角度是0，没有旋转。
 let rotate = 0;
-//这里用改变坐标原点的方式来画图，让坐标原点始终在图片的中心
-let PO = { x: 0, y: 0 };
 
 export default () => {
   //window屏幕坐标转化为canvas坐标
-  const convertCoordinate = (x, y) => {
+  const convertCoordinate = (x, y, cx, cy) => {
     //在屏幕坐标系中，相对canvas坐标系原点PO的偏移,所以要减去canvas坐标原点
-    x = x - PO.x;
-    y = y - PO.y;
+    x = x - cx;
+    y = y - cy;
     //如果没有旋转，那么只计算偏移量就行，不用考虑角度
     if (rotate != 0) {
       //Math.sqrt是两点之间的距离图中OM的距离，简化版本，正确用法应该是Math.sqrt((x-0)*(x-0) + (y-0)*(y-0))
@@ -179,7 +177,6 @@ export default () => {
   const init = (dom: HTMLElement, ctxt) => {
     canvasTopView = dom;
     context = ctxt;
-    PO = { x: dom.clientWidth / 2, y: dom.clientHeight / 2 };
     // Canvas中的坐标
     const mouse = captureMouse(canvasTopView);
     // 选中的小球
@@ -237,10 +234,16 @@ export default () => {
         function onMouseMoveSector() {
           if (!selectedBall) return;
           //还是先算出来canvas坐标
-          const CP = convertCoordinate(mouse.x, mouse.y);
+          const CP = convertCoordinate(
+            mouse.x,
+            mouse.y,
+            selectedBall.x,
+            selectedBall.y
+          );
           const Cx = CP.x;
           const Cy = CP.y;
           const newR = Math.atan2(Cx, Cy);
+          console.log("newR", newR);
           selectedBall.rotate = newR;
 
           const targetBody = getTarget(selectedBall.id);
