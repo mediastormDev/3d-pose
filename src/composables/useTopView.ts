@@ -240,7 +240,7 @@ export default () => {
           const CP = convertCoordinate(mouse.x, mouse.y);
           const Cx = CP.x;
           const Cy = CP.y;
-          const newR = Math.atan2(Cx, Cy) - Math.PI / 180;
+          const newR = Math.atan2(Cx, Cy);
           selectedBall.rotate = newR;
 
           const targetBody = getTarget(selectedBall.id);
