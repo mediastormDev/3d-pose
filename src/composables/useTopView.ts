@@ -2,6 +2,7 @@ import { models } from "./useMannequin";
 
 export class Ball {
   context: any;
+  selected?: boolean;
   id?: string;
   x: number;
   y: number;
@@ -53,7 +54,12 @@ export class Ball {
       (Math.PI / 180) * 0,
       (Math.PI / 180) * 360
     );
-    this.context.fillStyle = this.color;
+    if (this.selected) {
+      this.context.fillStyle = "#ff6b81";
+    } else {
+      this.context.fillStyle = this.color;
+    }
+
     this.context.closePath();
     this.context.fill();
 
@@ -201,6 +207,7 @@ export default () => {
           if (ball.isContainsPoint(mouse.x, mouse.y)) {
             // 记录下选中的小球
             selectedBall = ball;
+            ball.selected = !ball.selected;
             console.log("selectedBall", selectedBall);
             // 添加事件来模拟拖拽
             canvasTopView.addEventListener("mousemove", onMouseMove, false);

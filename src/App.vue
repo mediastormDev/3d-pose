@@ -2,8 +2,8 @@
 import { onMounted } from "vue";
 import TopView from "./components/TopView/index.vue";
 
-import UseMannequin from "./composables/useMannequin";
-import UseTopView from "./composables/useTopView";
+import UseMannequin, { models } from "./composables/useMannequin";
+import UseTopView, { balls } from "./composables/useTopView";
 
 const { createBall } = UseTopView();
 
@@ -38,6 +38,28 @@ const { init, rotMov, createBody } = UseMannequin();
 const addBody = (id: string, type: string) => {
   createBall(id);
   createBody(id, type);
+};
+
+const face2face = () => {
+  const selected = balls.filter((ball) => ball.selected);
+  if (selected.length !== 2) {
+    alert("Please select two balls");
+    return;
+  }
+  const [ball1, ball2] = selected;
+  console.log(ball1.id, ball2.id);
+  const bodys = models.filter((model) => {
+    return model._id === ball1.id || model._id === ball2.id;
+  });
+  const [body1, body2] = bodys;
+  console.log(body1.position, body2.position);
+  const radius = Math.atan2(
+    body2.position.x - body1.position.x,
+    body2.position.z - body1.position.z
+  );
+  const angle = radius * (180 / Math.PI);
+  console.log(angle);
+  body1.rotation.y = angle;
 };
 
 onMounted(() => {
@@ -102,6 +124,12 @@ onMounted(() => {
         /><span>Move Z</span>
       </div>
     </fieldset>
+    <div>
+      <div @click="face2face">面对</div>
+      <div>背对</div>
+      <div>面背</div>
+      <div>并排</div>
+    </div>
   </div>
 </template>
 
