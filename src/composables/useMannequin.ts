@@ -384,9 +384,9 @@ export default () => {
         if (min == max) return;
       }
 
-      console.log("val2", val / 180);
+      const agl = (val + 180 / 2) * (Math.PI / 180);
       const targetBall = getTarget(joint.parent._id);
-      targetBall.rotate = val / 180;
+      targetBall.rotate = agl;
       joint[rotationalAngle] = val;
     }
     joint.updateMatrix();

@@ -243,7 +243,6 @@ export default () => {
           const Cx = CP.x;
           const Cy = CP.y;
           const newR = Math.atan2(Cx, Cy);
-          console.log("newR", newR);
           selectedBall.rotate = newR;
 
           const targetBody = getTarget(selectedBall.id);
