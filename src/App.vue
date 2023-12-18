@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { onMounted } from "vue";
+import { onMounted, ref } from "vue";
 import TopView from "./components/TopView/index.vue";
 
 import UseMannequin, { models } from "./composables/useMannequin";
@@ -8,6 +8,8 @@ import UseTopView, { balls } from "./composables/useTopView";
 const { createBall } = UseTopView();
 
 const { init, rotMov, createBody } = UseMannequin();
+
+const bodys = ref<any[]>([]);
 
 // function setPosture() {
 //   if (!model) return;
@@ -36,6 +38,7 @@ const { init, rotMov, createBody } = UseMannequin();
 // }
 
 const addBody = (id: string, type: string) => {
+  bodys.value.push({ id, type, rotation: Math.PI / 2 });
   createBall(id);
   createBody(id, type);
 };
@@ -65,6 +68,64 @@ const face2face = () => {
 
   body1.rotation.y = radius2 + Math.PI;
   body2.rotation.y = radius + Math.PI;
+};
+
+const back2back = () => {
+  const selected = balls.filter((ball) => ball.selected);
+  if (selected.length !== 2) {
+    alert("Please select two balls");
+    return;
+  }
+  const [ball1, ball2] = selected;
+  console.log(ball1.id, ball2.id);
+  const bodys = models.filter((model) => {
+    return model._id === ball1.id || model._id === ball2.id;
+  });
+  const [body1, body2] = bodys;
+  console.log(body1.position, body2.position);
+  const radius = Math.atan2(
+    body2.position.x - body1.position.x,
+    body2.position.z - body1.position.z
+  );
+
+  const radius2 = Math.atan2(
+    body1.position.x - body2.position.x,
+    body1.position.z - body2.position.z
+  );
+
+  body1.rotation.y = radius2;
+  body2.rotation.y = radius;
+};
+
+const face2back = () => {
+  const selected = balls.filter((ball) => ball.selected);
+  if (selected.length !== 2) {
+    alert("Please select two balls");
+    return;
+  }
+  const [ball1, ball2] = selected;
+  console.log(ball1.id, ball2.id);
+  const bodys = models.filter((model) => {
+    return model._id === ball1.id || model._id === ball2.id;
+  });
+  const [body1, body2] = bodys;
+  console.log(body1.position, body2.position);
+  const radius = Math.atan2(
+    body2.position.x - body1.position.x,
+    body2.position.z - body1.position.z
+  );
+
+  const radius2 = Math.atan2(
+    body1.position.x - body2.position.x,
+    body1.position.z - body2.position.z
+  );
+
+  body1.rotation.y = radius2 + Math.PI;
+  body2.rotation.y = radius;
+};
+
+const onRangeChange = (body: any) => {
+  console.log("body", body);
 };
 
 onMounted(() => {
@@ -131,9 +192,21 @@ onMounted(() => {
     </fieldset>
     <div>
       <div @click="face2face">面对</div>
-      <div>背对</div>
-      <div>面背</div>
-      <div>并排</div>
+      <div @click="back2back">背对</div>
+      <div @click="face2back">面背</div>
+    </div>
+    <div>
+      <div v-for="(body, index) in bodys" :key="index">
+        <div>{{ index }}:{{ body }}</div>
+        <input
+          type="range"
+          @input="onRangeChange(body)"
+          :min="0"
+          :max="Math.PI"
+          :step="Math.PI / 180"
+          v-model="body.rotation"
+        />
+      </div>
     </div>
   </div>
 </template>
