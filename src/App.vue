@@ -57,9 +57,14 @@ const face2face = () => {
     body2.position.x - body1.position.x,
     body2.position.z - body1.position.z
   );
-  const angle = radius * (180 / Math.PI);
-  console.log(angle);
-  body1.rotation.y = angle;
+
+  const radius2 = Math.atan2(
+    body1.position.x - body2.position.x,
+    body1.position.z - body2.position.z
+  );
+
+  body1.rotation.y = radius2 + Math.PI;
+  body2.rotation.y = radius + Math.PI;
 };
 
 onMounted(() => {
