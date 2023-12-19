@@ -23,6 +23,7 @@ import {
   Head,
   Wrist,
   bloomComposer,
+  MannequinPostureVersionError,
 } from "../mannequin/mannequin";
 import { GammaCorrectionShader } from "three/examples/jsm/shaders/GammaCorrectionShader.js";
 import { balls } from "./useTopView";
@@ -584,6 +585,27 @@ export default () => {
     requestAnimationFrame(renderBloomComposer);
   };
 
+  const setPosture = (model: any, pose: string) => {
+    if (!model) return;
+
+    if (pose) {
+      var oldPosture = model.posture;
+
+      try {
+        model.postureString = pose;
+      } catch (error) {
+        model.posture = oldPosture;
+        if (error instanceof MannequinPostureVersionError) alert(error.message);
+        else
+          alert(
+            "The provided posture was either invalid or impossible to understand."
+          );
+        console.error(error);
+      }
+      renderer.render(scene, camera);
+    }
+  };
+
   // 初始化场景
   const init = () => {
     createScene();
@@ -628,5 +650,6 @@ export default () => {
     init,
     rotMov,
     createBody,
+    setPosture,
   };
 };

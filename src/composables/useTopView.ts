@@ -198,6 +198,19 @@ export default () => {
     return mouse;
   }
 
+  /**
+   *
+   * @returns 选中的模型
+   */
+  const getSelectedModels = () => {
+    const targets = balls.filter((ball) => ball.selected).map((it) => it.id);
+    console.log("targets", targets);
+    const targetBodys = models.filter(
+      (body: any) => targets.findIndex((it) => it === body._id) > -1
+    );
+    return targetBodys;
+  };
+
   const getTarget = (bodyId?: string) => {
     if (bodyId) {
       const targetBody = models.filter((body: any) => body._id === bodyId);
@@ -304,5 +317,6 @@ export default () => {
     init,
     animate,
     getTarget,
+    getSelectedModels,
   };
 };
