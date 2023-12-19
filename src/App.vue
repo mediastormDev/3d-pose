@@ -1,16 +1,13 @@
 <script setup lang="ts">
 import { onMounted } from "vue";
 import TopView from "./components/TopView/index.vue";
-
+import BodyView from "./components/BodyView/index.vue";
 import UseMannequin from "./composables/useMannequin";
-import UseTopView from "./composables/useTopView";
 import UseBodys from "./composables/useModels";
 
-const { init, rotMov, getTarget: getTargetBody } = UseMannequin();
+const { init, rotMov } = UseMannequin();
 
 const { bodys, addBody, face2face, back2back, face2back } = UseBodys();
-
-const { getTarget } = UseTopView();
 
 // function setPosture() {
 //   if (!model) return;
@@ -37,17 +34,6 @@ const { getTarget } = UseTopView();
 //     renderer.render(scene, camera);
 //   }
 // }
-
-const onRangeChange = (body: any) => {
-  // console.log("body", body);
-  const targetBody = getTarget(body.id);
-  if (targetBody) {
-    // console.log("object :>> ", targetBody);
-    const targetBall = getTargetBody(body.id);
-    targetBody.rotation.y = body.rotation;
-    targetBall.rotate = body.rotation;
-  }
-};
 
 onMounted(() => {
   init();
@@ -117,17 +103,12 @@ onMounted(() => {
       <div @click="face2back">面背</div>
     </div>
     <div>
-      <div v-for="(body, index) in bodys" :key="index">
-        <div>{{ index }}:{{ body }}</div>
-        <input
-          type="range"
-          @input="onRangeChange(body)"
-          :min="-Math.PI"
-          :max="Math.PI"
-          :step="Math.PI / 180"
-          v-model="body.rotation"
-        />
-      </div>
+      <BodyView
+        v-for="(body, index) in bodys"
+        :key="index"
+        :body="body"
+        :index="index"
+      />
     </div>
   </div>
 </template>
