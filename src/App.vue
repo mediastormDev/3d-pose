@@ -1,15 +1,16 @@
 <script setup lang="ts">
-import { onMounted, ref } from "vue";
+import { onMounted } from "vue";
 import TopView from "./components/TopView/index.vue";
 
 import UseMannequin, { models } from "./composables/useMannequin";
 import UseTopView, { balls } from "./composables/useTopView";
+import UseRange from "./composables/useRange";
 
 const { createBall, getTarget } = UseTopView();
 
 const { init, rotMov, createBody, getTarget: getTargetBody } = UseMannequin();
 
-const bodys = ref<any[]>([]);
+const { bodys } = UseRange();
 
 // function setPosture() {
 //   if (!model) return;
@@ -125,10 +126,10 @@ const face2back = () => {
 };
 
 const onRangeChange = (body: any) => {
-  console.log("body", body);
+  // console.log("body", body);
   const targetBody = getTarget(body.id);
   if (targetBody) {
-    console.log("object :>> ", targetBody);
+    // console.log("object :>> ", targetBody);
     const targetBall = getTargetBody(body.id);
     targetBody.rotation.y = body.rotation;
     targetBall.rotate = body.rotation;

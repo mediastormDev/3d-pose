@@ -1,4 +1,7 @@
 import { models } from "./useMannequin";
+import UseRange from "./useRange";
+
+const { bodys } = UseRange();
 
 export class Ball {
   context: any;
@@ -254,6 +257,11 @@ export default () => {
 
           const targetBody = getTarget(selectedBall.id);
           targetBody.rotation.y = newR;
+
+          const targetRange = bodys.value.filter(
+            (it) => it.id === selectedBall.id
+          );
+          targetRange[0].rotation = newR;
         }
 
         function onMouseUp() {
