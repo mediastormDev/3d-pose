@@ -4,7 +4,15 @@ import UseMannequin, { models } from "./useMannequin";
 
 const { createBody } = UseMannequin();
 
-const bodys = ref<any[]>([]);
+interface IHuman {
+  id: string;
+  type: string;
+  rotation?: number;
+  color?: string;
+  name?: string;
+}
+
+const bodys = ref<IHuman[]>([]);
 
 export default () => {
   const face2Obj = (sourceId: string, targetId: string) => {
@@ -126,9 +134,15 @@ export default () => {
     body2.rotation.y = radius;
   };
 
-  const addBody = (id: string, type: string) => {
-    bodys.value.push({ id, type, rotation: 0 });
-    createBall(id);
+  const addBody = (id: string, type: string, color = "#ff0000") => {
+    bodys.value.push({
+      id,
+      type,
+      rotation: 0,
+      color,
+      name: `${+new Date()}`,
+    });
+    createBall(id, color);
     createBody(id, type);
   };
 

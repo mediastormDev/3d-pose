@@ -2,6 +2,7 @@
 import { onMounted } from "vue";
 import TopView from "./components/TopView/index.vue";
 import BodyView from "./components/BodyView/index.vue";
+import ModelView from "./components/ModelView/index.vue";
 import UseMannequin from "./composables/useMannequin";
 import UseBodys from "./composables/useModels";
 
@@ -38,8 +39,8 @@ const { bodys, addBody, face2face, back2back, face2back } = UseBodys();
 onMounted(() => {
   init();
   const id = "testId";
-  addBody(id, "Male");
-  addBody(id + "1", "Female");
+  addBody(id, "Male", "#3498db");
+  addBody(id + "1", "Female", "#8e44ad");
 });
 </script>
 
@@ -111,6 +112,9 @@ onMounted(() => {
       />
     </div>
   </div>
+  <div class="panel2">
+    <ModelView />
+  </div>
 </template>
 
 <style scoped>
@@ -120,6 +124,20 @@ onMounted(() => {
   width: 12em;
   position: fixed;
   top: 0;
+  z-index: 10;
+  border-radius: 1em;
+  background: rgba(0, 0, 0, 0.01);
+  border: solid 1px rgba(0, 0, 0, 0.05);
+  box-shadow: inset 0 0 0.1em rgba(0, 0, 0, 0.1);
+  backdrop-filter: blur(0.3em);
+}
+.panel2 {
+  margin: 0.3em;
+  padding: 0.3em;
+  width: 12em;
+  position: fixed;
+  top: 0;
+  right: 0;
   z-index: 10;
   border-radius: 1em;
   background: rgba(0, 0, 0, 0.01);

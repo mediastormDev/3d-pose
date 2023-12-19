@@ -90,7 +90,7 @@ let context;
 //初始化旋转角度是0，没有旋转。
 let rotate = 0;
 
-export const createBall = (id: string) => {
+export const createBall = (id: string, color = "red") => {
   if (!context) {
     console.error("no context");
     return;
@@ -99,7 +99,7 @@ export const createBall = (id: string) => {
     new Ball(context, {
       x: 100,
       y: 100,
-      color: "red",
+      color,
       id,
     })
   );
