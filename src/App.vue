@@ -2,15 +2,15 @@
 import { onMounted } from "vue";
 import TopView from "./components/TopView/index.vue";
 
-import UseMannequin, { models } from "./composables/useMannequin";
-import UseTopView, { balls } from "./composables/useTopView";
-import UseRange from "./composables/useRange";
+import UseMannequin from "./composables/useMannequin";
+import UseTopView from "./composables/useTopView";
+import UseBodys from "./composables/useModels";
 
-const { createBall, getTarget } = UseTopView();
+const { init, rotMov, getTarget: getTargetBody } = UseMannequin();
 
-const { init, rotMov, createBody, getTarget: getTargetBody } = UseMannequin();
+const { bodys, addBody, face2face, back2back, face2back } = UseBodys();
 
-const { bodys } = UseRange();
+const { getTarget } = UseTopView();
 
 // function setPosture() {
 //   if (!model) return;
@@ -37,93 +37,6 @@ const { bodys } = UseRange();
 //     renderer.render(scene, camera);
 //   }
 // }
-
-const addBody = (id: string, type: string) => {
-  bodys.value.push({ id, type, rotation: 0 });
-  createBall(id);
-  createBody(id, type);
-};
-
-const face2face = () => {
-  const selected = balls.filter((ball) => ball.selected);
-  if (selected.length !== 2) {
-    alert("Please select two balls");
-    return;
-  }
-  const [ball1, ball2] = selected;
-  console.log(ball1.id, ball2.id);
-  const bodys = models.filter((model) => {
-    return model._id === ball1.id || model._id === ball2.id;
-  });
-  const [body1, body2] = bodys;
-  console.log(body1.position, body2.position);
-  const radius = Math.atan2(
-    body2.position.x - body1.position.x,
-    body2.position.z - body1.position.z
-  );
-
-  const radius2 = Math.atan2(
-    body1.position.x - body2.position.x,
-    body1.position.z - body2.position.z
-  );
-
-  body1.rotation.y = radius2 + Math.PI;
-  body2.rotation.y = radius + Math.PI;
-};
-
-const back2back = () => {
-  const selected = balls.filter((ball) => ball.selected);
-  if (selected.length !== 2) {
-    alert("Please select two balls");
-    return;
-  }
-  const [ball1, ball2] = selected;
-  console.log(ball1.id, ball2.id);
-  const bodys = models.filter((model) => {
-    return model._id === ball1.id || model._id === ball2.id;
-  });
-  const [body1, body2] = bodys;
-  console.log(body1.position, body2.position);
-  const radius = Math.atan2(
-    body2.position.x - body1.position.x,
-    body2.position.z - body1.position.z
-  );
-
-  const radius2 = Math.atan2(
-    body1.position.x - body2.position.x,
-    body1.position.z - body2.position.z
-  );
-
-  body1.rotation.y = radius2;
-  body2.rotation.y = radius;
-};
-
-const face2back = () => {
-  const selected = balls.filter((ball) => ball.selected);
-  if (selected.length !== 2) {
-    alert("Please select two balls");
-    return;
-  }
-  const [ball1, ball2] = selected;
-  console.log(ball1.id, ball2.id);
-  const bodys = models.filter((model) => {
-    return model._id === ball1.id || model._id === ball2.id;
-  });
-  const [body1, body2] = bodys;
-  console.log(body1.position, body2.position);
-  const radius = Math.atan2(
-    body2.position.x - body1.position.x,
-    body2.position.z - body1.position.z
-  );
-
-  const radius2 = Math.atan2(
-    body1.position.x - body2.position.x,
-    body1.position.z - body2.position.z
-  );
-
-  body1.rotation.y = radius2 + Math.PI;
-  body2.rotation.y = radius;
-};
 
 const onRangeChange = (body: any) => {
   // console.log("body", body);

@@ -1,7 +1,7 @@
 import { models } from "./useMannequin";
-import UseRange from "./useRange";
+import UseBodys from "./useModels";
 
-const { bodys } = UseRange();
+const { bodys } = UseBodys();
 
 export class Ball {
   context: any;
@@ -89,6 +89,21 @@ let context;
 
 //初始化旋转角度是0，没有旋转。
 let rotate = 0;
+
+export const createBall = (id: string) => {
+  if (!context) {
+    console.error("no context");
+    return;
+  }
+  balls.push(
+    new Ball(context, {
+      x: 100,
+      y: 100,
+      color: "red",
+      id,
+    })
+  );
+};
 
 export default () => {
   //window屏幕坐标转化为canvas坐标
@@ -285,25 +300,9 @@ export default () => {
     );
   };
 
-  const createBall = (id: string) => {
-    if (!context) {
-      console.error("no context");
-      return;
-    }
-    balls.push(
-      new Ball(context, {
-        x: 100,
-        y: 100,
-        color: "red",
-        id,
-      })
-    );
-  };
-
   return {
     init,
     animate,
-    createBall,
     getTarget,
   };
 };
