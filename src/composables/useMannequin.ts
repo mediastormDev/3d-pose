@@ -624,6 +624,7 @@ export default () => {
   };
 
   return {
+    getTarget,
     init,
     rotMov,
     createBody,

@@ -5,9 +5,9 @@ import TopView from "./components/TopView/index.vue";
 import UseMannequin, { models } from "./composables/useMannequin";
 import UseTopView, { balls } from "./composables/useTopView";
 
-const { createBall } = UseTopView();
+const { createBall, getTarget } = UseTopView();
 
-const { init, rotMov, createBody } = UseMannequin();
+const { init, rotMov, createBody, getTarget: getTargetBody } = UseMannequin();
 
 const bodys = ref<any[]>([]);
 
@@ -38,7 +38,7 @@ const bodys = ref<any[]>([]);
 // }
 
 const addBody = (id: string, type: string) => {
-  bodys.value.push({ id, type, rotation: Math.PI / 2 });
+  bodys.value.push({ id, type, rotation: 0 });
   createBall(id);
   createBody(id, type);
 };
@@ -126,6 +126,13 @@ const face2back = () => {
 
 const onRangeChange = (body: any) => {
   console.log("body", body);
+  const targetBody = getTarget(body.id);
+  if (targetBody) {
+    console.log("object :>> ", targetBody);
+    const targetBall = getTargetBody(body.id);
+    targetBody.rotation.y = body.rotation;
+    targetBall.rotate = body.rotation;
+  }
 };
 
 onMounted(() => {
@@ -201,7 +208,7 @@ onMounted(() => {
         <input
           type="range"
           @input="onRangeChange(body)"
-          :min="0"
+          :min="-Math.PI"
           :max="Math.PI"
           :step="Math.PI / 180"
           v-model="body.rotation"

@@ -180,6 +180,16 @@ export default () => {
     return mouse;
   }
 
+  const getTarget = (bodyId?: string) => {
+    if (bodyId) {
+      const targetBody = models.filter((body: any) => body._id === bodyId);
+      if (targetBody.length) {
+        return targetBody[0];
+      }
+    }
+    return null;
+  };
+
   const init = (dom: HTMLElement, ctxt) => {
     canvasTopView = dom;
     context = ctxt;
@@ -187,16 +197,6 @@ export default () => {
     const mouse = captureMouse(canvasTopView);
     // 选中的小球
     let selectedBall: Ball | null = null;
-
-    const getTarget = (bodyId?: string) => {
-      if (bodyId) {
-        const targetBody = models.filter((body: any) => body._id === bodyId);
-        if (targetBody.length) {
-          return targetBody[0];
-        }
-      }
-      return null;
-    };
 
     // 拖拽
     canvasTopView.addEventListener(
@@ -296,5 +296,6 @@ export default () => {
     init,
     animate,
     createBall,
+    getTarget,
   };
 };
