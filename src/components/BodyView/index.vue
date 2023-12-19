@@ -6,7 +6,7 @@ import UseBodys from "../../composables/useModels";
 
 const { getTarget } = UseTopView();
 const { getTarget: getTargetBody } = UseMannequin();
-const { bodys } = UseBodys();
+const { bodys, face2Obj, back2Obj } = UseBodys();
 
 const props = defineProps<{ body: any; index: number }>();
 
@@ -37,6 +37,11 @@ const options = computed(() => {
 
 const handleChange = (value) => {
   console.log(value);
+  if (value[0] === "face2") {
+    face2Obj(props.body.id, value[1]);
+  } else if (value[0] === "back2") {
+    back2Obj(props.body.id, value[1]);
+  }
 };
 
 const onRangeChange = (body: any) => {

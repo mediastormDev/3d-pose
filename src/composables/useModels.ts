@@ -7,6 +7,44 @@ const { createBody } = UseMannequin();
 const bodys = ref<any[]>([]);
 
 export default () => {
+  const face2Obj = (sourceId: string, targetId: string) => {
+    const ball1 = balls.filter((ball) => ball.id === sourceId)[0];
+    const ball2 = balls.filter((ball) => ball.id === targetId)[0];
+    console.log(ball1.id, ball2.id);
+    const body1 = models.filter((model) => {
+      return model._id === ball1.id;
+    })[0];
+    const body2 = models.filter((model) => {
+      return model._id === ball2.id;
+    })[0];
+
+    const radius2 = Math.atan2(
+      body1.position.x - body2.position.x,
+      body1.position.z - body2.position.z
+    );
+
+    body1.rotation.y = radius2 + Math.PI;
+  };
+
+  const back2Obj = (sourceId: string, targetId: string) => {
+    const ball1 = balls.filter((ball) => ball.id === sourceId)[0];
+    const ball2 = balls.filter((ball) => ball.id === targetId)[0];
+    console.log(ball1.id, ball2.id);
+    const body1 = models.filter((model) => {
+      return model._id === ball1.id;
+    })[0];
+    const body2 = models.filter((model) => {
+      return model._id === ball2.id;
+    })[0];
+
+    const radius2 = Math.atan2(
+      body1.position.x - body2.position.x,
+      body1.position.z - body2.position.z
+    );
+
+    body1.rotation.y = radius2;
+  };
+
   const face2face = () => {
     const selected = balls.filter((ball) => ball.selected);
     if (selected.length !== 2) {
@@ -98,7 +136,9 @@ export default () => {
     bodys,
     addBody,
     face2face,
+    face2Obj,
     back2back,
+    back2Obj,
     face2back,
   };
 };
