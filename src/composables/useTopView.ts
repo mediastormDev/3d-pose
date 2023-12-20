@@ -170,10 +170,32 @@ export default () => {
     ball.draw();
   }
 
+  function drawBg() {
+    // 画背景
+    const width = canvasTopView.width / window.devicePixelRatio / 4;
+    context.fillStyle = "#F4F6F7";
+
+    // line1
+    context.fillRect(0, 0, width, width);
+    context.fillRect(width * 2, 0, width, width);
+
+    //line2
+    context.fillRect(width, width * 1, width, width);
+    context.fillRect(width * 3, width * 1, width, width);
+
+    // line3
+    context.fillRect(0, width * 2, width, width);
+    context.fillRect(width * 2, width * 2, width, width);
+
+    //line4
+    context.fillRect(width, width * 3, width, width);
+    context.fillRect(width * 3, width * 3, width, width);
+  }
+
   function animate() {
     requestAnimationFrame(animate);
     context.clearRect(0, 0, canvasTopView.width, canvasTopView.height);
-
+    drawBg();
     balls.forEach((ball) => {
       // 更新小球的速度
       ball.update();
@@ -251,6 +273,7 @@ export default () => {
   const init = (dom: HTMLElement, ctxt) => {
     canvasTopView = dom;
     context = ctxt;
+
     // Canvas中的坐标
     const mouse = captureMouse(canvasTopView);
     // 选中的小球
