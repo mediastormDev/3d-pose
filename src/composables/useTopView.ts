@@ -1,3 +1,4 @@
+import { ref } from "vue";
 import { models } from "./useMannequin";
 import UseBodys from "./useModels";
 
@@ -31,13 +32,6 @@ export class Ball {
   }
 
   isContainsPoint(x: number, y: number) {
-    console.log("this.x", this.x);
-    console.log("this.y", this.y);
-    console.log("x.y this.radius", x, y, this.radius);
-    console.log(
-      "Math.hypot(this.x - x, this.y - y)",
-      Math.hypot(this.x - x, this.y - y)
-    );
     return Math.hypot(this.x - x, this.y - y) < this.radius;
   }
 
@@ -96,6 +90,8 @@ let context;
 
 //初始化旋转角度是0，没有旋转。
 let rotate = 0;
+const leftOffSet = ref(0);
+const topOffSet = ref(0);
 
 export const createBall = (id: string, color = "red") => {
   if (!context) {
@@ -172,18 +168,30 @@ export default () => {
     balls.forEach(draw);
   }
 
+  // 获取正确的 xy 坐标， 参考：https://blog.csdn.net/qq_27278957/article/details/120080407
+  function getMousePos(canvas, event) {
+    //1
+    const rect = canvas.getBoundingClientRect();
+    //2
+    const x = event.clientX - rect.left * (canvas.width / rect.width);
+    const y = event.clientY - rect.top * (canvas.height / rect.height);
+    leftOffSet.value = rect.left * (canvas.width / rect.width);
+    topOffSet.value = rect.top * (canvas.height / rect.height);
+    return { x, y };
+  }
+
   function captureMouse(element) {
-    let mouse = { x: 0, y: 0, event: null };
-    let body_scrollLeft = document.body.scrollLeft;
-    let element_scrollLeft = document.documentElement.scrollLeft;
-    let body_scrollTop = document.body.scrollTop;
-    let element_scrollTop = document.documentElement.scrollTop;
-    let offsetLeft = element.offsetLeft;
-    let offsetTop = element.offsetTop;
+    const mouse = { x: 0, y: 0, event: null };
+    const body_scrollLeft = document.body.scrollLeft;
+    const element_scrollLeft = document.documentElement.scrollLeft;
+    const body_scrollTop = document.body.scrollTop;
+    const element_scrollTop = document.documentElement.scrollTop;
 
     element.addEventListener(
       "mousemove",
       (e) => {
+        console.log("leftOffSet.value", leftOffSet.value);
+        console.log("topOffSet.value", topOffSet.value);
         let x, y;
 
         if (e.pageX || e.pageY) {
@@ -193,11 +201,13 @@ export default () => {
           x = e.clientX + body_scrollLeft + element_scrollLeft;
           y = e.clientY + body_scrollTop + element_scrollTop;
         }
-        x -= offsetLeft;
-        y -= offsetTop;
+        x -= leftOffSet.value;
+        y -= topOffSet.value;
         mouse.x = x;
         mouse.y = y;
         mouse.event = e;
+        console.log("mouse.x", mouse.x);
+        console.log("mouse.y", mouse.y);
       },
       false
     );
@@ -228,17 +238,6 @@ export default () => {
     return null;
   };
 
-  // 获取正确的 xy 坐标， 参考：https://blog.csdn.net/qq_27278957/article/details/120080407
-  function getMousePos(canvas, event) {
-    //1
-    const rect = canvas.getBoundingClientRect();
-    //2
-    const x = event.clientX - rect.left * (canvas.width / rect.width);
-    const y = event.clientY - rect.top * (canvas.height / rect.height);
-    console.log("x:" + x + ",y:" + y);
-    return { x, y };
-  }
-
   const init = (dom: HTMLElement, ctxt) => {
     canvasTopView = dom;
     context = ctxt;
@@ -252,8 +251,8 @@ export default () => {
       "mousedown",
       (event) => {
         console.log("canvasTopView");
+        const { x, y } = getMousePos(dom, event);
         balls.some((ball) => {
-          const { x, y } = getMousePos(dom, event);
           if (ball.isContainsPoint(x, y)) {
             // 记录下选中的小球
             selectedBall = ball;
