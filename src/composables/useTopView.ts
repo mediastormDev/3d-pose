@@ -223,7 +223,6 @@ export default () => {
    */
   const getSelectedModels = () => {
     const targets = balls.filter((ball) => ball.selected).map((it) => it.id);
-    console.log("targets", targets);
     const targetBodys = models.filter(
       (body: any) => targets.findIndex((it) => it === body._id) > -1
     );
@@ -252,21 +251,18 @@ export default () => {
     canvasTopView.addEventListener(
       "mousedown",
       (event) => {
-        console.log("canvasTopView");
         const { x, y } = getMousePos(dom, event);
         balls.some((ball) => {
           if (ball.isContainsPoint(x, y)) {
             // 记录下选中的小球
             selectedBall = ball;
             ball.selected = !ball.selected;
-            console.log("selectedBall", selectedBall);
             // 添加事件来模拟拖拽
             canvasTopView.addEventListener("mousemove", onMouseMove, false);
             canvasTopView.addEventListener("mouseup", onMouseUp, false);
             return true;
           } else if (ball.isContainsPointSector(x, y)) {
             selectedBall = ball;
-            console.log("isContainsPointSector", ball);
             canvasTopView.addEventListener(
               "mousemove",
               onMouseMoveSector,
@@ -281,7 +277,6 @@ export default () => {
           if (!selectedBall) return;
           selectedBall.x = mouse.x;
           selectedBall.y = mouse.y;
-          console.log(mouse);
           const targetBody = getTarget(selectedBall.id);
           targetBody.position.x = selectedBall.x - 80;
           targetBody.position.z = selectedBall.y - 80;
