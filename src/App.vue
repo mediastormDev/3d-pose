@@ -3,13 +3,15 @@ import { onMounted } from "vue";
 import TopView from "./components/TopView/index.vue";
 import BodyView from "./components/BodyView/index.vue";
 import ModelView from "./components/ModelView/index.vue";
+import OperationView from "./components/OperationView/index.vue";
 import GlobalPoseView from "./components/GlobalPoseView/index.vue";
+import ButtonsView from "./components/ButtonsView/index.vue";
 import UseMannequin from "./composables/useMannequin";
 import UseBodys from "./composables/useModels";
 
-const { init, rotMov } = UseMannequin();
+const { init } = UseMannequin();
 
-const { bodys, addBody, face2face, back2back, face2back } = UseBodys();
+const { bodys, addBody } = UseBodys();
 
 onMounted(() => {
   init();
@@ -22,62 +24,8 @@ onMounted(() => {
 <template>
   <div class="panel">
     <TopView />
-    <fieldset id="group1">
-      <div>
-        <input
-          type="radio"
-          class="toggle"
-          v-model="rotMov"
-          value="rotZ"
-          name="group1"
-        />
-        <span id="rot-z-name">raise</span>
-        <input
-          type="radio"
-          class="toggle"
-          v-model="rotMov"
-          value="rotX"
-          name="group1"
-        />
-        <span id="rot-x-name">straddle</span>
-        <input
-          type="radio"
-          class="toggle"
-          v-model="rotMov"
-          value="rotY"
-          name="group1"
-        />
-        <span id="rot-y-name">turn</span>
-      </div>
-      <div>
-        <input
-          type="radio"
-          class="toggle"
-          v-model="rotMov"
-          value="movX"
-          name="group1"
-        /><span>Move X</span>
-        <input
-          type="radio"
-          class="toggle"
-          v-model="rotMov"
-          value="movY"
-          name="group1"
-        /><span>Move Y</span>
-        <input
-          type="radio"
-          class="toggle"
-          v-model="rotMov"
-          value="movZ"
-          name="group1"
-        /><span>Move Z</span>
-      </div>
-    </fieldset>
-    <div>
-      <div @click="face2face">面对</div>
-      <div @click="back2back">背对</div>
-      <div @click="face2back">面背</div>
-    </div>
+    <OperationView />
+    <ButtonsView />
     <div>
       <BodyView
         v-for="(body, index) in bodys"
@@ -93,7 +41,7 @@ onMounted(() => {
   </div>
 </template>
 
-<style scoped>
+<style lang="less" scoped>
 .panel {
   margin: 0.3em;
   width: 200px;

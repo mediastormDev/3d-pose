@@ -329,7 +329,7 @@ export default () => {
 
   const getTarget = (bodyId?: string) => {
     if (bodyId) {
-      const targetBalls = balls.filter((ball: any) => ball.id === bodyId);
+      const targetBalls = balls.value.filter((ball: any) => ball.id === bodyId);
       if (targetBalls.length) {
         return targetBalls[0];
       }

@@ -16,8 +16,8 @@ const bodys = ref<IHuman[]>([]);
 
 export default () => {
   const face2Obj = (sourceId: string, targetId: string) => {
-    const ball1 = balls.filter((ball) => ball.id === sourceId)[0];
-    const ball2 = balls.filter((ball) => ball.id === targetId)[0];
+    const ball1 = balls.value.filter((ball) => ball.id === sourceId)[0];
+    const ball2 = balls.value.filter((ball) => ball.id === targetId)[0];
     console.log(ball1.id, ball2.id);
     const body1 = models.filter((model) => {
       return model._id === ball1.id;
@@ -35,8 +35,8 @@ export default () => {
   };
 
   const back2Obj = (sourceId: string, targetId: string) => {
-    const ball1 = balls.filter((ball) => ball.id === sourceId)[0];
-    const ball2 = balls.filter((ball) => ball.id === targetId)[0];
+    const ball1 = balls.value.filter((ball) => ball.id === sourceId)[0];
+    const ball2 = balls.value.filter((ball) => ball.id === targetId)[0];
     console.log(ball1.id, ball2.id);
     const body1 = models.filter((model) => {
       return model._id === ball1.id;
@@ -54,7 +54,7 @@ export default () => {
   };
 
   const face2face = () => {
-    const selected = balls.filter((ball) => ball.selected);
+    const selected = balls.value.filter((ball) => ball.selected);
     if (selected.length !== 2) {
       alert("Please select two balls");
       return;
@@ -81,7 +81,7 @@ export default () => {
   };
 
   const back2back = () => {
-    const selected = balls.filter((ball) => ball.selected);
+    const selected = balls.value.filter((ball) => ball.selected);
     if (selected.length !== 2) {
       alert("Please select two balls");
       return;
@@ -108,7 +108,7 @@ export default () => {
   };
 
   const face2back = () => {
-    const selected = balls.filter((ball) => ball.selected);
+    const selected = balls.value.filter((ball) => ball.selected);
     if (selected.length !== 2) {
       alert("Please select two balls");
       return;

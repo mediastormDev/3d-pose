@@ -99,7 +99,7 @@ export class Ball {
 }
 
 // let man: any = null;
-export const balls: Ball[] = [];
+export const balls = ref<Ball[]>([]);
 // 获取元素
 let canvasTopView;
 // 获取上下文
@@ -115,7 +115,7 @@ export const createBall = (id: string, color = "red") => {
     console.error("no context");
     return;
   }
-  balls.push(
+  balls.value.push(
     new Ball(context, {
       x: canvasTopView.width / window.devicePixelRatio / 2,
       y: canvasTopView.height / window.devicePixelRatio / 2,
@@ -196,7 +196,7 @@ export default () => {
     requestAnimationFrame(animate);
     context.clearRect(0, 0, canvasTopView.width, canvasTopView.height);
     drawBg();
-    balls.forEach((ball) => {
+    balls.value.forEach((ball) => {
       // 更新小球的速度
       ball.update();
       // 检测是否碰撞到边界
@@ -204,7 +204,7 @@ export default () => {
     });
 
     // 绘制
-    balls.forEach(draw);
+    balls.value.forEach(draw);
   }
 
   // 获取正确的 xy 坐标， 参考：https://blog.csdn.net/qq_27278957/article/details/120080407
@@ -253,7 +253,9 @@ export default () => {
    * @returns 选中的模型
    */
   const getSelectedModels = () => {
-    const targets = balls.filter((ball) => ball.selected).map((it) => it.id);
+    const targets = balls.value
+      .filter((ball) => ball.selected)
+      .map((it) => it.id);
     const targetBodys = models.filter(
       (body: any) => targets.findIndex((it) => it === body._id) > -1
     );
@@ -284,7 +286,7 @@ export default () => {
       "mousedown",
       (event) => {
         const { x, y } = getMousePos(dom, event);
-        balls.some((ball) => {
+        balls.value.some((ball) => {
           if (ball.isContainsPoint(x, y)) {
             // 记录下选中的小球
             selectedBall = ball;
