@@ -96,29 +96,24 @@ onMounted(() => {
 <style scoped>
 .panel {
   margin: 0.3em;
-  padding: 0.3em;
-  width: 12em;
+  width: 200px;
   position: fixed;
   top: 0;
   z-index: 10;
-  border-radius: 1em;
-  background: rgba(0, 0, 0, 0.01);
-  border: solid 1px rgba(0, 0, 0, 0.05);
-  box-shadow: inset 0 0 0.1em rgba(0, 0, 0, 0.1);
-  backdrop-filter: blur(0.3em);
+  background-color: white;
 }
 .panel2 {
   margin: 0.3em;
-  padding: 0.3em;
-  width: 12em;
+  width: 200px;
   position: fixed;
   top: 0;
   right: 0;
   z-index: 10;
-  border-radius: 1em;
+  background-color: white;
+  /* border-radius: 1em;
   background: rgba(0, 0, 0, 0.01);
   border: solid 1px rgba(0, 0, 0, 0.05);
   box-shadow: inset 0 0 0.1em rgba(0, 0, 0, 0.1);
-  backdrop-filter: blur(0.3em);
+  backdrop-filter: blur(0.3em); */
 }
 </style>

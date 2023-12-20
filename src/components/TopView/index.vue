@@ -15,7 +15,12 @@ onMounted(() => {
 
 <template>
   <div>
-    <canvas id="canvasball" width="200" height="200" style="border: 1px solid">
+    <canvas
+      id="canvasball"
+      width="200"
+      height="200"
+      style="border: 1px solid #eeeeee"
+    >
       Your browser does not support the canvas element.
     </canvas>
   </div>
