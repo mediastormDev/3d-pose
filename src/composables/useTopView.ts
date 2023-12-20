@@ -190,8 +190,6 @@ export default () => {
     element.addEventListener(
       "mousemove",
       (e) => {
-        console.log("leftOffSet.value", leftOffSet.value);
-        console.log("topOffSet.value", topOffSet.value);
         let x, y;
 
         if (e.pageX || e.pageY) {
@@ -206,8 +204,6 @@ export default () => {
         mouse.x = x;
         mouse.y = y;
         mouse.event = e;
-        console.log("mouse.x", mouse.x);
-        console.log("mouse.y", mouse.y);
       },
       false
     );

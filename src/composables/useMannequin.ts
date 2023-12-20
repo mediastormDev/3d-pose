@@ -251,6 +251,8 @@ export default () => {
   const createBody = (_id: string, type: string) => {
     const model: any = switchModelType(type, _id);
     models.push(model);
+    model.l_finger_0.tip.hide();
+    model.r_finger_0.tip.hide();
 
     model.l_mid_0 = model.l_finger_0.mid;
     model.l_mid_1 = model.l_finger_1.mid;
