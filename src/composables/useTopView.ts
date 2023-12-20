@@ -68,6 +68,8 @@ export class Ball {
     this.context.fill();
 
     /*把起点放到圆心位置*/
+    // this.context.fillStyle = "rgba(127, 41, 106, 0.3)";
+    this.context.globalAlpha = 0.2;
     this.context.moveTo(this.x, this.y);
     this.context.arc(
       this.x,
@@ -78,6 +80,12 @@ export class Ball {
     );
     this.context.closePath();
     this.context.fill();
+
+    this.context.globalAlpha = 1.0;
+    this.context.fillStyle = "#ffffff";
+    this.context.font = "10px serif";
+    this.context.textAlign = "center";
+    this.context.fillText("男", this.x, this.y + 2);
   }
 }
 
@@ -100,8 +108,8 @@ export const createBall = (id: string, color = "red") => {
   }
   balls.push(
     new Ball(context, {
-      x: 80,
-      y: 80,
+      x: canvasTopView.width / window.devicePixelRatio / 2,
+      y: canvasTopView.height / window.devicePixelRatio / 2,
       color,
       id,
     })
@@ -170,13 +178,11 @@ export default () => {
 
   // 获取正确的 xy 坐标， 参考：https://blog.csdn.net/qq_27278957/article/details/120080407
   function getMousePos(canvas, event) {
-    //1
     const rect = canvas.getBoundingClientRect();
-    //2
-    const x = event.clientX - rect.left * (canvas.width / rect.width);
-    const y = event.clientY - rect.top * (canvas.height / rect.height);
-    leftOffSet.value = rect.left * (canvas.width / rect.width);
-    topOffSet.value = rect.top * (canvas.height / rect.height);
+    const x = event.clientX - rect.left;
+    const y = event.clientY - rect.top;
+    leftOffSet.value = rect.left;
+    topOffSet.value = rect.top;
     return { x, y };
   }
 
@@ -275,6 +281,7 @@ export default () => {
           if (!selectedBall) return;
           selectedBall.x = mouse.x;
           selectedBall.y = mouse.y;
+          console.log(mouse);
           const targetBody = getTarget(selectedBall.id);
           targetBody.position.x = selectedBall.x - 80;
           targetBody.position.z = selectedBall.y - 80;

@@ -35,7 +35,7 @@ export default () => {
   const thumbsUp = (model: any) => {
     // model.r_fingers["finger_0"].mid.hide();
     // model.r_fingers["finger_0"].tip.hide();
-    
+
     // 点赞
     model.r_fingers["finger_0"].bend = -90;
     model.r_fingers["finger_0"].straddle = -90;

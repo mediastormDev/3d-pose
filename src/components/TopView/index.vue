@@ -5,8 +5,15 @@ import UseTopView from "../../composables/useTopView";
 const { init, animate } = UseTopView();
 
 onMounted(() => {
-  let canvasTopView = document.getElementById("canvasball");
-  let context = canvasTopView.getContext("2d");
+  const canvasTopView = document.getElementById("canvasball");
+  const context = canvasTopView.getContext("2d");
+  const ratio = window.devicePixelRatio || 1;
+  canvasTopView.width = 160 * ratio; // 实际渲染像素
+  canvasTopView.height = 160 * ratio; // 实际渲染像素
+  canvasTopView.style.width = `${160}px`; // 控制显示大小
+  canvasTopView.style.height = `${160}px`; // 控制显示大小
+
+  context.scale(ratio, ratio);
 
   init(canvasTopView, context);
   animate();
