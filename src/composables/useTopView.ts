@@ -22,7 +22,7 @@ export class Ball {
     this.id = options.id;
     this.x = options.x || 0;
     this.y = options.y || 0;
-    this.radius = options.radius || 20;
+    this.radius = options.radius || 9;
     this.color = options.color || "#000";
     this.vx = options.vx || 0;
     this.vy = options.vy || 0;
@@ -31,13 +31,20 @@ export class Ball {
   }
 
   isContainsPoint(x: number, y: number) {
+    console.log("this.x", this.x);
+    console.log("this.y", this.y);
+    console.log("x.y this.radius", x, y, this.radius);
+    console.log(
+      "Math.hypot(this.x - x, this.y - y)",
+      Math.hypot(this.x - x, this.y - y)
+    );
     return Math.hypot(this.x - x, this.y - y) < this.radius;
   }
 
   isContainsPointSector(x: number, y: number) {
     return (
       Math.hypot(this.x - x, this.y - y) > this.radius &&
-      Math.hypot(this.x - x, this.y - y) < this.radius + 20
+      Math.hypot(this.x - x, this.y - y) < this.radius + 12
     );
   }
 
@@ -71,7 +78,7 @@ export class Ball {
     this.context.arc(
       this.x,
       this.y,
-      this.radius + 20,
+      this.radius + 12,
       Math.PI / 4 - this.rotate,
       (Math.PI / 4) * 3 - this.rotate
     );
@@ -221,6 +228,17 @@ export default () => {
     return null;
   };
 
+  // 获取正确的 xy 坐标， 参考：https://blog.csdn.net/qq_27278957/article/details/120080407
+  function getMousePos(canvas, event) {
+    //1
+    const rect = canvas.getBoundingClientRect();
+    //2
+    const x = event.clientX - rect.left * (canvas.width / rect.width);
+    const y = event.clientY - rect.top * (canvas.height / rect.height);
+    console.log("x:" + x + ",y:" + y);
+    return { x, y };
+  }
+
   const init = (dom: HTMLElement, ctxt) => {
     canvasTopView = dom;
     context = ctxt;
@@ -232,10 +250,11 @@ export default () => {
     // 拖拽
     canvasTopView.addEventListener(
       "mousedown",
-      () => {
+      (event) => {
         console.log("canvasTopView");
         balls.some((ball) => {
-          if (ball.isContainsPoint(mouse.x, mouse.y)) {
+          const { x, y } = getMousePos(dom, event);
+          if (ball.isContainsPoint(x, y)) {
             // 记录下选中的小球
             selectedBall = ball;
             ball.selected = !ball.selected;
@@ -244,7 +263,7 @@ export default () => {
             canvasTopView.addEventListener("mousemove", onMouseMove, false);
             canvasTopView.addEventListener("mouseup", onMouseUp, false);
             return true;
-          } else if (ball.isContainsPointSector(mouse.x, mouse.y)) {
+          } else if (ball.isContainsPointSector(x, y)) {
             selectedBall = ball;
             console.log("isContainsPointSector", ball);
             canvasTopView.addEventListener(
