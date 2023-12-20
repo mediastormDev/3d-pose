@@ -348,7 +348,6 @@ export default () => {
     }
 
     if (joint.biologicallyImpossibleLevel) {
-      console.log("angle1", angle);
       if (biologicalConstraints.value) {
         // there is a dedicated function to check biological possibility of joint
         var oldImpossibility = joint.biologicallyImpossibleLevel();
@@ -387,7 +386,11 @@ export default () => {
 
       const agl = (val + 180 / 2) * (Math.PI / 180);
       const targetBall = getTarget(joint.parent._id);
-      targetBall.rotate = agl;
+      if (targetBall) {
+        console.log("targetBall", targetBall);
+        targetBall.rotate = agl;
+      }
+
       joint[rotationalAngle] = val;
     }
     joint.updateMatrix();
@@ -589,7 +592,7 @@ export default () => {
     if (!model) return;
 
     if (pose) {
-      var oldPosture = model.posture;
+      const oldPosture = model.posture;
 
       try {
         model.postureString = pose;
@@ -604,6 +607,16 @@ export default () => {
       }
       renderer.render(scene, camera);
     }
+  };
+
+  const setPartPosture = (
+    model: any,
+    part: string,
+    type: string,
+    angel: number
+  ) => {
+    if (!model) return;
+    model[part][type] += angel;
   };
 
   // 初始化场景
@@ -651,5 +664,6 @@ export default () => {
     rotMov,
     createBody,
     setPosture,
+    setPartPosture,
   };
 };
