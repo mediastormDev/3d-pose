@@ -97,8 +97,8 @@ export const createBall = (id: string, color = "red") => {
   }
   balls.push(
     new Ball(context, {
-      x: 100,
-      y: 100,
+      x: 80,
+      y: 80,
       color,
       id,
     })
@@ -262,8 +262,8 @@ export default () => {
           selectedBall.x = mouse.x;
           selectedBall.y = mouse.y;
           const targetBody = getTarget(selectedBall.id);
-          targetBody.position.x = selectedBall.x - 100;
-          targetBody.position.z = selectedBall.y - 100;
+          targetBody.position.x = selectedBall.x - 80;
+          targetBody.position.z = selectedBall.y - 80;
           selectedBall.vx = 0;
           selectedBall.vy = 0;
         }

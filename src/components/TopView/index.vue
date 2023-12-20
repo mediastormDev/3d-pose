@@ -15,10 +15,11 @@ onMounted(() => {
 
 <template>
   <div>
+    <div class="title">方位</div>
     <canvas
       id="canvasball"
-      width="200"
-      height="200"
+      width="160"
+      height="160"
       style="border: 1px solid #eeeeee"
     >
       Your browser does not support the canvas element.
@@ -26,4 +27,11 @@ onMounted(() => {
   </div>
 </template>
 
-<style lang="scss" scoped></style>
+<style lang="less" scoped>
+.title {
+  font-size: 14px;
+  font-weight: 600;
+  color: #24252c;
+  margin: 20px 0 10px 0;
+}
+</style>
