@@ -1,10 +1,10 @@
 export default () => {
   const fist = (model: any) => {
     // 右手握拳;
-    model.r_fingers["finger_0"].bend = -5;
-    model.r_fingers["finger_0"].straddle = -20;
+    model.r_fingers["finger_0"].bend = 4.5;
+    model.r_fingers["finger_0"].straddle = -30;
     model.r_fingers["finger_0"].turn = 90;
-    model.r_fingers["finger_0"].mid.bend = 15;
+    model.r_fingers["finger_0"].mid.bend = 90;
     model.r_fingers["finger_0"].tip.bend = 35;
 
     model.r_fingers["finger_1"].bend = 72;
@@ -24,7 +24,7 @@ export default () => {
     model.r_fingers["finger_3"].turn = 0;
     model.r_fingers["finger_3"].mid.bend = 104;
     model.r_fingers["finger_3"].tip.bend = 107;
-
+    
     model.r_fingers["finger_4"].bend = 72;
     model.r_fingers["finger_4"].straddle = 0;
     model.r_fingers["finger_4"].turn = 0;
