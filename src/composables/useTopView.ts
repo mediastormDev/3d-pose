@@ -287,8 +287,10 @@ export default () => {
           selectedBall.x = mouse.x;
           selectedBall.y = mouse.y;
           const targetBody = getTarget(selectedBall.id);
-          targetBody.position.x = selectedBall.x - 80;
-          targetBody.position.z = selectedBall.y - 80;
+          targetBody.position.x =
+            selectedBall.x - canvasTopView.width / window.devicePixelRatio / 2;
+          targetBody.position.z =
+            selectedBall.y - canvasTopView.height / window.devicePixelRatio / 2;
           selectedBall.vx = 0;
           selectedBall.vy = 0;
         }
