@@ -37,8 +37,8 @@ export class Ball {
 
   isContainsPointSector(x: number, y: number) {
     return (
-      Math.hypot(this.x - x, this.y - y) > this.radius &&
-      Math.hypot(this.x - x, this.y - y) < this.radius + 12
+      Math.hypot(this.x - x, this.y - y) > this.radius + 2 &&
+      Math.hypot(this.x - x, this.y - y) < this.radius + 10
     );
   }
 
@@ -54,6 +54,17 @@ export class Ball {
     this.context.arc(
       this.x,
       this.y,
+      this.radius + 2,
+      (Math.PI / 180) * 0,
+      (Math.PI / 180) * 360
+    );
+    this.context.fillStyle = "#ffffff";
+    this.context.closePath();
+    this.context.fill();
+    this.context.beginPath();
+    this.context.arc(
+      this.x,
+      this.y,
       this.radius,
       (Math.PI / 180) * 0,
       (Math.PI / 180) * 360
@@ -63,18 +74,16 @@ export class Ball {
     } else {
       this.context.fillStyle = this.color;
     }
-
     this.context.closePath();
     this.context.fill();
 
     /*把起点放到圆心位置*/
-    // this.context.fillStyle = "rgba(127, 41, 106, 0.3)";
     this.context.globalAlpha = 0.2;
     this.context.moveTo(this.x, this.y);
     this.context.arc(
       this.x,
       this.y,
-      this.radius + 12,
+      this.radius + 10,
       Math.PI / 4 - this.rotate,
       (Math.PI / 4) * 3 - this.rotate
     );
