@@ -56,6 +56,7 @@ onMounted(() => {
 .panel2 {
   margin: 0.3em;
   width: 200px;
+  padding: 20px;
   position: fixed;
   top: 0;
   right: 0;
