@@ -79,6 +79,7 @@ function getData() {
   <button @click="setModelGlobalPose">整体动作</button>
   <button @click="setModelPartPose('fist')">握拳</button>
   <button @click="setModelPartPose('thumbsUp')">点赞</button>
+  <button @click="setModelPartPose('natrue')">自然</button>
   <button @click="setModelPartPose('finger1')">数字1</button>
   <button @click="setModelPartPose('finger2')">数字2</button>
   <button @click="setModelPartPose('finger3')">数字3</button>

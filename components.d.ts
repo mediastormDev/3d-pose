@@ -11,8 +11,6 @@ declare module 'vue' {
     ButtonsView: typeof import('./src/components/ButtonsView/index.vue')['default']
     ElButton: typeof import('element-plus/es')['ElButton']
     ElCascader: typeof import('element-plus/es')['ElCascader']
-    ElRadioButton: typeof import('element-plus/es')['ElRadioButton']
-    ElRadioGroup: typeof import('element-plus/es')['ElRadioGroup']
     ElRow: typeof import('element-plus/es')['ElRow']
     GlobalPoseView: typeof import('./src/components/GlobalPoseView/index.vue')['default']
     ModelView: typeof import('./src/components/ModelView/index.vue')['default']
