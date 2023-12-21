@@ -58,13 +58,15 @@ const onRangeChange = (body: any) => {
 
 <template>
   <div>
-    <div>{{ index }}:{{ body }}</div>
+    <!-- <div>{{ index }}:{{ body }}</div> -->
+    <div>{{ body.type }}</div>
     <el-cascader
       v-model="selected"
       :options="options"
       :props="props"
       @change="handleChange"
-    />
+    >
+    </el-cascader>
     <input
       type="range"
       @input="onRangeChange(body)"
