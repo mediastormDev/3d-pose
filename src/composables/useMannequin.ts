@@ -181,12 +181,16 @@ export default () => {
 
       select(selectedBody[name]);
 
-      document.getElementById("rot-x-name").innerHTML =
-        selectedBody[name].nameUI.x || "N/A";
-      document.getElementById("rot-y-name").innerHTML =
-        selectedBody[name].nameUI.y || "N/A";
-      document.getElementById("rot-z-name").innerHTML =
-        selectedBody[name].nameUI.z || "N/A";
+      try {
+        document.getElementById("rot-x-name").innerHTML =
+          selectedBody[name].nameUI.x || "N/A";
+        document.getElementById("rot-y-name").innerHTML =
+          selectedBody[name].nameUI.y || "N/A";
+        document.getElementById("rot-z-name").innerHTML =
+          selectedBody[name].nameUI.z || "N/A";
+      } catch (error) {
+        console.error(error);
+      }
 
       dragPoint.position.copy(obj.worldToLocal(intersects[0].point));
       obj.imageWrapper.add(dragPoint);

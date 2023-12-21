@@ -1,11 +1,46 @@
 <script lang="ts" setup>
 import UseMannequin from "../../composables/useMannequin";
+import { Sort, Right, TopRight } from "@element-plus/icons-vue";
 const { rotMov } = UseMannequin();
+
+const onClickButton = (type: string) => {
+  console.log("onClick");
+  rotMov.value = type;
+};
 </script>
 <template>
   <div>
-    <div>rotMov: {{ rotMov }}</div>
-    <fieldset id="group1">
+    <div class="operations_view">
+      <el-button
+        :icon="Sort"
+        size="large"
+        circle
+        @click="onClickButton('rotZ')"
+      />
+      <el-button
+        :icon="Right"
+        size="large"
+        circle
+        @click="onClickButton('rotX')"
+      />
+      <el-button
+        :icon="TopRight"
+        size="large"
+        circle
+        @click="onClickButton('rotY')"
+      />
+      <el-button size="large" circle @click="onClickButton('movX')"
+        >X</el-button
+      >
+      <el-button size="large" circle @click="onClickButton('movY')"
+        >Y</el-button
+      >
+      <el-button size="large" circle @click="onClickButton('movZ')"
+        >Z</el-button
+      >
+    </div>
+
+    <!-- <fieldset id="group1">
       <div>
         <input
           type="radio"
@@ -55,8 +90,29 @@ const { rotMov } = UseMannequin();
           name="group1"
         /><span>Move Z</span>
       </div>
-    </fieldset>
+    </fieldset> -->
   </div>
 </template>
 
-<style lang="less" scoped></style>
+<style lang="less" scoped>
+.operations_view {
+  position: absolute;
+  left: 220px;
+  top: 10px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.el-button + .el-button {
+  margin-left: 0;
+  margin-top: 10px;
+}
+
+.el-button {
+  width: 40px;
+  height: 40px;
+  background: #ffffff;
+  border-radius: 10px;
+  border: none;
+}
+</style>
