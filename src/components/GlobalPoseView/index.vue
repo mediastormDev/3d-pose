@@ -49,24 +49,24 @@ function getData() {
 
     for (let index = 0; index < [0, 1, 2, 3, 4].length; index++) {
       console.log(
-        `model.r_fingers['finger_${index}'].bend =`,
-        model.r_fingers[`finger_${index}`].bend
+        `model.r_fingers['finger_${index}'].posture =`,
+        model.r_fingers[`finger_${index}`].posture
+      );
+      // console.log(
+      //   `model.r_fingers['finger_${index}'].straddle =`,
+      //   model.r_fingers[`finger_${index}`].straddle
+      // );
+      // console.log(
+      //   `model.r_fingers['finger_${index}'].turn =`,
+      //   model.r_fingers[`finger_${index}`].turn
+      // );
+      console.log(
+        `model.r_fingers['finger_${index}'].mid.posture =`,
+        model.r_fingers[`finger_${index}`].mid.posture
       );
       console.log(
-        `model.r_fingers['finger_${index}'].straddle =`,
-        model.r_fingers[`finger_${index}`].straddle
-      );
-      console.log(
-        `model.r_fingers['finger_${index}'].turn =`,
-        model.r_fingers[`finger_${index}`].turn
-      );
-      console.log(
-        `model.r_fingers['finger_${index}'].mid.bend =`,
-        model.r_fingers[`finger_${index}`].mid.bend
-      );
-      console.log(
-        `model.r_fingers['finger_${index}'].tip.bend =`,
-        model.r_fingers[`finger_${index}`].tip.bend
+        `model.r_fingers['finger_${index}'].tip.posture =`,
+        model.r_fingers[`finger_${index}`].tip.posture
       );
     }
   } else {

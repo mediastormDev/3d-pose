@@ -30,6 +30,11 @@ import { balls } from "./useTopView";
 
 export const models: any[] = [];
 let selectedBody: any;
+const EPS = 0.00001;
+
+const inverseKinematic = ref(false);
+const biologicalConstraints = ref(true);
+const rotMov = ref("rotZ");
 
 export default () => {
   const names = [
@@ -81,11 +86,6 @@ export default () => {
     ["r_tip_3", "", "", "bend"],
     ["r_tip_4", "", "", "bend"],
   ];
-  const EPS = 0.00001;
-
-  const inverseKinematic = ref(false);
-  const biologicalConstraints = ref(true);
-  const rotMov = ref("rotZ");
 
   let mouse = new THREE.Vector2(); // mouse 3D position
   let mouseButton: any = undefined; // pressed mouse buttons
@@ -142,7 +142,6 @@ export default () => {
   }
 
   function onPointerUp(event: any) {
-    console.log("onPointerUp");
     controls.enabled = true;
     mouseButton = undefined;
     deselect();
@@ -151,7 +150,6 @@ export default () => {
   }
 
   function onPointerDown(event: any) {
-    console.log("onPointerDown", event);
     userInput(event);
 
     gauge.parent?.remove(gauge);
@@ -339,7 +337,6 @@ export default () => {
 
   function relativeTurn(joint, rotationalAngle, angle) {
     if (rotationalAngle.startsWith("position.")) {
-      console.log("position joint", joint);
       // it is translation, not rotation
       rotationalAngle = rotationalAngle.split(".").pop();
       joint.position[rotationalAngle] += angle;
@@ -375,7 +372,6 @@ export default () => {
       // keep the rotation, it is either possible, or improves impossible situation
     } else {
       // there is no dedicated function, test with individual rotation range
-
       var val = joint[rotationalAngle] + angle,
         min = joint.minRot[rotationalAngle],
         max = joint.maxRot[rotationalAngle];
@@ -389,7 +385,6 @@ export default () => {
       const agl = (val + 180 / 2) * (Math.PI / 180);
       const targetBall = getTarget(joint.parent._id);
       if (targetBall) {
-        console.log("targetBall", targetBall);
         targetBall.rotate = agl;
       }
 
@@ -555,7 +550,6 @@ export default () => {
       gauge.rotation.set(Math.PI / 2, 0, -Math.PI / 2);
 
     var joint = rotMov.value.indexOf("mov") > -1 ? selectedBody.body : obj;
-
     do {
       for (var step = 5; step > 0.1; step *= 0.75) {
         if (rotMov.value === "rotZ" || (elemNone && mouseButton & 0x1))

@@ -268,35 +268,21 @@ export default () => {
   };
 
   const finger7 = (model: any) => {
-    model.r_fingers["finger_0"].bend = 1;
-    model.r_fingers["finger_0"].straddle = -36;
-    model.r_fingers["finger_0"].turn = 90;
-    model.r_fingers["finger_0"].mid.bend = 0;
-    model.r_fingers["finger_0"].tip.bend = 10;
-
-    model.r_fingers["finger_1"].bend = 80;
-    model.r_fingers["finger_1"].straddle = 0;
-    model.r_fingers["finger_1"].turn = 0;
-    model.r_fingers["finger_1"].mid.bend = 15;
-    model.r_fingers["finger_1"].tip.bend = 10;
-
-    model.r_fingers["finger_2"].bend = 78;
-    model.r_fingers["finger_2"].straddle = -6;
-    model.r_fingers["finger_2"].turn = 1;
-    model.r_fingers["finger_2"].mid.bend = 16;
-    model.r_fingers["finger_2"].tip.bend = 10;
-
-    model.r_fingers["finger_3"].bend = 70;
-    model.r_fingers["finger_3"].straddle = -14;
-    model.r_fingers["finger_3"].turn = -5;
-    model.r_fingers["finger_3"].mid.bend = 14;
-    model.r_fingers["finger_3"].tip.bend = 10;
-
-    model.r_fingers["finger_4"].bend = 64;
-    model.r_fingers["finger_4"].straddle = -19;
-    model.r_fingers["finger_4"].turn = -6;
-    model.r_fingers["finger_4"].mid.bend = 15;
-    model.r_fingers["finger_4"].tip.bend = 10;
+    model.r_fingers["finger_0"].posture = [90, -54, 91, 0, 0, 0, 10];
+    model.r_fingers["finger_0"].mid.posture = [0, 0, 0];
+    model.r_fingers["finger_0"].tip.posture = [0, 0, 10];
+    model.r_fingers["finger_1"].posture = [0, 0, 80, 0, 15, 0, 10];
+    model.r_fingers["finger_1"].mid.posture = [0, 0, 15];
+    model.r_fingers["finger_1"].tip.posture = [0, 0, 10];
+    model.r_fingers["finger_2"].posture = [1.3, 1.1, 78, 0, 16, 0, 10];
+    model.r_fingers["finger_2"].mid.posture = [0, 0, 16];
+    model.r_fingers["finger_2"].tip.posture = [0, 0, 10];
+    model.r_fingers["finger_3"].posture = [5.4, 25.9, 67.6, 0, 14, 0, 10];
+    model.r_fingers["finger_3"].mid.posture = [0, 0, 14];
+    model.r_fingers["finger_3"].tip.posture = [0, 0, 10];
+    model.r_fingers["finger_4"].posture = [9.7, 28.2, 59.4, 0, 15, 0, 10];
+    model.r_fingers["finger_4"].mid.posture = [0, 0, 15];
+    model.r_fingers["finger_4"].tip.posture = [0, 0, 10];
   };
 
   const finger8 = (model: any) => {

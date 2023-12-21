@@ -4,6 +4,7 @@ const { rotMov } = UseMannequin();
 </script>
 <template>
   <div>
+    <div>rotMov: {{ rotMov }}</div>
     <fieldset id="group1">
       <div>
         <input
