@@ -36,7 +36,7 @@ const svgHeight = computed(() => submenuHeight.value);
   <svg
     style="position: fixed; pointer-events: 'none'; z-index: 2"
     :style="{
-      width: svgHeight,
+      width: svgWidth,
       height: submenuHeight,
       top: submenuY,
       left: mouseX - 2,

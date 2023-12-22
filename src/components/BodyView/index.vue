@@ -4,6 +4,7 @@ import UseMannequin from "../../composables/useMannequin";
 import UseTopView from "../../composables/useTopView";
 import UseBodys from "../../composables/useModels";
 import DropDownMenu from "../DropDownMenu/index.vue";
+import { onClickOutside } from "@vueuse/core";
 
 const { getTarget } = UseTopView();
 const { getTarget: getTargetBody } = UseMannequin();
@@ -15,6 +16,12 @@ const menus = ref([
   { label: "面朝", value: "face2" },
   { label: "背对", value: "back2" },
 ]);
+const showMore = ref(false);
+const clickTarget = ref(null);
+
+onClickOutside(clickTarget, () => {
+  showMore.value = false;
+});
 
 const targets = computed(() => {
   const res = bodys.value
@@ -26,46 +33,21 @@ const targets = computed(() => {
       };
     });
 
-  return [...res, ...res, ...res, ...res, ...res, ...res];
+  return res;
 });
 
-// const options = computed(() => {
-//   const targets = bodys.value
-//     .filter((item) => item.id !== props.body.id)
-//     .map((item) => {
-//       return {
-//         label: item.id,
-//         value: item.id,
-//       };
-//     });
-//   return [
-//     {
-//       label: "面朝",
-//       value: "face2",
-//       children: targets,
-//     },
-//     {
-//       label: "背对",
-//       value: "back2",
-//       children: targets,
-//     },
-//   ];
-// });
-
-// const handleChange = (value) => {
-//   console.log(value);
-//   if (value[0] === "face2") {
-//     face2Obj(props.body.id, value[1]);
-//   } else if (value[0] === "back2") {
-//     back2Obj(props.body.id, value[1]);
-//   }
-// };
+const handleChange = (value) => {
+  console.log(value);
+  if (value[0] === "face2") {
+    face2Obj(props.body.id, value[1]);
+  } else if (value[0] === "back2") {
+    back2Obj(props.body.id, value[1]);
+  }
+};
 
 const onRangeChange = (body: any) => {
-  // console.log("body", body);
   const targetBody = getTarget(body.id);
   if (targetBody) {
-    // console.log("object :>> ", targetBody);
     const targetBall = getTargetBody(body.id);
     targetBody.rotation.y = body.rotation;
     targetBall.rotate = body.rotation;
@@ -75,23 +57,20 @@ const onRangeChange = (body: any) => {
 
 <template>
   <div>
-    <!-- <div>{{ index }}:{{ body }}</div> -->
     <div
       style="display: flex; align-items: center; justify-content: space-between"
     >
       <div>{{ body.type }}</div>
-      <div>
-        <div>操作</div>
-        <DropDownMenu :menus="menus" :submenus="targets" />
+      <div ref="clickTarget" style="position: relative">
+        <div @click="showMore = !showMore">操作</div>
+        <DropDownMenu
+          v-show="showMore"
+          :menus="menus"
+          :submenus="targets"
+          @change="handleChange"
+        />
       </div>
     </div>
-    <!-- <el-cascader
-      v-model="selected"
-      :options="options"
-      :props="props"
-      @change="handleChange"
-    >
-    </el-cascader> -->
     <input
       type="range"
       @input="onRangeChange(body)"
