@@ -29,6 +29,20 @@ function setModelGlobalPose() {
   }
 }
 
+function resetPose() {
+  const target = getSelectedModels();
+
+  if (target.length) {
+    const model = target[0];
+
+    const poseString = `{"version":7,"data":[[0,3.8,0],[0,-90,0],[0,0,-2],[0,0,5],[6,0,0],[0],[-6,-6,-0.6],[-6,0,0],[0],[6,6,-0.6],[7,-0.6,-5],[15],[5,0,0],[-90,70,75,0,10,0,10],[0,0,10,0,10,0,10],[0,0,10,0,10,0,10],[0,0,10,0,10,0,10],[0,0,10,0,10,0,10],[-7,0.6,-5],[15],[-5,0,0],[90,-70,75,0,10,0,10],[0,0,10,0,10,0,10],[0,0,10,0,10,0,10],[0,0,10,0,10,0,10],[0,0,10,0,10,0,10]]}`;
+
+    setPosture(model, poseString);
+  } else {
+    alert("请选中一个模型");
+  }
+}
+
 function setModelPartPose(type: string) {
   const target = getSelectedModels();
   if (target.length) {
@@ -43,32 +57,8 @@ function getData() {
   const target = getSelectedModels();
   if (target.length) {
     const model = target[0];
-    console.log("r_wrist手腕的bend", model.r_wrist.bend);
-    console.log("r_wrist手腕的tilt", model.r_wrist.tilt);
-    console.log("r_wrist手腕的turn", model.r_wrist.turn);
-
-    for (let index = 0; index < [0, 1, 2, 3, 4].length; index++) {
-      console.log(
-        `model.r_fingers['finger_${index}'].posture =`,
-        model.r_fingers[`finger_${index}`].posture
-      );
-      // console.log(
-      //   `model.r_fingers['finger_${index}'].straddle =`,
-      //   model.r_fingers[`finger_${index}`].straddle
-      // );
-      // console.log(
-      //   `model.r_fingers['finger_${index}'].turn =`,
-      //   model.r_fingers[`finger_${index}`].turn
-      // );
-      console.log(
-        `model.r_fingers['finger_${index}'].mid.posture =`,
-        model.r_fingers[`finger_${index}`].mid.posture
-      );
-      console.log(
-        `model.r_fingers['finger_${index}'].tip.posture =`,
-        model.r_fingers[`finger_${index}`].tip.posture
-      );
-    }
+    console.log("model.head.posture=", model.head.posture);
+    console.log("model.neck.posture=", model.neck.posture);
   } else {
     alert("请选中一个模型");
   }
@@ -78,6 +68,7 @@ function getData() {
   <div class="big_title">整体动作</div>
   <div class="el_button-view">
     <el-button @click="getData">获取数值</el-button>
+    <el-button @click="resetPose">复原</el-button>
     <el-button @click="setModelGlobalPose">整体动作</el-button>
   </div>
   <div class="big_title">局部动作</div>
