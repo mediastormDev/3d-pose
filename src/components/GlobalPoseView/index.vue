@@ -57,8 +57,9 @@ function getData() {
   const target = getSelectedModels();
   if (target.length) {
     const model = target[0];
-    console.log("model.head.posture=", model.head.posture);
-    console.log("model.neck.posture=", model.neck.posture);
+    console.log("model.l_arm.posture=", model.l_arm.posture);
+    console.log("model.l_elbow.posture=", model.l_elbow.posture);
+    console.log("model.l_wrist.posture=", model.l_wrist.posture);
   } else {
     alert("请选中一个模型");
   }
