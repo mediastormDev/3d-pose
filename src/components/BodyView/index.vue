@@ -72,7 +72,12 @@ const onRangeChange = (body: any) => {
           justify-content: center;
         "
       >
-        <img :src="right_arrow" style="width: 14px; height: 14px" />
+        <img
+          @click="showMore = true"
+          :src="right_arrow"
+          style="width: 14px; height: 14px"
+          class="more_button"
+        />
         <DropDownMenu
           v-show="showMore"
           :menus="menus"
@@ -105,6 +110,10 @@ li {
   padding: 5px 10px;
   margin: 2px 0;
   border: solid 1px #999;
+  cursor: pointer;
+}
+
+.more_button:hover {
   cursor: pointer;
 }
 

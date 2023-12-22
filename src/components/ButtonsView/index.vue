@@ -10,7 +10,7 @@ const selectedTwoMore = computed(() => {
 </script>
 
 <template>
-  <el-row>
+  <el-row style="margin-top: 10px; margin-bottom: 20px">
     <el-button
       :disabled="selectedTwoMore"
       class="action_button"
@@ -38,5 +38,6 @@ const selectedTwoMore = computed(() => {
   height: 28px;
   background: #f4f6f7;
   border-radius: 6px;
+  border: none;
 }
 </style>

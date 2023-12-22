@@ -44,7 +44,8 @@ onMounted(() => {
 <style lang="less" scoped>
 .panel {
   margin: 0.3em;
-  width: 200px;
+  // width: 200px;
+  padding: 20px;
   position: fixed;
   top: 0;
   z-index: 10;
