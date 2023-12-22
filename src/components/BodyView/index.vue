@@ -5,6 +5,8 @@ import UseTopView from "../../composables/useTopView";
 import UseBodys from "../../composables/useModels";
 import DropDownMenu from "../DropDownMenu/index.vue";
 import { onClickOutside } from "@vueuse/core";
+import { ArrowRightBold } from "@element-plus/icons-vue";
+import right_arrow from "../../assets/right_arrow.png";
 
 const { getTarget } = UseTopView();
 const { getTarget: getTargetBody } = UseMannequin();
@@ -61,8 +63,16 @@ const onRangeChange = (body: any) => {
       style="display: flex; align-items: center; justify-content: space-between"
     >
       <div>{{ body.type }}</div>
-      <div ref="clickTarget" style="position: relative">
-        <div @click="showMore = !showMore">操作</div>
+      <div
+        ref="clickTarget"
+        style="
+          position: relative;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+        "
+      >
+        <img :src="right_arrow" style="width: 14px; height: 14px" />
         <DropDownMenu
           v-show="showMore"
           :menus="menus"

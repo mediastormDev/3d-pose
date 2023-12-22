@@ -60,6 +60,9 @@ function getData() {
     console.log("model.l_arm.posture=", model.l_arm.posture);
     console.log("model.l_elbow.posture=", model.l_elbow.posture);
     console.log("model.l_wrist.posture=", model.l_wrist.posture);
+    console.log("model.r_arm.posture=", model.r_arm.posture);
+    console.log("model.r_elbow.posture=", model.r_elbow.posture);
+    console.log("model.r_wrist.posture=", model.r_wrist.posture);
   } else {
     alert("请选中一个模型");
   }

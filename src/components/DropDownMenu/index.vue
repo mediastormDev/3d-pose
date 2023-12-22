@@ -19,7 +19,7 @@ const onClickSubMenu = (menu: string, submenu: string) => {
 </script>
 
 <template>
-  <ul style="position: absolute; top: 0">
+  <ul style="position: absolute; top: 0; left: 20px">
     <li
       style="position: relative"
       @mouseenter="
@@ -63,6 +63,8 @@ const onClickSubMenu = (menu: string, submenu: string) => {
 <style lang="less" scoped>
 ul {
   list-style: none;
+  padding: 0;
+  margin: 0;
 }
 
 li {
