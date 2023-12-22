@@ -106,6 +106,11 @@ function getData() {
     <el-button @click="setModelPartPose('littleFinger')">竖小指</el-button>
     <el-button @click="setModelPartPose('hoodle')">弹珠</el-button>
     <el-button @click="setModelPartPose('heart')">比心</el-button>
+    <el-button @click="setModelPartPose('ok')">ok</el-button>
+    <el-button @click="setModelPartPose('qzys')">掐指一算</el-button>
+    <el-button @click="setModelPartPose('holdapen')">握笔</el-button>
+    <el-button @click="setModelPartPose('holdPhone')">拿手机</el-button>
+    <el-button @click="setModelPartPose('basketball3')">三分球</el-button>
   </div>
 </template>
 

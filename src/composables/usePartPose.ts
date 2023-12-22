@@ -253,9 +253,9 @@ export default () => {
   };
 
   const rock = (model: any) => {
-    model.r_fingers["finger_0"].posture = [90, -70, 57.2, 0, 10, 0, 10];
-    model.r_fingers["finger_0"].mid.posture = [0, 0, 10];
-    model.r_fingers["finger_0"].tip.posture = [0, 0, 10];
+    model.r_fingers["finger_0"].posture = [90, -60, 94.4, 0, 90, 0, 35];
+    model.r_fingers["finger_0"].mid.posture = [0, 0, 90];
+    model.r_fingers["finger_0"].tip.posture = [0, 0, 35];
     model.r_fingers["finger_1"].posture = [0, 0, -10, 0, 0, 0, 0];
     model.r_fingers["finger_1"].mid.posture = [0, 0, 0];
     model.r_fingers["finger_1"].tip.posture = [0, 0, 0];
@@ -271,9 +271,9 @@ export default () => {
   };
 
   const spiderman = (model: any) => {
-    model.r_fingers["finger_0"].posture = [90, -60, 94.4, 0, 90, 0, 35];
-    model.r_fingers["finger_0"].mid.posture = [0, 0, 90];
-    model.r_fingers["finger_0"].tip.posture = [0, 0, 35];
+    model.r_fingers["finger_0"].posture = [90, -70, 57.2, 0, 10, 0, 10];
+    model.r_fingers["finger_0"].mid.posture = [0, 0, 10];
+    model.r_fingers["finger_0"].tip.posture = [0, 0, 10];
     model.r_fingers["finger_1"].posture = [0, 0, -10, 0, 0, 0, 0];
     model.r_fingers["finger_1"].mid.posture = [0, 0, 0];
     model.r_fingers["finger_1"].tip.posture = [0, 0, 0];
@@ -397,11 +397,11 @@ export default () => {
   };
 
   const heart = (model: any) => {
-    model.r_fingers["finger_0"].posture = [88.2, -43.1, 95.7, 0, 4.3, 0, 35];
+    model.r_fingers["finger_0"].posture = [88.3, -56.6, 84.1, 0, 4.3, 0, 35];
     model.r_fingers["finger_0"].mid.posture = [0, 0, 4.3];
     model.r_fingers["finger_0"].tip.posture = [0, 0, 35];
-    model.r_fingers["finger_1"].posture = [0, 0, 74, 0, 42.1, 0, 0];
-    model.r_fingers["finger_1"].mid.posture = [0, 0, 42.1];
+    model.r_fingers["finger_1"].posture = [0, 0, 80.7, 0, 56.5, 0, 0];
+    model.r_fingers["finger_1"].mid.posture = [0, 0, 56.5];
     model.r_fingers["finger_1"].tip.posture = [0, 0, 0];
     model.r_fingers["finger_2"].posture = [0, 0, 72, 0, 104, 0, 107];
     model.r_fingers["finger_2"].mid.posture = [0, 0, 104];
@@ -414,7 +414,97 @@ export default () => {
     model.r_fingers["finger_4"].tip.posture = [0, 0, 107];
   };
 
-  const ok = (model: any) => {};
+  const ok = (model: any) => {
+    model.r_fingers["finger_0"].posture = [86.7, -54.6, 88.7, 0, 7.2, 0, 35];
+    model.r_fingers["finger_0"].mid.posture = [0, 0, 7.2];
+    model.r_fingers["finger_0"].tip.posture = [0, 0, 35];
+    model.r_fingers["finger_1"].posture = [-10, -10.7, 46.7, 0, 70.9, 0, 46.9];
+    model.r_fingers["finger_1"].mid.posture = [0, 0, 70.9];
+    model.r_fingers["finger_1"].tip.posture = [0, 0, 46.9];
+    model.r_fingers["finger_2"].posture = [1.4, -0.2, -9.9, 0, 0, 0, 0.1];
+    model.r_fingers["finger_2"].mid.posture = [0, 0, 0];
+    model.r_fingers["finger_2"].tip.posture = [0, 0, 0.1];
+    model.r_fingers["finger_3"].posture = [-7.1, 0.5, -10, 0, 0, 0, 0];
+    model.r_fingers["finger_3"].mid.posture = [0, 0, 0];
+    model.r_fingers["finger_3"].tip.posture = [0, 0, 0];
+    model.r_fingers["finger_4"].posture = [-15.9, 2.8, -9.6, 0, 0, 0, 0];
+    model.r_fingers["finger_4"].mid.posture = [0, 0, 0];
+    model.r_fingers["finger_4"].tip.posture = [0, 0, 0];
+  };
+
+  // 掐指一算
+  const qzys = (model: any) => {
+    model.r_fingers["finger_0"].posture = [90, -60, 106.2, 0, 34.9, 0, 35];
+    model.r_fingers["finger_0"].mid.posture = [0, 0, 34.9];
+    model.r_fingers["finger_0"].tip.posture = [0, 0, 35];
+    model.r_fingers["finger_1"].posture = [0, 0, -9.9, 0, 19.4, 0, 19.6];
+    model.r_fingers["finger_1"].mid.posture = [0, 0, 19.4];
+    model.r_fingers["finger_1"].tip.posture = [0, 0, 19.6];
+    model.r_fingers["finger_2"].posture = [0, 0, 20.2, 0, 47.8, 0, 57.5];
+    model.r_fingers["finger_2"].mid.posture = [0, 0, 47.8];
+    model.r_fingers["finger_2"].tip.posture = [0, 0, 57.5];
+    model.r_fingers["finger_3"].posture = [0, 0, 80.3, 0, 31.2, 0, 72.1];
+    model.r_fingers["finger_3"].mid.posture = [0, 0, 31.2];
+    model.r_fingers["finger_3"].tip.posture = [0, 0, 72.1];
+    model.r_fingers["finger_4"].posture = [0, 0, -9.9, 0, 0.1, 0, 40.7];
+    model.r_fingers["finger_4"].mid.posture = [0, 0, 0.1];
+    model.r_fingers["finger_4"].tip.posture = [0, 0, 40.7];
+  };
+
+  //
+  const holdapen = (model: any) => {
+    model.r_fingers["finger_0"].posture = [80.9, -45.4, 94.9, 0, 10, 0, 10];
+    model.r_fingers["finger_0"].mid.posture = [0, 0, 10];
+    model.r_fingers["finger_0"].tip.posture = [0, 0, 10];
+    model.r_fingers["finger_1"].posture = [-0.3, -5.7, 55.1, 0, 20.6, 0, 10];
+    model.r_fingers["finger_1"].mid.posture = [0, 0, 20.6];
+    model.r_fingers["finger_1"].tip.posture = [0, 0, 10];
+    model.r_fingers["finger_2"].posture = [0, 0, 78.1, 0, 0.1, 0, 10];
+    model.r_fingers["finger_2"].mid.posture = [0, 0, 0.1];
+    model.r_fingers["finger_2"].tip.posture = [0, 0, 10];
+    model.r_fingers["finger_3"].posture = [-0.1, 6.3, 85.1, 0, 19.6, 0, 35.3];
+    model.r_fingers["finger_3"].mid.posture = [0, 0, 19.6];
+    model.r_fingers["finger_3"].tip.posture = [0, 0, 35.3];
+    model.r_fingers["finger_4"].posture = [-0.7, 13.1, 85.3, 0, 40.7, 0, 29.5];
+    model.r_fingers["finger_4"].mid.posture = [0, 0, 40.7];
+    model.r_fingers["finger_4"].tip.posture = [0, 0, 29.5];
+  };
+
+  const holdPhone = (model: any) => {
+    model.r_fingers["finger_0"].posture = [88.8, -70.6, 59.6, 0, 10, 0, 10];
+    model.r_fingers["finger_0"].mid.posture = [0, 0, 10];
+    model.r_fingers["finger_0"].tip.posture = [0, 0, 10];
+    model.r_fingers["finger_1"].posture = [10.2, -1.8, -9.8, 0, 0, 0, 0];
+    model.r_fingers["finger_1"].mid.posture = [0, 0, 0];
+    model.r_fingers["finger_1"].tip.posture = [0, 0, 0];
+    model.r_fingers["finger_2"].posture = [1.4, -0.2, -9.9, 0, 36.7, 0, 22.1];
+    model.r_fingers["finger_2"].mid.posture = [0, 0, 36.7];
+    model.r_fingers["finger_2"].tip.posture = [0, 0, 22.1];
+    model.r_fingers["finger_3"].posture = [-7.1, 0.5, -10, 0, 64.4, 0, 20.2];
+    model.r_fingers["finger_3"].mid.posture = [0, 0, 64.4];
+    model.r_fingers["finger_3"].tip.posture = [0, 0, 20.2];
+    model.r_fingers["finger_4"].posture = [-15.9, 2.8, -9.6, 0, 65.6, 0, 34.2];
+    model.r_fingers["finger_4"].mid.posture = [0, 0, 65.6];
+    model.r_fingers["finger_4"].tip.posture = [0, 0, 34.2];
+  };
+
+  const basketball3 = (model: any) => {
+    model.r_fingers["finger_0"].posture = [90, -70, 57.2, 0, 10, 0, 10];
+    model.r_fingers["finger_0"].mid.posture = [0, 0, 10];
+    model.r_fingers["finger_0"].tip.posture = [0, 0, 10];
+    model.r_fingers["finger_1"].posture = [11.9, -2.1, -9.7, 0, 0, 0, 0];
+    model.r_fingers["finger_1"].mid.posture = [0, 0, 0];
+    model.r_fingers["finger_1"].tip.posture = [0, 0, 0];
+    model.r_fingers["finger_2"].posture = [-1, 0.2, -10, 0, 0, 0, 0];
+    model.r_fingers["finger_2"].mid.posture = [0, 0, 0];
+    model.r_fingers["finger_2"].tip.posture = [0, 0, 0];
+    model.r_fingers["finger_3"].posture = [0, 0, 72, 0, 104, 0, 107];
+    model.r_fingers["finger_3"].mid.posture = [0, 0, 104];
+    model.r_fingers["finger_3"].tip.posture = [0, 0, 107];
+    model.r_fingers["finger_4"].posture = [0, 0, 72, 0, 104, 0, 107];
+    model.r_fingers["finger_4"].mid.posture = [0, 0, 104];
+    model.r_fingers["finger_4"].tip.posture = [0, 0, 107];
+  };
 
   /**
    * 设置局部姿势
@@ -423,6 +513,21 @@ export default () => {
    */
   const setPartPose = (model: any, pose: string) => {
     switch (pose) {
+      case "ok":
+        ok(model);
+        break;
+      case "qzys":
+        qzys(model);
+        break;
+      case "holdapen":
+        holdapen(model);
+        break;
+      case "holdPhone":
+        holdPhone(model);
+        break;
+      case "basketball3":
+        basketball3(model);
+        break;
       case "friendly":
         friendly(model);
         break;
