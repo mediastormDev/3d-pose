@@ -11,15 +11,13 @@ const { bodys, face2Obj, back2Obj } = UseBodys();
 
 const props = defineProps<{ body: any; index: number }>();
 
-const selected = ref("");
-
 const menus = ref([
   { label: "面朝", value: "face2" },
   { label: "背对", value: "back2" },
 ]);
 
 const targets = computed(() => {
-  return bodys.value
+  const res = bodys.value
     .filter((item) => item.id !== props.body.id)
     .map((item) => {
       return {
@@ -27,6 +25,8 @@ const targets = computed(() => {
         value: item.id,
       };
     });
+
+  return [...res, ...res, ...res, ...res, ...res, ...res];
 });
 
 // const options = computed(() => {

@@ -1,11 +1,14 @@
 <script lang="ts" setup>
 import { ref } from "vue";
+import safeArea from "./safeArea.vue";
+
 interface IMenu {
   label: string;
   value: string;
 }
 const props = defineProps<{ menus: IMenu[]; submenus: IMenu[] }>();
 
+const submenuRef = ref(null);
 const showSubmenu = ref(false);
 const hoverIndex = ref(-1);
 </script>
@@ -26,9 +29,12 @@ const hoverIndex = ref(-1);
       :key="index"
     >
       {{ menu.label }}
+      <safeArea :menu-ref="submenuRef" :index="index" />
       <div v-show="showSubmenu && hoverIndex === index" class="submenu">
-        <div v-for="(submenu, i) in submenus" :key="i">
-          {{ submenu.label }}
+        <div ref="submenuRef">
+          <div v-for="(submenu, i) in submenus" :key="i">
+            {{ submenu.label }}
+          </div>
         </div>
       </div>
     </li>
