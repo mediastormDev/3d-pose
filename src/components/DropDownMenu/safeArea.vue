@@ -48,7 +48,7 @@ const svgHeight = computed(() => submenuHeight.value);
   >
     <!-- 矩形区域 -->
     <path
-      pointerEvents="none"
+      style="pointer-events: none"
       width="100%"
       height="100%"
       fill="rgba(187,39,38,0.05)"
@@ -56,7 +56,7 @@ const svgHeight = computed(() => submenuHeight.value);
     />
     <!-- 三角安全区域 -->
     <path
-      pointerEvents="auto"
+      style="pointer-events: auto"
       stroke="red"
       strokeWidth="0.4"
       fill="rgba(114,140,89,0.3)"

@@ -1,7 +1,6 @@
 <script lang="ts" setup>
 import { ref } from "vue";
 import safeArea from "./safeArea.vue";
-import { useCurrentElement } from '@vueuse/core'
 
 interface IMenu {
   label: string;
@@ -10,7 +9,6 @@ interface IMenu {
 const emits = defineEmits(["change"]);
 const props = defineProps<{ menus: IMenu[]; submenus: IMenu[] }>();
 
-const el = useCurrentElement()
 const submenuRef = ref(null);
 const showSubmenu = ref(false);
 const hoverIndex = ref(-1);
