@@ -9,7 +9,6 @@ declare module 'vue' {
   export interface GlobalComponents {
     BodyView: typeof import('./src/components/BodyView/index.vue')['default']
     ButtonsView: typeof import('./src/components/ButtonsView/index.vue')['default']
-    DropDownItem: typeof import('./src/components/DropDownMenu/dropDownItem.vue')['default']
     DropDownMenu: typeof import('./src/components/DropDownMenu/index.vue')['default']
     ElButton: typeof import('element-plus/es')['ElButton']
     ElCollapse: typeof import('element-plus/es')['ElCollapse']
