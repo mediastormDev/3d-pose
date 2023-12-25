@@ -15,10 +15,6 @@ watch(
   () => props.menuRef,
   (currentRef) => {
     if (currentRef) {
-      console.log(
-        "currentRef",
-        currentRef[props.index].getBoundingClientRect()
-      );
       const { width, height, x, y } =
         currentRef[props.index].getBoundingClientRect();
       console.log(width, height, x, y);
