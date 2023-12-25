@@ -652,7 +652,7 @@ export default () => {
       case "doubleArmWalk":
         doubleArmWalk(model);
         break;
-      case "doubleArmWalk":
+      case "doubleArmWalk2":
         doubleArmWalk2(model);
         break;
       case "doubleArmRun":
