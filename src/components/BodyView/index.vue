@@ -17,6 +17,14 @@ const props = defineProps<{ body: any; index: number }>();
 const menus = ref([
   { label: "面朝", value: "face2" },
   { label: "背对", value: "back2" },
+  { label: "背对", value: "back2" },
+  { label: "背对", value: "back2" },
+  { label: "背对", value: "back2" },
+  { label: "背对", value: "back2" },
+  { label: "背对", value: "back2" },
+  { label: "背对", value: "back2" },
+  { label: "背对", value: "back2" },
+  { label: "背对", value: "back2" },
 ]);
 const showMore = ref(false);
 const clickTarget = ref(null);
@@ -35,7 +43,7 @@ const targets = computed(() => {
       };
     });
 
-  return res;
+  return [...res, ...res, ...res, ...res, ...res];
 });
 
 const handleChange = (value) => {
@@ -79,7 +87,7 @@ const onRangeChange = (body: any) => {
           class="more_button"
         />
         <DropDownMenu
-          v-show="showMore"
+          :style="{ visibility: showMore ? 'visible' : 'hidden' }"
           :menus="menus"
           :submenus="targets"
           @change="handleChange"

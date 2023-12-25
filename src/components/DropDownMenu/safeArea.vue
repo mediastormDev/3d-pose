@@ -4,7 +4,7 @@ import { useMouse } from "@vueuse/core";
 
 const { x: mouseX, y: mouseY } = useMouse();
 
-const props = defineProps<{ menuRef: Ref<HTMLElement>[]; index: number }>();
+const props = defineProps<{ menuRef?: Ref<HTMLElement>[]; index: number }>();
 
 const submenuWidth = ref(0);
 const submenuHeight = ref(0);
@@ -15,7 +15,10 @@ watch(
   () => props.menuRef,
   (currentRef) => {
     if (currentRef) {
-      console.log("currentRef", currentRef[props.index].getBoundingClientRect());
+      console.log(
+        "currentRef",
+        currentRef[props.index].getBoundingClientRect()
+      );
       const { width, height, x, y } =
         currentRef[props.index].getBoundingClientRect();
       console.log(width, height, x, y);
@@ -34,7 +37,7 @@ const svgHeight = computed(() => submenuHeight.value);
 </script>
 <template>
   <svg
-    style="position: fixed; pointer-events: 'none'; z-index: 2"
+    style="position: fixed; pointer-events: none; z-index: 2"
     :style="{
       width: svgWidth,
       height: submenuHeight,

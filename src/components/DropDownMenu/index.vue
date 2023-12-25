@@ -1,6 +1,7 @@
 <script lang="ts" setup>
 import { ref } from "vue";
-// import safeArea from "./safeArea.vue";
+import safeArea from "./safeArea.vue";
+import { useCurrentElement } from '@vueuse/core'
 
 interface IMenu {
   label: string;
@@ -9,9 +10,13 @@ interface IMenu {
 const emits = defineEmits(["change"]);
 const props = defineProps<{ menus: IMenu[]; submenus: IMenu[] }>();
 
+const el = useCurrentElement()
 const submenuRef = ref(null);
 const showSubmenu = ref(false);
 const hoverIndex = ref(-1);
+
+// const parent = ref(null);
+// const child = ref(null);
 
 const onClickSubMenu = (menu: string, submenu: string) => {
   emits("change", [menu, submenu]);
@@ -21,38 +26,36 @@ const onClickSubMenu = (menu: string, submenu: string) => {
 <template>
   <ul style="position: absolute; top: 0; left: 20px">
     <li
+      ref="parent"
       style="position: relative"
-      @mouseenter="
-        showSubmenu = true;
-        hoverIndex = index;
-      "
-      @mouseleave="
-        showSubmenu = false;
-        hoverIndex = -1;
-      "
+      @mouseover="hoverIndex = index"
+      @mouseenter="showSubmenu = true"
+      @mouseleave="showSubmenu = false"
       v-for="(menu, index) in menus"
       :key="index"
     >
       {{ menu.label }}
-      <!-- <safeArea
+      <safeArea
         v-show="showSubmenu && hoverIndex === index"
         :menu-ref="submenuRef"
         :index="index"
-      /> -->
+      />
       <div
         :style="{
           visibility:
             showSubmenu && hoverIndex === index ? 'visible' : 'hidden',
         }"
         class="submenu"
+        ref="child"
       >
         <div ref="submenuRef">
           <div
             @click="onClickSubMenu(menu.value, submenu.value)"
             v-for="(submenu, i) in submenus"
             :key="i"
+            class="submenu_item"
           >
-            {{ submenu.label }}
+            {{ submenu.label }} {{ hoverIndex }}
           </div>
         </div>
       </div>
@@ -63,8 +66,11 @@ const onClickSubMenu = (menu: string, submenu: string) => {
 <style lang="less" scoped>
 ul {
   list-style: none;
-  padding: 0;
+  padding: 10px;
   margin: 0;
+  background: #ffffff;
+  box-shadow: 0px 0px 20px 0px rgba(0, 0, 0, 0.07);
+  border-radius: 6px;
 }
 
 li {
@@ -74,20 +80,35 @@ li {
   width: 100px;
   padding: 5px 10px;
   margin: 2px 0;
-  border: solid 1px #999;
   cursor: pointer;
+  border-radius: 6px;
+  &:hover {
+    background: #f4f6f7;
+  }
 }
 
 .submenu {
+  padding: 10px;
+  margin: 0;
+  background: #ffffff;
+  box-shadow: 0px 0px 20px 0px rgba(0, 0, 0, 0.07);
+  border-radius: 6px;
+  position: absolute;
+  right: 0;
+  top: -10px;
+  transform: translateX(100% + 10px);
+}
+.submenu_item {
+  list-style: none;
   background: #fff;
   color: #2a2a2a;
   width: 100px;
   padding: 5px 10px;
   margin: 2px 0;
-  border: solid 1px #999;
-  position: absolute;
-  right: 0;
-  top: 0;
-  transform: translateX(100%);
+  cursor: pointer;
+  border-radius: 6px;
+  &:hover {
+    background: #f4f6f7;
+  }
 }
 </style>
