@@ -5,7 +5,6 @@ import UseTopView from "../../composables/useTopView";
 import UseBodys from "../../composables/useModels";
 import DropDownMenu from "../DropDownMenu/index.vue";
 import { onClickOutside } from "@vueuse/core";
-import { ArrowRightBold } from "@element-plus/icons-vue";
 import right_arrow from "../../assets/right_arrow.png";
 
 const { getTarget } = UseTopView();
@@ -16,14 +15,6 @@ const props = defineProps<{ body: any; index: number }>();
 
 const menus = ref([
   { label: "面朝", value: "face2" },
-  { label: "背对", value: "back2" },
-  { label: "背对", value: "back2" },
-  { label: "背对", value: "back2" },
-  { label: "背对", value: "back2" },
-  { label: "背对", value: "back2" },
-  { label: "背对", value: "back2" },
-  { label: "背对", value: "back2" },
-  { label: "背对", value: "back2" },
   { label: "背对", value: "back2" },
 ]);
 const showMore = ref(false);
@@ -43,7 +34,7 @@ const targets = computed(() => {
       };
     });
 
-  return [...res, ...res, ...res, ...res, ...res];
+  return res;
 });
 
 const handleChange = (value) => {

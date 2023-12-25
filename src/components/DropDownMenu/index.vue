@@ -53,7 +53,7 @@ const onClickSubMenu = (menu: string, submenu: string) => {
             :key="i"
             class="submenu_item"
           >
-            {{ submenu.label }} {{ hoverIndex }}
+            {{ submenu.label }}
           </div>
         </div>
       </div>
