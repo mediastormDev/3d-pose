@@ -42,23 +42,21 @@ const svgHeight = computed(() => submenuHeight.value);
     }"
     id="svg-safe-area"
   >
-    <!-- 矩形区域 -->
+    <!-- 矩形区域 
     <path
       style="pointer-events: none"
       width="100%"
       height="100%"
       fill="rgba(187,39,38,0.05)"
       :d="`M 0,0 L ${svgWidth},0 L ${svgWidth},${svgHeight} L 0,${svgHeight} z`"
-    />
-    <!-- 三角安全区域 -->
+    />-->
+
     <path
       style="pointer-events: auto"
-      stroke="red"
-      strokeWidth="0.4"
-      fill="rgba(114,140,89,0.3)"
-      :d="`M 0, ${mouseY - submenuY}
-          L ${svgWidth},${svgHeight}
-          L ${svgWidth},0 z`"
+      fill="rgba(114,140,89,0)"
+      :d="`M 0 ${mouseY - submenuY},
+          Q ${svgWidth / 4},${svgHeight / 4}, ${svgWidth} ${svgHeight}, 
+          L ${svgWidth} 0 z`"
     />
   </svg>
 </template>
