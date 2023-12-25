@@ -506,6 +506,139 @@ export default () => {
     model.r_fingers["finger_4"].tip.posture = [0, 0, 107];
   };
 
+  // 头部
+  const headNature = (model: any) => {
+    model.head.posture = [0, 0, 5];
+    model.neck.posture = [0, 0, 5];
+  };
+
+  const headBow = (model: any) => {
+    model.head.posture = [0, 0, -9.8];
+    model.neck.posture = [0, 0, -9.8];
+  };
+
+  const headBowMore = (model: any) => {
+    model.head.posture = [0, 0, -29.7];
+    model.neck.posture = [0, 0, -33.6];
+  };
+
+  const headRaise = (model: any) => {
+    model.head.posture = [0, 0, 25];
+    model.neck.posture = [0, 0, 25];
+  };
+
+  const headTurn = (model: any) => {
+    model.head.posture = [-2, 22.1, 5.4];
+    model.neck.posture = [-2, 22.1, 5.4];
+  };
+
+  const headTurn2 = (model: any) => {
+    model.head.posture = [2, -22.1, 5.4];
+    model.neck.posture = [2, -22.1, 5.4];
+  };
+
+  const headTorticollis = (model: any) => {
+    model.head.posture = [-12.6, -1.1, 4.9];
+    model.neck.posture = [-12.6, -1.1, 4.9];
+  };
+
+  const headTorticollis2 = (model: any) => {
+    model.head.posture = [12.6, 1.1, 4.9];
+    model.neck.posture = [12.6, 1.1, 4.9];
+  };
+
+  // doubleArm
+  const doubleArmNature = (model: any) => {
+    model.l_arm.posture = [7, -0.6, -5];
+    model.l_elbow.posture = [15];
+    model.l_wrist.posture = [5, 0, 0];
+    model.r_arm.posture = [-7, 0.6, -5];
+    model.r_elbow.posture = [15];
+    model.r_wrist.posture = [-5, 0, 0];
+  };
+
+  const doubleArmWalk = (model: any) => {
+    model.l_arm.posture = [7, -0.6, -35.7];
+    model.l_elbow.posture = [32.7];
+    model.l_wrist.posture = [5, 0, 0];
+    model.r_arm.posture = [-7, 0.6, 24];
+    model.r_elbow.posture = [22.6];
+    model.r_wrist.posture = [-5, 0, 0];
+  };
+
+  const doubleArmWalk2 = (model: any) => {
+    model.r_arm.posture = [-7, 0.6, 24];
+    model.r_elbow.posture = [22.6];
+    model.r_wrist.posture = [-5, 0, 0];
+    model.l_arm.posture = [7, -0.6, -35.7];
+    model.l_elbow.posture = [32.7];
+    model.l_wrist.posture = [5, 0, 0];
+  };
+
+  const doubleArmRun = (model: any) => {
+    model.l_arm.posture = [7, -0.6, -62.3];
+    model.l_elbow.posture = [97.3];
+    model.l_wrist.posture = [5, 0, 0];
+    model.r_arm.posture = [-7, 0.6, 24];
+    model.r_elbow.posture = [97.1];
+    model.r_wrist.posture = [-5, 0, 0];
+  };
+
+  const doubleArmRun2 = (model: any) => {
+    model.r_arm.posture = [-7, 0.6, 24];
+    model.r_elbow.posture = [97.1];
+    model.r_wrist.posture = [-5, 0, 0];
+    model.l_arm.posture = [7, -0.6, -62.3];
+    model.l_elbow.posture = [97.3];
+    model.l_wrist.posture = [5, 0, 0];
+  };
+
+  const doubleArmParade = (model: any) => {
+    model.l_arm.posture = [7, -0.6, -37.4];
+    model.l_elbow.posture = [0];
+    model.l_wrist.posture = [5, 0, 0];
+    model.r_arm.posture = [-90, 42, 82.6];
+    model.r_elbow.posture = [96.6];
+    model.r_wrist.posture = [-5, 0, 0];
+  };
+
+  const doubleArmParade2 = (model: any) => {
+    model.r_arm.posture = [-90, 42, 82.6];
+    model.r_elbow.posture = [96.6];
+    model.r_wrist.posture = [-5, 0, 0];
+    model.l_arm.posture = [7, -0.6, -37.4];
+    model.l_elbow.posture = [0];
+    model.l_wrist.posture = [5, 0, 0];
+  };
+
+  const doubleArmHug = (model: any) => {
+    model.l_arm.posture = [86.6, -60.2, 75.4];
+    model.l_elbow.posture = [110.8];
+    model.l_wrist.posture = [5, 0, 0];
+    model.r_arm.posture = [-89.9, 65.1, 83.8];
+    model.r_elbow.posture = [102.4];
+    model.r_wrist.posture = [-5, 0, 0];
+  };
+
+  //   // arm single
+  //   const armNature = (model: any) => {
+  //     model.l_arm.posture = [7, -0.6, -5];
+  //     model.l_elbow.posture = [15];
+  //     model.l_wrist.posture = [5, 0, 0];
+  //   };
+
+  //   const armSidelift = (model: any) => {
+  //     model.l_arm.posture=  [7, -0.6, -5]
+  // index-KyLUPahV.js:6795 model.l_elbow.posture= [15]
+  // index-KyLUPahV.js:6795 model.l_wrist.posture=  [5, 0, 0]
+  //   };
+
+  //   const armInclinedLift = (model: any) => {
+  //     model.l_arm.posture=  [7, -0.6, -5]
+  // index-KyLUPahV.js:6795 model.l_elbow.posture= [15]
+  // index-KyLUPahV.js:6795 model.l_wrist.posture=  [5, 0, 0]
+  //   };
+
   /**
    * 设置局部姿势
    * @param model 模型
@@ -513,6 +646,56 @@ export default () => {
    */
   const setPartPose = (model: any, pose: string) => {
     switch (pose) {
+      case "doubleArmNature":
+        doubleArmNature(model);
+        break;
+      case "doubleArmWalk":
+        doubleArmWalk(model);
+        break;
+      case "doubleArmWalk":
+        doubleArmWalk2(model);
+        break;
+      case "doubleArmRun":
+        doubleArmRun(model);
+        break;
+      case "doubleArmRun2":
+        doubleArmRun2(model);
+        break;
+      case "doubleArmParade":
+        doubleArmParade(model);
+        break;
+      case "doubleArmParade2":
+        doubleArmParade2(model);
+        break;
+      case "doubleArmHug":
+        doubleArmHug(model);
+        break;
+
+      case "headNature":
+        headNature(model);
+        break;
+      case "headBow":
+        headBow(model);
+        break;
+      case "headBowMore":
+        headBowMore(model);
+        break;
+      case "headRaise":
+        headRaise(model);
+        break;
+      case "headTurn":
+        headTurn(model);
+        break;
+      case "headTurn2":
+        headTurn2(model);
+        break;
+      case "headTorticollis":
+        headTorticollis(model);
+        break;
+      case "headTorticollis2":
+        headTorticollis2(model);
+        break;
+
       case "ok":
         ok(model);
         break;
