@@ -18,7 +18,7 @@ export default () => {
   const face2Obj = (sourceId: string, targetId: string) => {
     const ball1 = balls.value.filter((ball) => ball.id === sourceId)[0];
     const ball2 = balls.value.filter((ball) => ball.id === targetId)[0];
-    console.log(ball1.id, ball2.id);
+    // console.log(ball1.id, ball2.id);
     const body1 = models.filter((model) => {
       return model._id === ball1.id;
     })[0];
@@ -37,7 +37,7 @@ export default () => {
   const back2Obj = (sourceId: string, targetId: string) => {
     const ball1 = balls.value.filter((ball) => ball.id === sourceId)[0];
     const ball2 = balls.value.filter((ball) => ball.id === targetId)[0];
-    console.log(ball1.id, ball2.id);
+    // console.log(ball1.id, ball2.id);
     const body1 = models.filter((model) => {
       return model._id === ball1.id;
     })[0];
@@ -60,12 +60,12 @@ export default () => {
       return;
     }
     const [ball1, ball2] = selected;
-    console.log(ball1.id, ball2.id);
+    // console.log(ball1.id, ball2.id);
     const bodys = models.filter((model) => {
       return model._id === ball1.id || model._id === ball2.id;
     });
     const [body1, body2] = bodys;
-    console.log(body1.position, body2.position);
+    // console.log(body1.position, body2.position);
     const radius = Math.atan2(
       body2.position.x - body1.position.x,
       body2.position.z - body1.position.z
@@ -87,12 +87,12 @@ export default () => {
       return;
     }
     const [ball1, ball2] = selected;
-    console.log(ball1.id, ball2.id);
+    // console.log(ball1.id, ball2.id);
     const bodys = models.filter((model) => {
       return model._id === ball1.id || model._id === ball2.id;
     });
     const [body1, body2] = bodys;
-    console.log(body1.position, body2.position);
+    // console.log(body1.position, body2.position);
     const radius = Math.atan2(
       body2.position.x - body1.position.x,
       body2.position.z - body1.position.z
@@ -114,12 +114,12 @@ export default () => {
       return;
     }
     const [ball1, ball2] = selected;
-    console.log(ball1.id, ball2.id);
+    // console.log(ball1.id, ball2.id);
     const bodys = models.filter((model) => {
       return model._id === ball1.id || model._id === ball2.id;
     });
     const [body1, body2] = bodys;
-    console.log(body1.position, body2.position);
+    // console.log(body1.position, body2.position);
     const radius = Math.atan2(
       body2.position.x - body1.position.x,
       body2.position.z - body1.position.z
@@ -328,7 +328,7 @@ export default () => {
       str += b.toString();
       str += "\n";
     });
-    console.log(str);
+    // console.log(str);
   }
 
   function getTrueAngle(radians) {
@@ -533,8 +533,8 @@ export default () => {
     // 修正完成
     torso = torsoTemp;
     headTop = neckTemp;
-    console.log(torso);
-    console.log(headTop);
+    // console.log(torso);
+    // console.log(headTop);
 
     // 右手
     // right arm raise
@@ -683,9 +683,9 @@ export default () => {
 
     formatData(data);
     // 右手局部
-    console.log(rightArm, rightElbow, rightWrist);
+    // console.log(rightArm, rightElbow, rightWrist);
     // 左手局部
-    console.log(leftArm, leftElbow, leftWrist);
+    // console.log(leftArm, leftElbow, leftWrist);
   }
 
   const addBody = (id: string, type: string, color = "#ff0000") => {
