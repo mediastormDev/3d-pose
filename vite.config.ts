@@ -18,7 +18,9 @@ export default defineConfig({
   server: {
     proxy: {
       "/api": {
-        target: "http://172.17.19.215:3000",
+        // target: "http://172.17.19.215:3000",
+        target: "https://api.ysjf.com",
+        rewrite: (path) => path.replace(/^\/api/, "/web/v1"),
         changeOrigin: true,
         secure: false,
       },

@@ -13,7 +13,7 @@ const { changePose3D, getModelById } = UseBodys();
 
 const getList = async () => {
   const res = await axios.get("/api/humanpose");
-  list.value = res.data;
+  list.value = res.data || [];
   console.log("getList", list.value);
 };
 
