@@ -12,6 +12,7 @@
     "@three-ts/orbit-controls": "^1.4.7",
     "@types/three": "^0.159.0",
     "@vueuse/core": "^10.7.0",
+    "axios": "^1.6.3",
     "element-plus": "^2.4.4",
     "three": "^0.159.0",
     "vue": "^3.3.8"
