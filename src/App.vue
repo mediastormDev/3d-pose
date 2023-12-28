@@ -6,6 +6,7 @@ import ModelView from "./components/ModelView/index.vue";
 import OperationView from "./components/OperationView/index.vue";
 import GlobalPoseView from "./components/GlobalPoseView/index.vue";
 import ButtonsView from "./components/ButtonsView/index.vue";
+import ListView from "./components/PoseListView/index.vue";
 import UseMannequin from "./composables/useMannequin";
 import UseBodys from "./composables/useModels";
 
@@ -34,6 +35,7 @@ onMounted(() => {
         :index="index"
       />
     </div>
+    <ListView />
   </div>
   <div class="panel2">
     <ModelView />

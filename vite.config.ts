@@ -15,4 +15,13 @@ export default defineConfig({
       resolvers: [ElementPlusResolver()],
     }),
   ],
+  server: {
+    proxy: {
+      "/api": {
+        target: "http://172.17.19.215:3000",
+        changeOrigin: true,
+        secure: false,
+      },
+    },
+  },
 });
