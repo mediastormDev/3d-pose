@@ -4,6 +4,7 @@ import axios from "axios";
 import UseBodys from "../../composables/useModels";
 import UseMannequin from "../../composables/useMannequin";
 import { balls } from "../../composables/useTopView";
+import appleqr from "../../assets/appleqr.svg";
 
 const { setPosture } = UseMannequin();
 
@@ -36,6 +37,10 @@ onMounted(() => {
 </script>
 <template>
   <div>姿态解析数据列表</div>
+  <div style="display: flex; flex-direction: column; align-items: center">
+    <img style="width: 100px" :src="appleqr" alt="" />
+    <span style="color: red;margin-bottom: 20px;font-size: 12px;">扫我录入数据</span>
+  </div>
   <div
     v-for="(item, index) in list"
     :key="index"
