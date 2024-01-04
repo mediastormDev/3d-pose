@@ -361,26 +361,26 @@ export default () => {
 
     let pelvis = data[0];
 
-    let rightLeg = data[1];
-    let rightKnee = data[2];
-    let rightAnkle = data[3];
+    let rightLeg = data[4];
+    let rightKnee = data[5];
+    let rightAnkle = data[6];
 
-    let leftLeg = data[4];
-    let leftKnee = data[5];
-    let leftAnkle = data[6];
+    let leftLeg = data[1];
+    let leftKnee = data[2];
+    let leftAnkle = data[3];
 
     let torso = data[7];
     let neck = data[8];
     // 没有9
     let headTop = data[10];
 
-    let leftArm = data[11];
-    let leftElbow = data[12];
-    let leftWrist = data[13];
+    let leftArm = data[14];
+    let leftElbow = data[15];
+    let leftWrist = data[16];
 
-    let rightArm = data[14];
-    let rightElbow = data[15];
-    let rightWrist = data[16];
+    let rightArm = data[11];
+    let rightElbow = data[12];
+    let rightWrist = data[13];
 
     // 添加坐标系
     //   addCoordinateSystem();
