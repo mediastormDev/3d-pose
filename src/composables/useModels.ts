@@ -338,49 +338,28 @@ export default () => {
   }
 
   function changePose3D(model: any, data: any) {
-    // chouxiangsanshi 苹果
-    // const data = [
-    //   [0, 0, 0],
-    //   [0.1565, 0, 0],
-    //   [0.309603, 0.214713, -0.389651],
-    //   [0.173655, 0.293942, -0.848312],
-    //   [-0.1565, 0.000032, 0.000016],
-    //   [-0.486663, 0.29485, 0.159529],
-    //   [-0.797401, 0.526814, -0.131611],
-    //   [0.029915, 0, 0.270551],
-    //   [-0.115659, 0.097206, 0.49241],
-    //   [0, 0, 0],
-    //   [-0.204092, 0.158118, 0.690599],
-    //   [-0.263058, 0.13023, 0.407668],
-    //   [-0.407843, 0.215057, 0.139314],
-    //   [-0.492578, 0.412743, 0.016854],
-    //   [0.042372, 0.113827, 0.561316],
-    //   [0.344435, 0.021345, 0.580738],
-    //   [0.423033, 0.25599, 0.585207],
-    // ];
-
     let pelvis = data[0];
 
-    let rightLeg = data[4];
-    let rightKnee = data[5];
-    let rightAnkle = data[6];
+    let rightLeg = data[1];
+    let rightKnee = data[2];
+    let rightAnkle = data[3];
 
-    let leftLeg = data[1];
-    let leftKnee = data[2];
-    let leftAnkle = data[3];
+    let leftLeg = data[4];
+    let leftKnee = data[5];
+    let leftAnkle = data[6];
 
     let torso = data[7];
     let neck = data[8];
     // 没有9
     let headTop = data[10];
 
-    let leftArm = data[14];
-    let leftElbow = data[15];
-    let leftWrist = data[16];
+    let leftArm = data[11];
+    let leftElbow = data[12];
+    let leftWrist = data[13];
 
-    let rightArm = data[11];
-    let rightElbow = data[12];
-    let rightWrist = data[13];
+    let rightArm = data[14];
+    let rightElbow = data[15];
+    let rightWrist = data[16];
 
     // 添加坐标系
     //   addCoordinateSystem();

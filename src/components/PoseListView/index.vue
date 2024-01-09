@@ -14,7 +14,29 @@ const { changePose3D, getModelById } = UseBodys();
 
 const getList = async () => {
   const res = await axios.get("/api/humanpose");
-  list.value = res.data || [];
+  list.value =
+    res.data.map((data: any) => {
+      data.data.map((it: any, index: number) => {
+        if (
+          index === 1 ||
+          index === 2 ||
+          index === 3 ||
+          index === 4 ||
+          index === 5 ||
+          index === 6 ||
+          index == 11 ||
+          index == 12 ||
+          index == 13 ||
+          index == 14 ||
+          index == 15 ||
+          index == 16
+        ) {
+          it[0] = -it[0];
+        }
+      });
+
+      return data;
+    }) || [];
 };
 
 const onClickData = (data: any) => {
@@ -39,7 +61,9 @@ onMounted(() => {
   <div>姿态解析数据列表</div>
   <div style="display: flex; flex-direction: column; align-items: center">
     <img style="width: 100px" :src="appleqr" alt="" />
-    <span style="color: red;margin-bottom: 20px;font-size: 12px;">扫我录入数据</span>
+    <span style="color: red; margin-bottom: 20px; font-size: 12px"
+      >扫我录入数据</span
+    >
   </div>
   <div
     v-for="(item, index) in list"
