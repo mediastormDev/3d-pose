@@ -1,9 +1,12 @@
 <script lang="ts" setup>
+import { ref } from "vue";
 import BACKIMG from "../../assets/back.png";
 import PLUSIMG from "../../assets/plus.png";
 import XIALAIMG from "../../assets/xiala.png";
 import RECALLIMG from "../../assets/recall.png";
 import FORWARD from "../../assets/forward.png";
+
+const showAdd = ref(false);
 </script>
 
 <template>
@@ -20,7 +23,7 @@ import FORWARD from "../../assets/forward.png";
         margin-left: 65px;
       "
     ></div>
-    <div class="add_button">
+    <div class="add_button" @click="showAdd = !showAdd">
       <img style="width: 20px; height: 20px" :src="PLUSIMG" alt="" />
       <img
         style="width: 8px; height: 8px; margin-left: 5px"
@@ -37,6 +40,7 @@ import FORWARD from "../../assets/forward.png";
       />
     </div>
   </div>
+  <AddView v-if="showAdd" />
 </template>
 
 <style lang="less" scoped>
@@ -57,12 +61,12 @@ import FORWARD from "../../assets/forward.png";
   .add_button {
     display: flex;
     align-items: center;
-    background: #f6f6f6;
     padding: 5px;
     border-radius: 5px;
     margin-left: 15px;
     &:hover {
       cursor: pointer;
+      background: #f6f6f6;
     }
   }
 }
