@@ -7,6 +7,7 @@ export {}
 
 declare module 'vue' {
   export interface GlobalComponents {
+    BannerView: typeof import('./src/components/BannerView/index.vue')['default']
     BodyView: typeof import('./src/components/BodyView/index.vue')['default']
     ButtonsView: typeof import('./src/components/ButtonsView/index.vue')['default']
     DropDownMenu: typeof import('./src/components/DropDownMenu/index.vue')['default']

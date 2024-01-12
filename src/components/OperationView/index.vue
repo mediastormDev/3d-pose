@@ -1,6 +1,12 @@
 <script lang="ts" setup>
 import UseMannequin from "../../composables/useMannequin";
-import { Sort, Right, TopRight } from "@element-plus/icons-vue";
+import QIANHOUIMG from "../../assets/qianhou.png";
+import ZUOYOUIMG from "../../assets/zuoyou.png";
+import XUANZHUANIMG from "../../assets/xuanzhuan.png";
+import MOVEX from "../../assets/moveX.png";
+import MOVEY from "../../assets/moveY.png";
+import MOVEZ from "../../assets/moveZ.png";
+
 const { rotMov } = UseMannequin();
 
 const onClickButton = (type: string) => {
@@ -12,32 +18,72 @@ const onClickButton = (type: string) => {
   <div>
     <div class="operations_view">
       <el-button
-        :icon="Sort"
         size="large"
+        :class="{ selected: rotMov === 'rotZ' }"
         circle
         @click="onClickButton('rotZ')"
-      />
+      >
+        <template #icon>
+          <img style="width: 40px; height: 40px" :src="QIANHOUIMG" alt="" />
+        </template>
+      </el-button>
       <el-button
-        :icon="Right"
         size="large"
+        :class="{ selected: rotMov === 'rotX' }"
         circle
         @click="onClickButton('rotX')"
-      />
+      >
+        <template #icon>
+          <img style="width: 40px; height: 40px" :src="ZUOYOUIMG" alt="" />
+        </template>
+      </el-button>
       <el-button
-        :icon="TopRight"
         size="large"
+        :class="{ selected: rotMov === 'rotY' }"
         circle
         @click="onClickButton('rotY')"
-      />
-      <el-button size="large" circle @click="onClickButton('movX')"
-        >X</el-button
       >
-      <el-button size="large" circle @click="onClickButton('movY')"
-        >Y</el-button
+        <template #icon>
+          <img style="width: 40px; height: 40px" :src="XUANZHUANIMG" alt="" />
+        </template>
+      </el-button>
+      <el-button
+        size="large"
+        :class="{ selected: rotMov === 'movX' }"
+        circle
+        @click="onClickButton('movX')"
       >
-      <el-button size="large" circle @click="onClickButton('movZ')"
-        >Z</el-button
-      >
+        <template #icon>
+          <img
+            style="width: 40px; height: 40px"
+            :src="MOVEX"
+            alt=""
+          /> </template
+      ></el-button>
+      <el-button
+        size="large"
+        :class="{ selected: rotMov === 'movY' }"
+        circle
+        @click="onClickButton('movY')"
+        ><template #icon>
+          <img
+            style="width: 40px; height: 40px"
+            :src="MOVEY"
+            alt=""
+          /> </template
+      ></el-button>
+      <el-button
+        size="large"
+        :class="{ selected: rotMov === 'movZ' }"
+        circle
+        @click="onClickButton('movZ')"
+        ><template #icon>
+          <img
+            style="width: 40px; height: 40px"
+            :src="MOVEZ"
+            alt=""
+          /> </template
+      ></el-button>
     </div>
 
     <!-- <fieldset id="group1">
@@ -114,5 +160,9 @@ const onClickButton = (type: string) => {
   background: #ffffff;
   border-radius: 10px;
   border: none;
+}
+
+.selected {
+  background-color: #ffda71;
 }
 </style>

@@ -4,6 +4,7 @@ import TopView from "./components/TopView/index.vue";
 import BodyView from "./components/BodyView/index.vue";
 import ModelView from "./components/ModelView/index.vue";
 import OperationView from "./components/OperationView/index.vue";
+import BannerView from "./components/BannerView/index.vue";
 import GlobalPoseView from "./components/GlobalPoseView/index.vue";
 import ButtonsView from "./components/ButtonsView/index.vue";
 import ListView from "./components/PoseListView/index.vue";
@@ -23,6 +24,9 @@ onMounted(() => {
 </script>
 
 <template>
+  <div class="panel1">
+    <BannerView />
+  </div>
   <div class="panel">
     <TopView />
     <OperationView />
@@ -49,9 +53,19 @@ onMounted(() => {
   // width: 200px;
   padding: 20px;
   position: fixed;
-  top: 0;
+  top: 50px;
   z-index: 10;
   background-color: white;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.panel1 {
+  // width: 200px;
+  position: fixed;
+  top: 0;
+  z-index: 10;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -61,7 +75,7 @@ onMounted(() => {
   width: 200px;
   padding: 20px;
   position: fixed;
-  top: 0;
+  top: 50px;
   right: 0;
   z-index: 10;
   background-color: white;
