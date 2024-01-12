@@ -49,10 +49,9 @@ onMounted(() => {
 
 <style lang="less" scoped>
 .panel {
-  margin: 0.3em;
-  // width: 200px;
   padding: 20px;
   position: fixed;
+  left: 0;
   top: 50px;
   z-index: 10;
   background-color: white;
@@ -71,7 +70,6 @@ onMounted(() => {
   align-items: center;
 }
 .panel2 {
-  margin: 0.3em;
   width: 200px;
   padding: 20px;
   position: fixed;
