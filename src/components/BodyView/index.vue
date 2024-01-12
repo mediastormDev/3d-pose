@@ -61,7 +61,7 @@ const onRangeChange = (body: any) => {
     <div
       style="display: flex; align-items: center; justify-content: space-between"
     >
-      <div>{{ body.type }}</div>
+      <div class="title">{{ body.type === "Male" ? "男角度" : "女角度" }}</div>
       <div
         ref="clickTarget"
         style="
@@ -127,5 +127,11 @@ li {
   right: 0;
   top: 0;
   transform: translateX(100%);
+}
+
+.title {
+  font-size: 12px;
+  font-weight: 600;
+  color: #24252c;
 }
 </style>

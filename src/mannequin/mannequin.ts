@@ -1088,7 +1088,7 @@ class Phalange extends Joint {
         this.parent.nail.material.color = color;
       };
 
-      this.add(this.nail);
+      // this.add(this.nail);
     }
   } // Phalange.constructor
 

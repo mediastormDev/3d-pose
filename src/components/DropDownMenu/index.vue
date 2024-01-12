@@ -1,6 +1,7 @@
 <script lang="ts" setup>
 import { ref } from "vue";
 import safeArea from "./safeArea.vue";
+import ARROWIMG from "../../assets/right_1.png";
 
 interface IMenu {
   label: string;
@@ -32,7 +33,17 @@ const onClickSubMenu = (menu: string, submenu: string) => {
       v-for="(menu, index) in menus"
       :key="index"
     >
-      {{ menu.label }}
+      <div
+        style="
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          width: 100%;
+        "
+      >
+        <div>{{ menu.label }}</div>
+        <img style="width: 20px" :src="ARROWIMG" alt="" />
+      </div>
       <safeArea
         v-show="showSubmenu && hoverIndex === index"
         :menu-ref="submenuRef"
@@ -53,7 +64,7 @@ const onClickSubMenu = (menu: string, submenu: string) => {
             :key="i"
             class="submenu_item"
           >
-            {{ submenu.label }}
+            <div>{{ submenu.label }}</div>
           </div>
         </div>
       </div>
@@ -75,7 +86,7 @@ li {
   list-style: none;
   background: #fff;
   color: #2a2a2a;
-  width: 100px;
+  width: 180px;
   padding: 5px 10px;
   margin: 2px 0;
   cursor: pointer;
@@ -95,6 +106,9 @@ li {
   right: 0;
   top: -10px;
   transform: translateX(100% + 10px);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 }
 .submenu_item {
   list-style: none;
