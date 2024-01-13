@@ -3,7 +3,7 @@ import UseMannequin from "../../composables/useMannequin";
 import UseBodys from "../../composables/useModels";
 import { ref, computed } from "vue";
 
-const { mousePostion } = UseMannequin();
+const { mousePostion, intersectObj } = UseMannequin();
 const { bodys } = UseBodys();
 
 const menus = ref([

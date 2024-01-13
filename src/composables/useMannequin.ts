@@ -37,6 +37,7 @@ const biologicalConstraints = ref(true);
 const rotMov = ref("rotZ");
 const mousePostion = ref({ x: 0, y: 0 });
 const showContentMenu = ref(false);
+const intersectObj = ref(null);
 
 export default () => {
   const names = [
@@ -141,8 +142,17 @@ export default () => {
 
   function οnCοntextmenu(event: any) {
     event.preventDefault();
-    console.log("οnCοntextmenu :>> ", event);
-    showContentMenu.value = !showContentMenu.value;
+    raycaster.setFromCamera(mouse, camera);
+
+    const intersects = raycaster.intersectObjects(models, true);
+    if (
+      intersects.length &&
+      (intersects[0].object.name || intersects[0].object.parent.name)
+    ) {
+      intersectObj.value = intersects[0].object;
+      showContentMenu.value = !showContentMenu.value;
+    }
+
     mousePostion.value.x = event.clientX;
     mousePostion.value.y = event.clientY;
   }
@@ -679,5 +689,6 @@ export default () => {
     setPartPosture,
     mousePostion,
     showContentMenu,
+    intersectObj,
   };
 };
