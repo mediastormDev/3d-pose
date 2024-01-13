@@ -67,7 +67,7 @@ const onClickSubMenu = (menu: string, submenu: string) => {
         class="submenu"
         ref="child"
       >
-        <div ref="submenuRef">
+        <div ref="submenuRef" style="max-height: 300px; overflow: auto">
           <div
             @click="onClickSubMenu(menu.value, submenu.value)"
             v-for="(submenu, i) in submenus"
@@ -115,7 +115,7 @@ li {
   position: absolute;
   right: 0;
   top: -10px;
-  transform: translateX(100% + 8px);
+  transform: translateX(100% + 4px);
   display: flex;
   align-items: center;
   justify-content: space-between;

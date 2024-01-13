@@ -9,18 +9,18 @@ import IVIISIABLEIMG from "../../assets/s_invisiable.png";
 import DELETEIMG from "../../assets/delete.png";
 import axios from "axios";
 import { dayjs } from "element-plus";
-import { ref, computed, onMounted } from "vue";
+import { ref, computed, onMounted, toValue } from "vue";
 
-const { mousePostion, intersectObj } = UseMannequin();
-const { bodys } = UseBodys();
+const { mousePostion, intersectObj, setPosture } = UseMannequin();
+const { bodys, changePose3D, getModelById } = UseBodys();
 
 const menus = ref([
-  { label: "导入动作", value: "face2", icon: IMPORTIMG, show: true },
-  { label: "复制动作", value: "back2", icon: COPYIMG },
-  { label: "前置一层", value: "back2", icon: MOVEUPIMG },
-  { label: "后移一层", value: "back2", icon: MOVEDOWN },
-  { label: "隐藏模型", value: "back2", icon: IVIISIABLEIMG },
-  { label: "删除模型", value: "back2", icon: DELETEIMG },
+  { label: "导入动作", value: "pose", icon: IMPORTIMG, show: true },
+  { label: "复制动作", value: "pose", icon: COPYIMG },
+  { label: "前置一层", value: "pose", icon: MOVEUPIMG },
+  { label: "后移一层", value: "pose", icon: MOVEDOWN },
+  { label: "隐藏模型", value: "pose", icon: IVIISIABLEIMG },
+  { label: "删除模型", value: "pose", icon: DELETEIMG },
 ]);
 const list = ref([]);
 
@@ -67,7 +67,23 @@ const getList = async () => {
 };
 
 const handleChange = (value) => {
-  console.log(value);
+  // console.log(value);
+  // console.log("intersectObj :>> ", intersectObj);
+  const poseString = `{"version":7,"data":[[0,3.8,0],[0,-90,0],[0,0,-2],[0,0,5],[6,0,0],[0],[-6,-6,-0.6],[-6,0,0],[0],[6,6,-0.6],[7,-0.6,-5],[15],[5,0,0],[-90,70,75,0,10,0,10],[0,0,10,0,10,0,10],[0,0,10,0,10,0,10],[0,0,10,0,10,0,10],[0,0,10,0,10,0,10],[-7,0.6,-5],[15],[-5,0,0],[90,-70,75,0,10,0,10],[0,0,10,0,10,0,10],[0,0,10,0,10,0,10],[0,0,10,0,10,0,10],[0,0,10,0,10,0,10]]}`;
+
+  const getParent = (obj) => {
+    // console.log("obj :>> ", obj);
+    const temp = toValue(obj);
+    // console.log("temp :>> ", temp);
+    // console.log("temp.parent :>> ", temp.parent);
+    if (temp.parent.l_arm) {
+      return temp.parent;
+    }
+    return getParent(temp.parent);
+  };
+  const model = getModelById(getParent(intersectObj)._id);
+  setPosture(model, poseString);
+  changePose3D(model, value[1]);
 };
 
 onMounted(() => {

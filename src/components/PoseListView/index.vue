@@ -65,13 +65,13 @@ onMounted(() => {
       >扫我录入数据</span
     >
   </div>
-  <div
+  <!-- <div
     v-for="(item, index) in list"
     :key="index"
     @click="onClickData(item.data)"
   >
     数据{{ index }}
-  </div>
+  </div> -->
 </template>
 
 <style lang="less" scoped></style>

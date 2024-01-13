@@ -149,6 +149,7 @@ export default () => {
       intersects.length &&
       (intersects[0].object.name || intersects[0].object.parent.name)
     ) {
+      // console.log('intersects[0] :>> ', intersects[0]);
       intersectObj.value = intersects[0].object;
       showContentMenu.value = !showContentMenu.value;
     }
