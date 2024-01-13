@@ -178,4 +178,8 @@ function getData() {
 .el-button + .el-button {
   margin-left: 0;
 }
+
+:deep(.el-collapse-item__header) {
+  border: none;
+}
 </style>
