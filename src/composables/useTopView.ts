@@ -94,7 +94,11 @@ export class Ball {
     this.context.fillStyle = "#ffffff";
     this.context.font = "10px serif";
     this.context.textAlign = "center";
-    this.context.fillText("男", this.x, this.y + 2);
+    this.context.fillText(
+      this.color === "#8e44ad" ? "女" : "男",
+      this.x,
+      this.y + 2
+    );
   }
 }
 

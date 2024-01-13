@@ -92,6 +92,7 @@ const onRangeChange = (body: any) => {
       :max="Math.PI"
       :step="Math.PI / 180"
       v-model="body.rotation"
+      style="width: 100%"
     />
   </div>
 </template>
@@ -133,5 +134,34 @@ li {
   font-size: 12px;
   font-weight: 600;
   color: #24252c;
+}
+
+[type="range"] {
+  -webkit-appearance: none;
+  appearance: none;
+  margin: 0;
+  outline: 0;
+  background-color: transparent;
+  // width: 500px;
+}
+[type="range"]::-webkit-slider-runnable-track {
+  height: 4px;
+  background: #eee;
+}
+[type="range" i]::-webkit-slider-container {
+  height: 20px;
+  overflow: hidden;
+}
+[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background-color: #ffda71;
+  border: 1px solid transparent;
+  margin-top: -3px;
+  border-image: linear-gradient(#ffeebb, #ffeebb) 0 fill / 3 10 3 0 / 0px 0px 0
+    2000px;
 }
 </style>

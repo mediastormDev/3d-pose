@@ -31,7 +31,7 @@ onMounted(() => {
     <TopView />
     <OperationView />
     <ButtonsView />
-    <div>
+    <div style="width: 100%">
       <BodyView
         v-for="(body, index) in bodys"
         :key="index"
@@ -70,7 +70,7 @@ onMounted(() => {
   align-items: center;
 }
 .panel2 {
-  width: 200px;
+  width: 318px;
   padding: 20px;
   position: fixed;
   top: 50px;

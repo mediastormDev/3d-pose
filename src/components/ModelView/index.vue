@@ -1,6 +1,9 @@
 <script lang="ts" setup>
 import UseBodys from "../../composables/useModels";
-import { Avatar } from "@element-plus/icons-vue";
+import InvisiableIMG from "../../assets/s_invisiable.png";
+import VisiableIMG from "../../assets/s_visiable.png";
+import CUBEIMG from "../../assets/cube.png";
+import RENOUIMG from "../../assets/renou.png";
 const { bodys } = UseBodys();
 </script>
 
@@ -9,14 +12,31 @@ const { bodys } = UseBodys();
   <div v-for="(body, index) in bodys" :key="index">
     <div class="model_body-view">
       <div class="name_view">
-        <el-icon><Avatar /></el-icon>
-        <div class="name_box">{{ body.type }}</div>
+        <img style="width: 16px" :src="RENOUIMG" alt="" />
+        <div class="name_box">
+          {{ body.color === "#8e44ad" ? "女" : "男" }}演员
+        </div>
       </div>
       <div class="color_view" :style="{ background: body.color }"></div>
     </div>
-    <!-- <div>{{ body.name }}-{{ body.type }}-{{ body.id }}</div>
-    <div :style="{ background: body.color }">{{ body.color }}</div> -->
   </div>
+  <div>
+    <div class="model_body-view">
+      <div class="name_view">
+        <img style="width: 16px" :src="CUBEIMG" alt="" />
+        <div class="name_box">几何体</div>
+      </div>
+      <div style="display: flex; align-items: center">
+        <img
+          style="height: 12px; width: 12px; margin-right: 13px"
+          :src="InvisiableIMG"
+          alt=""
+        />
+        <div class="color_view" style="background: #9eedec"></div>
+      </div>
+    </div>
+  </div>
+  <div style="border-bottom: 1px solid #eeeeee; margin-top: 20px"></div>
 </template>
 
 <style lang="less" scoped>
@@ -24,7 +44,7 @@ const { bodys } = UseBodys();
   font-size: 14px;
   font-weight: 600;
   color: #24252c;
-  margin: 20px 0 10px 0;
+  margin: 0 0 10px 0;
 }
 .model_body-view {
   display: flex;
