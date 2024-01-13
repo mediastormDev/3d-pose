@@ -181,5 +181,15 @@ function getData() {
 
 :deep(.el-collapse-item__header) {
   border: none;
+  direction: rtl;
+  display: flex;
+  justify-content: flex-end;
+}
+
+:deep(.el-collapse-item__arrow) {
+  margin: 0 8px;
+}
+:deep(.el-collapse-item__content) {
+  padding-left: 8px;
 }
 </style>
