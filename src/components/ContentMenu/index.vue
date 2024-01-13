@@ -7,8 +7,12 @@ const { mousePostion } = UseMannequin();
 const { bodys } = UseBodys();
 
 const menus = ref([
-  { label: "面朝", value: "face2" },
-  { label: "背对", value: "back2" },
+  { label: "导入动作", value: "face2" },
+  { label: "复制动作", value: "back2" },
+  { label: "前置一层", value: "back2" },
+  { label: "后移一层", value: "back2" },
+  { label: "隐藏模型", value: "back2" },
+  { label: "删除模型", value: "back2" },
 ]);
 
 const targets = computed(() => {

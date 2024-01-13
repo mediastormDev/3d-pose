@@ -161,6 +161,7 @@ export default () => {
 
   function onPointerDown(event: any) {
     userInput(event);
+    showContentMenu.value = false;
 
     gauge.parent?.remove(gauge);
     dragPoint.parent?.remove(dragPoint);
