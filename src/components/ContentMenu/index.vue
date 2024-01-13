@@ -1,6 +1,12 @@
 <script lang="ts" setup>
 import UseMannequin from "../../composables/useMannequin";
 import UseBodys from "../../composables/useModels";
+import IMPORTIMG from "../../assets/import.png";
+import COPYIMG from "../../assets/copy.png";
+import MOVEUPIMG from "../../assets/moveup.png";
+import MOVEDOWN from "../../assets/movedown.png";
+import IVIISIABLEIMG from "../../assets/s_invisiable.png";
+import DELETEIMG from "../../assets/delete.png";
 import axios from "axios";
 import { dayjs } from "element-plus";
 import { ref, computed, onMounted } from "vue";
@@ -9,12 +15,12 @@ const { mousePostion, intersectObj } = UseMannequin();
 const { bodys } = UseBodys();
 
 const menus = ref([
-  { label: "导入动作", value: "face2" },
-  { label: "复制动作", value: "back2" },
-  { label: "前置一层", value: "back2" },
-  { label: "后移一层", value: "back2" },
-  { label: "隐藏模型", value: "back2" },
-  { label: "删除模型", value: "back2" },
+  { label: "导入动作", value: "face2", icon: IMPORTIMG, show: true },
+  { label: "复制动作", value: "back2", icon: COPYIMG },
+  { label: "前置一层", value: "back2", icon: MOVEUPIMG },
+  { label: "后移一层", value: "back2", icon: MOVEDOWN },
+  { label: "隐藏模型", value: "back2", icon: IVIISIABLEIMG },
+  { label: "删除模型", value: "back2", icon: DELETEIMG },
 ]);
 const list = ref([]);
 

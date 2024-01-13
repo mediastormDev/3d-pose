@@ -41,18 +41,28 @@ const onClickSubMenu = (menu: string, submenu: string) => {
           width: 100%;
         "
       >
-        <div class="item_title">{{ menu.label }}</div>
-        <img style="width: 20px" :src="ARROWIMG" alt="" />
+        <div style="display: flex; align-items: center">
+          <img
+            v-if="menu.icon"
+            :src="menu.icon"
+            alt=""
+            style="width: 16px; margin-right: 10px"
+          />
+          <div class="item_title">{{ menu.label }}</div>
+        </div>
+        <img v-if="menu.show" style="width: 20px" :src="ARROWIMG" alt="" />
       </div>
       <safeArea
-        v-show="showSubmenu && hoverIndex === index"
+        v-show="showSubmenu && hoverIndex === index && menu.show"
         :menu-ref="submenuRef"
         :index="index"
       />
       <div
         :style="{
           visibility:
-            showSubmenu && hoverIndex === index ? 'visible' : 'hidden',
+            showSubmenu && hoverIndex === index && menu.show
+              ? 'visible'
+              : 'hidden',
         }"
         class="submenu"
         ref="child"
@@ -87,7 +97,7 @@ li {
   background: #fff;
   color: #2a2a2a;
   width: 180px;
-  padding: 5px 10px;
+  padding: 10px;
   margin: 2px 0;
   cursor: pointer;
   border-radius: 6px;
@@ -115,7 +125,7 @@ li {
   background: #fff;
   color: #2a2a2a;
   width: 165px;
-  padding: 5px 10px;
+  padding: 10px;
   margin: 2px 0;
   cursor: pointer;
   border-radius: 6px;

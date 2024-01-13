@@ -14,8 +14,8 @@ const { bodys, face2Obj, back2Obj } = UseBodys();
 const props = defineProps<{ body: any; index: number }>();
 
 const menus = ref([
-  { label: "面朝", value: "face2" },
-  { label: "背对", value: "back2" },
+  { label: "面朝", value: "face2", show: true },
+  { label: "背对", value: "back2", show: true },
 ]);
 const showMore = ref(false);
 const clickTarget = ref(null);
