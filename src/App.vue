@@ -10,8 +10,9 @@ import ButtonsView from "./components/ButtonsView/index.vue";
 import ListView from "./components/PoseListView/index.vue";
 import UseMannequin from "./composables/useMannequin";
 import UseBodys from "./composables/useModels";
+import ContentMenu from "./components/ContentMenu/index.vue";
 
-const { init } = UseMannequin();
+const { init, showContentMenu } = UseMannequin();
 
 const { bodys, addBody } = UseBodys();
 
@@ -45,6 +46,7 @@ onMounted(() => {
     <ModelView />
     <GlobalPoseView />
   </div>
+  <ContentMenu v-if="showContentMenu" />
 </template>
 
 <style lang="less" scoped>

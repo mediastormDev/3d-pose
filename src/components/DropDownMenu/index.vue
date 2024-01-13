@@ -41,7 +41,7 @@ const onClickSubMenu = (menu: string, submenu: string) => {
           width: 100%;
         "
       >
-        <div>{{ menu.label }}</div>
+        <div class="item_title">{{ menu.label }}</div>
         <img style="width: 20px" :src="ARROWIMG" alt="" />
       </div>
       <safeArea
@@ -64,7 +64,7 @@ const onClickSubMenu = (menu: string, submenu: string) => {
             :key="i"
             class="submenu_item"
           >
-            <div>{{ submenu.label }}</div>
+            <div class="item_title">{{ submenu.label }}</div>
           </div>
         </div>
       </div>
@@ -122,5 +122,11 @@ li {
   &:hover {
     background: #f4f6f7;
   }
+}
+
+.item_title {
+  font-size: 13px;
+  font-weight: 600;
+  color: #24252c;
 }
 </style>

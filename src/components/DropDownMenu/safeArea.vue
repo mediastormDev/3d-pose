@@ -15,15 +15,17 @@ watch(
   () => props.menuRef,
   (currentRef) => {
     if (currentRef) {
+      console.log("currentRef :>> ", currentRef);
       const { width, height, x, y } =
         currentRef[props.index].getBoundingClientRect();
       console.log(width, height, x, y);
       submenuWidth.value = width;
-      submenuHeight.value = height;
+      submenuHeight.value = Math.max(height, 32.5);
       submenuX.value = x;
       submenuY.value = y;
     }
-  }
+  },
+  { deep: true }
 );
 
 const svgWidth = computed(() => {

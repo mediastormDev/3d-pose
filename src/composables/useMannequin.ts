@@ -35,6 +35,8 @@ const EPS = 0.00001;
 const inverseKinematic = ref(false);
 const biologicalConstraints = ref(true);
 const rotMov = ref("rotZ");
+const mousePostion = ref({ x: 0, y: 0 });
+const showContentMenu = ref(false);
 
 export default () => {
   const names = [
@@ -135,6 +137,14 @@ export default () => {
 
     mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
     mouse.y = (-event.clientY / window.innerHeight) * 2 + 1;
+  }
+
+  function οnCοntextmenu(event: any) {
+    event.preventDefault();
+    console.log("οnCοntextmenu :>> ", event);
+    showContentMenu.value = !showContentMenu.value;
+    mousePostion.value.x = event.clientX;
+    mousePostion.value.y = event.clientY;
   }
 
   function onPointerMove(event: any) {
@@ -629,6 +639,7 @@ export default () => {
     renderer.domElement.addEventListener("pointerdown", onPointerDown);
     renderer.domElement.addEventListener("pointerup", onPointerUp);
     renderer.domElement.addEventListener("pointermove", onPointerMove);
+    renderer.domElement.addEventListener("contextmenu", οnCοntextmenu);
 
     // Axes helper
     const axesHelper = new THREE.AxesHelper(100);
@@ -665,5 +676,7 @@ export default () => {
     createBody,
     setPosture,
     setPartPosture,
+    mousePostion,
+    showContentMenu,
   };
 };

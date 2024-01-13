@@ -11,6 +11,7 @@ declare module 'vue' {
     BannerView: typeof import('./src/components/BannerView/index.vue')['default']
     BodyView: typeof import('./src/components/BodyView/index.vue')['default']
     ButtonsView: typeof import('./src/components/ButtonsView/index.vue')['default']
+    ContentMenu: typeof import('./src/components/ContentMenu/index.vue')['default']
     DropDownMenu: typeof import('./src/components/DropDownMenu/index.vue')['default']
     ElButton: typeof import('element-plus/es')['ElButton']
     ElCollapse: typeof import('element-plus/es')['ElCollapse']
