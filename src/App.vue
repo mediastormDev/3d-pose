@@ -7,7 +7,7 @@ import OperationView from "./components/OperationView/index.vue";
 import BannerView from "./components/BannerView/index.vue";
 import GlobalPoseView from "./components/GlobalPoseView/index.vue";
 import ButtonsView from "./components/ButtonsView/index.vue";
-import ListView from "./components/PoseListView/index.vue";
+import PoseListView from "./components/PoseListView/index.vue";
 import UseMannequin from "./composables/useMannequin";
 import UseBodys from "./composables/useModels";
 import ContentMenu from "./components/ContentMenu/index.vue";
@@ -40,7 +40,7 @@ onMounted(() => {
         :index="index"
       />
     </div>
-    <ListView />
+    <PoseListView />
   </div>
   <div class="panel2">
     <ModelView />

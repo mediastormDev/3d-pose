@@ -105,7 +105,7 @@ li {
   position: absolute;
   right: 0;
   top: -10px;
-  transform: translateX(100% + 10px);
+  transform: translateX(100% + 8px);
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -114,7 +114,7 @@ li {
   list-style: none;
   background: #fff;
   color: #2a2a2a;
-  width: 100px;
+  width: 165px;
   padding: 5px 10px;
   margin: 2px 0;
   cursor: pointer;
