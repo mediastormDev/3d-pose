@@ -3,6 +3,7 @@ import { ref, inject } from "vue";
 import CLOSEIMG from "../../assets/close@2x.png";
 import XIALAIMG from "../../assets/xiala.png";
 import XIALA2IMG from "../../assets/xiala@2x.png";
+import PLUS2IMG from "../../assets/plus_2.png";
 
 const setRenderViewStatus = inject("setRenderViewStatus");
 
@@ -23,7 +24,7 @@ const selectedList = ref(["杭州小潘", "咖啡厅"]);
       </div>
       <div style="display: flex">
         <div style="flex: 1; display: flex; flex-direction: column">
-          <div style="margin-bottom: 25px">
+          <div style="margin-bottom: 25px; position: relative">
             <div class="sub_title" style="margin-bottom: 5px">预设</div>
             <div class="multi_select">
               <div style="display: flex; align-items: center">
@@ -36,6 +37,39 @@ const selectedList = ref(["杭州小潘", "咖啡厅"]);
                 </div>
               </div>
               <img class="icon" :src="XIALAIMG" alt="" />
+            </div>
+            <div class="pop_menu">
+              <div class="title">外型预设</div>
+              <div style="display: flex; align-items: center; margin-top: 10px">
+                <div
+                  class="selected_item"
+                  v-for="(selected, index) in selectedList"
+                  :key="index"
+                >
+                  {{ selected }}
+                </div>
+                <div
+                  style="
+                    background-color: #f4f6f7;
+                    padding: 2px 6px;
+                    border-radius: 6px;
+                    margin-left: 5px;
+                  "
+                >
+                  <img style="width: 14px" :src="PLUS2IMG" alt="" />
+                </div>
+              </div>
+
+              <div class="title" style="margin-top: 20px">场地预设</div>
+              <div style="display: flex; align-items: center; margin-top: 10px">
+                <div
+                  class="selected_item"
+                  v-for="(selected, index) in selectedList"
+                  :key="index"
+                >
+                  {{ selected }}
+                </div>
+              </div>
             </div>
           </div>
           <div class="sub_title">正向描述词</div>
@@ -90,6 +124,10 @@ const selectedList = ref(["杭州小潘", "咖啡厅"]);
   font-weight: 500;
   color: #24252c;
   padding: 5px 10px;
+  user-select: none;
+  &:hover {
+    cursor: pointer;
+  }
 }
 
 .selected_item + .selected_item {
@@ -117,17 +155,31 @@ const selectedList = ref(["杭州小潘", "咖啡厅"]);
     height: 10px;
   }
 }
+
+.pop_menu {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  transform: translateY(100%);
+
+  background: #ffffff;
+  border-radius: 6px;
+  border: 1px solid #eeeeee;
+  padding: 10px;
+}
+
+.title {
+  font-size: 16px;
+  font-weight: 500;
+  color: #24252c;
+}
 .body_view {
   .header {
     display: flex;
     align-items: center;
     justify-content: space-between;
     margin-bottom: 20px;
-    .title {
-      font-size: 16px;
-      font-weight: 500;
-      color: #24252c;
-    }
   }
   .sub_title {
     font-size: 14px;
