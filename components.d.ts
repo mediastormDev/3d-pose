@@ -21,6 +21,7 @@ declare module 'vue' {
     ModelView: typeof import('./src/components/ModelView/index.vue')['default']
     OperationView: typeof import('./src/components/OperationView/index.vue')['default']
     PoseListView: typeof import('./src/components/PoseListView/index.vue')['default']
+    RenderModalView: typeof import('./src/components/RenderModalView/index.vue')['default']
     SafeArea: typeof import('./src/components/DropDownMenu/safeArea.vue')['default']
     TopView: typeof import('./src/components/TopView/index.vue')['default']
   }

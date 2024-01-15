@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { onMounted } from "vue";
+import { onMounted, ref, provide } from "vue";
 import TopView from "./components/TopView/index.vue";
 import BodyView from "./components/BodyView/index.vue";
 import ModelView from "./components/ModelView/index.vue";
@@ -15,6 +15,14 @@ import ContentMenu from "./components/ContentMenu/index.vue";
 const { init, showContentMenu } = UseMannequin();
 
 const { bodys, addBody } = UseBodys();
+
+const showRender = ref(false);
+
+const setRenderViewStatus = () => {
+  showRender.value = !showRender.value;
+};
+
+provide("setRenderViewStatus", setRenderViewStatus);
 
 onMounted(() => {
   init();
@@ -47,6 +55,7 @@ onMounted(() => {
     <GlobalPoseView />
   </div>
   <ContentMenu v-if="showContentMenu" />
+  <RenderModalView v-if="showRender" style="z-index: 11" />
 </template>
 
 <style lang="less" scoped>

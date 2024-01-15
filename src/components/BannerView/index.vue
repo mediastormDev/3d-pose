@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { ref } from "vue";
+import { ref, inject } from "vue";
 import BACKIMG from "../../assets/back.png";
 import PLUSIMG from "../../assets/plus.png";
 import XIALAIMG from "../../assets/xiala.png";
@@ -7,11 +7,13 @@ import RECALLIMG from "../../assets/recall.png";
 import FORWARD from "../../assets/forward.png";
 
 const showAdd = ref(false);
+
+const setRenderViewStatus = inject("setRenderViewStatus");
 </script>
 
 <template>
   <div class="banner">
-    <div style="display: flex;align-items: center;">
+    <div style="display: flex; align-items: center">
       <div style="display: flex; align-items: center; margin-left: 30px">
         <img style="width: 20px; height: 20px" :src="BACKIMG" />
         <div class="back_title">保存并退出</div>
@@ -41,7 +43,7 @@ const showAdd = ref(false);
         />
       </div>
     </div>
-    <div class="render_button">渲染</div>
+    <div @click="setRenderViewStatus" class="render_button">渲染</div>
   </div>
   <AddView v-if="showAdd" />
 </template>

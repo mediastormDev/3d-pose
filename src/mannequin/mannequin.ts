@@ -72,7 +72,7 @@ export function createScene() {
   onWindowResize();
 
   var ground = new THREE.Mesh(
-    new THREE.PlaneGeometry(200, 200),
+    new THREE.PlaneGeometry(500, 500),
     new THREE.MeshLambertMaterial({
       color: "antiquewhite",
     })
@@ -80,7 +80,7 @@ export function createScene() {
   ground.receiveShadow = true;
   ground.position.y = -29.5;
   ground.rotation.x = -Math.PI / 2;
-  // scene.add(ground);
+  scene.add(ground);
 
   clock = new THREE.Clock();
 } // createScene
