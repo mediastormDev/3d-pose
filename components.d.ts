@@ -16,7 +16,6 @@ declare module 'vue' {
     ElButton: typeof import('element-plus/es')['ElButton']
     ElCollapse: typeof import('element-plus/es')['ElCollapse']
     ElCollapseItem: typeof import('element-plus/es')['ElCollapseItem']
-    ElIcon: typeof import('element-plus/es')['ElIcon']
     ElRow: typeof import('element-plus/es')['ElRow']
     GlobalPoseView: typeof import('./src/components/GlobalPoseView/index.vue')['default']
     ModelView: typeof import('./src/components/ModelView/index.vue')['default']
