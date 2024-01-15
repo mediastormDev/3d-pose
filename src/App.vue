@@ -51,8 +51,10 @@ onMounted(() => {
     <PoseListView />
   </div>
   <div class="panel2">
-    <ModelView />
-    <GlobalPoseView />
+    <div style="overflow: auto; height: 60vh">
+      <ModelView />
+      <GlobalPoseView />
+    </div>
   </div>
   <ContentMenu v-if="showContentMenu" />
   <RenderModalView v-if="showRender" style="z-index: 11" />
