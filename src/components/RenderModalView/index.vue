@@ -11,7 +11,7 @@ const setRenderViewStatus = inject("setRenderViewStatus");
         <div @click="setRenderViewStatus">X</div>
       </div>
       <div style="display: flex">
-        <div>
+        <div style="flex: 1; display: flex; flex-direction: column">
           <div class="sub_title" style="margin-bottom: 5px">预设</div>
           <input style="margin-bottom: 25px" type="text" />
           <div class="sub_title">正向描述词</div>
@@ -23,10 +23,27 @@ const setRenderViewStatus = inject("setRenderViewStatus");
           />
           <div class="sub_title">反向描述词</div>
           <textarea rows="4" cols="50" class="input_view" />
+          <div class="export_button">导出</div>
         </div>
-        <div>
+        <div
+          style="
+            flex: 1;
+            margin-left: 30px;
+            padding-left: 30px;
+            border-left: 1px solid #eee;
+            display: flex;
+            flex-direction: column;
+          "
+        >
           <div class="sub_title">画面</div>
-          <input type="text" />
+          <div
+            style="
+              border: 1px solid #eee;
+              width: 100%;
+              height: 100%;
+              border-radius: 6px;
+            "
+          ></div>
         </div>
       </div>
     </div>
@@ -85,7 +102,20 @@ const setRenderViewStatus = inject("setRenderViewStatus");
     height: 700px;
     background: #ffffff;
     border-radius: 20px;
-    padding: 30px 20px;
+    padding: 30px 20px 0 20px;
+  }
+  .export_button {
+    margin-top: 30px;
+    background: #ffda71;
+    border-radius: 6px;
+    font-size: 12px;
+    font-weight: 600;
+    color: #a2662a;
+    text-align: center;
+    padding: 12px 0;
+    &:hover {
+      cursor: pointer;
+    }
   }
 }
 </style>
