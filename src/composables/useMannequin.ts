@@ -665,6 +665,7 @@ export default () => {
     pointLight.position.set(-50, 80, 50);
     scene.add(pointLight);
 
+
     controls = new OrbitControls(camera, renderer.domElement);
 
     controls.addEventListener("start", function () {

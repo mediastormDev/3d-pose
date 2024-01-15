@@ -1,5 +1,6 @@
 import * as THREE from "three";
 import { EffectComposer } from "three/addons/postprocessing/EffectComposer.js";
+import GradientImage from "../assets/gradients/5.jpg";
 
 const MANNEQUIN_VERSION = 4.5;
 const MANNEQUIN_POSTURE_VERSION = 7;
@@ -219,6 +220,12 @@ class ParametricGeometry extends THREE.BufferGeometry {
 
 // basic monochromatic energy preservation
 const diffuseColor = new THREE.Color().setHSL(1, 1, 1).multiplyScalar(0.9);
+
+const textureLoader = new THREE.TextureLoader();
+const gradientTexture = textureLoader.load(GradientImage);
+gradientTexture.magFilter = THREE.NearestFilter;
+gradientTexture.minFilter = THREE.NearestFilter;
+
 // create parametric surface
 class ParametricShape extends THREE.Group {
   constructor(tex: any, col: any, func: any, nU = 3, nV = 3) {
@@ -227,8 +234,7 @@ class ParametricShape extends THREE.Group {
       new ParametricGeometry(func, nU, nV),
       new THREE.MeshToonMaterial({
         color: diffuseColor,
-        // shininess: 1,
-        // map: tex,
+        gradientMap: gradientTexture,
       })
     );
     obj.receiveShadow = true;
@@ -241,6 +247,7 @@ class ParametricShape extends THREE.Group {
       Mannequin.sphereGeometry,
       new THREE.MeshToonMaterial({
         color: diffuseColor,
+        gradientMap: gradientTexture,
       })
     );
     s.castShadow = true;
