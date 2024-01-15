@@ -7,7 +7,11 @@ import PLUS2IMG from "../../assets/plus_2.png";
 
 const setRenderViewStatus = inject("setRenderViewStatus");
 
+const showModal = ref(false);
+
 const selectedList = ref(["杭州小潘", "咖啡厅"]);
+const selected2List = ref(["少女A", "成年男性A", "杭州小潘"]);
+const selected3List = ref(["咖啡厅", "教室", "办公室"]);
 </script>
 <template>
   <div class="render_model">
@@ -26,7 +30,7 @@ const selectedList = ref(["杭州小潘", "咖啡厅"]);
         <div style="flex: 1; display: flex; flex-direction: column">
           <div style="margin-bottom: 25px; position: relative">
             <div class="sub_title" style="margin-bottom: 5px">预设</div>
-            <div class="multi_select">
+            <div class="multi_select" @click="showModal = !showModal">
               <div style="display: flex; align-items: center">
                 <div
                   class="selected_item"
@@ -36,14 +40,18 @@ const selectedList = ref(["杭州小潘", "咖啡厅"]);
                   {{ selected }}
                 </div>
               </div>
-              <img class="icon" :src="XIALAIMG" alt="" />
+              <img
+                class="icon"
+                :src="showModal ? XIALA2IMG : XIALAIMG"
+                alt=""
+              />
             </div>
-            <div class="pop_menu">
+            <div v-if="showModal" class="pop_menu">
               <div class="title">外型预设</div>
               <div style="display: flex; align-items: center; margin-top: 10px">
                 <div
                   class="selected_item"
-                  v-for="(selected, index) in selectedList"
+                  v-for="(selected, index) in selected2List"
                   :key="index"
                 >
                   {{ selected }}
@@ -64,7 +72,7 @@ const selectedList = ref(["杭州小潘", "咖啡厅"]);
               <div style="display: flex; align-items: center; margin-top: 10px">
                 <div
                   class="selected_item"
-                  v-for="(selected, index) in selectedList"
+                  v-for="(selected, index) in selected3List"
                   :key="index"
                 >
                   {{ selected }}
