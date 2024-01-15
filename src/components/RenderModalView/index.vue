@@ -1,5 +1,9 @@
 <script lang="ts" setup>
 import { ref, inject } from "vue";
+import CLOSEIMG from "../../assets/close@2x.png";
+import XIALAIMG from "../../assets/xiala.png";
+import XIALA2IMG from "../../assets/xiala@2x.png";
+
 const setRenderViewStatus = inject("setRenderViewStatus");
 </script>
 <template>
@@ -8,12 +12,22 @@ const setRenderViewStatus = inject("setRenderViewStatus");
     <div class="body body_view">
       <div class="header">
         <div class="title">分镜渲染</div>
-        <div @click="setRenderViewStatus">X</div>
+        <img
+          class="close_button"
+          @click="setRenderViewStatus"
+          :src="CLOSEIMG"
+          alt=""
+        />
       </div>
       <div style="display: flex">
         <div style="flex: 1; display: flex; flex-direction: column">
-          <div class="sub_title" style="margin-bottom: 5px">预设</div>
-          <input style="margin-bottom: 25px" type="text" />
+          <div style="margin-bottom: 25px">
+            <div class="sub_title" style="margin-bottom: 5px">预设</div>
+            <div class="multi_select">
+              <div>123</div>
+              <img style="width: 10px; height: 10px" :src="XIALAIMG" alt="" />
+            </div>
+          </div>
           <div class="sub_title">正向描述词</div>
           <textarea
             rows="4"
@@ -51,6 +65,35 @@ const setRenderViewStatus = inject("setRenderViewStatus");
 </template>
 
 <style lang="less" scoped>
+.close_button {
+  width: 20px;
+  height: 20px;
+  &:hover {
+    cursor: pointer;
+  }
+}
+
+.multi_select {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 30px;
+  border-radius: 6px;
+  border: 1px solid #eeeeee;
+  padding: 0 10px;
+  &:hover {
+    cursor: pointer;
+  }
+  .title {
+    font-size: 14px;
+    font-weight: 600;
+    color: #24252c;
+  }
+  .icon {
+    width: 10px;
+    height: 10px;
+  }
+}
 .body_view {
   .header {
     display: flex;
