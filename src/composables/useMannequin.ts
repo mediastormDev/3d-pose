@@ -655,7 +655,7 @@ export default () => {
 
     // Axes helper
     const axesHelper = new THREE.AxesHelper(100);
-    // scene.add(axesHelper);
+    scene.add(axesHelper);
 
     scene.remove(light);
     renderer.shadowMap.type = THREE.PCFSoftShadowMap;

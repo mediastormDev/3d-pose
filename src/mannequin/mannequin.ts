@@ -81,7 +81,7 @@ export function createScene() {
   ground.receiveShadow = true;
   ground.position.y = -29.5;
   ground.rotation.x = -Math.PI / 2;
-  scene.add(ground);
+  // scene.add(ground);
 
   clock = new THREE.Clock();
 } // createScene

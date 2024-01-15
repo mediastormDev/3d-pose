@@ -48,10 +48,10 @@ onMounted(() => {
         :index="index"
       />
     </div>
-    <PoseListView />
+    <!-- <PoseListView /> -->
   </div>
   <div class="panel2">
-    <div style="overflow: auto; height: 60vh">
+    <div style="overflow: auto; height: 80vh">
       <ModelView />
       <GlobalPoseView />
     </div>
