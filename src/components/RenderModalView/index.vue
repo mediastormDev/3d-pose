@@ -5,6 +5,8 @@ import XIALAIMG from "../../assets/xiala.png";
 import XIALA2IMG from "../../assets/xiala@2x.png";
 
 const setRenderViewStatus = inject("setRenderViewStatus");
+
+const selectedList = ref(["杭州小潘", "咖啡厅"]);
 </script>
 <template>
   <div class="render_model">
@@ -24,8 +26,16 @@ const setRenderViewStatus = inject("setRenderViewStatus");
           <div style="margin-bottom: 25px">
             <div class="sub_title" style="margin-bottom: 5px">预设</div>
             <div class="multi_select">
-              <div>123</div>
-              <img style="width: 10px; height: 10px" :src="XIALAIMG" alt="" />
+              <div style="display: flex; align-items: center">
+                <div
+                  class="selected_item"
+                  v-for="(selected, index) in selectedList"
+                  :key="index"
+                >
+                  {{ selected }}
+                </div>
+              </div>
+              <img class="icon" :src="XIALAIMG" alt="" />
             </div>
           </div>
           <div class="sub_title">正向描述词</div>
@@ -73,6 +83,19 @@ const setRenderViewStatus = inject("setRenderViewStatus");
   }
 }
 
+.selected_item {
+  background: #f4f6f7;
+  border-radius: 6px;
+  font-size: 12px;
+  font-weight: 500;
+  color: #24252c;
+  padding: 5px 10px;
+}
+
+.selected_item + .selected_item {
+  margin-left: 5px;
+}
+
 .multi_select {
   display: flex;
   align-items: center;
@@ -80,7 +103,7 @@ const setRenderViewStatus = inject("setRenderViewStatus");
   height: 30px;
   border-radius: 6px;
   border: 1px solid #eeeeee;
-  padding: 0 10px;
+  padding: 5px;
   &:hover {
     cursor: pointer;
   }
