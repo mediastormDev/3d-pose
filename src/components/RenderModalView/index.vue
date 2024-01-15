@@ -51,6 +51,7 @@ const selected3List = ref(["咖啡厅", "教室", "办公室"]);
               <div style="display: flex; align-items: center; margin-top: 10px">
                 <div
                   class="selected_item"
+                  :class="{ selected: index == 2 }"
                   v-for="(selected, index) in selected2List"
                   :key="index"
                 >
@@ -72,6 +73,7 @@ const selected3List = ref(["咖啡厅", "教室", "办公室"]);
               <div style="display: flex; align-items: center; margin-top: 10px">
                 <div
                   class="selected_item"
+                  :class="{ selected: index == 0 }"
                   v-for="(selected, index) in selected3List"
                   :key="index"
                 >
@@ -136,6 +138,10 @@ const selected3List = ref(["咖啡厅", "教室", "办公室"]);
   &:hover {
     cursor: pointer;
   }
+  &.selected {
+    background-color: #fffbf0;
+    color: #ffaf00;
+  }
 }
 
 .selected_item + .selected_item {
@@ -169,7 +175,7 @@ const selected3List = ref(["咖啡厅", "教室", "办公室"]);
   left: 0;
   right: 0;
   bottom: 0;
-  transform: translateY(100%);
+  transform: translateY(100% + 5px);
 
   background: #ffffff;
   border-radius: 6px;
