@@ -38,25 +38,27 @@ const targets = computed(() => {
 const getList = async () => {
   const res = await axios.get("/api/humanpose");
   list.value =
-    res.data.map((data: any) => {
-      data.data.map((it: any, index: number) => {
-        if (
-          index === 1 ||
-          index === 2 ||
-          index === 3 ||
-          index === 4 ||
-          index === 5 ||
-          index === 6 ||
-          index == 11 ||
-          index == 12 ||
-          index == 13 ||
-          index == 14 ||
-          index == 15 ||
-          index == 16
-        ) {
-          it[0] = -it[0];
-        }
-      });
+    res.data.map((data: any, i: number) => {
+      if (!data.type || data.type !== "posture") {
+        data.data.map((it: any, index: number) => {
+          if (
+            index === 1 ||
+            index === 2 ||
+            index === 3 ||
+            index === 4 ||
+            index === 5 ||
+            index === 6 ||
+            index == 11 ||
+            index == 12 ||
+            index == 13 ||
+            index == 14 ||
+            index == 15 ||
+            index == 16
+          ) {
+            it[0] = -it[0];
+          }
+        });
+      }
 
       return {
         label: "手机数据" + dayjs(data.createdAt).format("MM-DD HH:mm:ss"),
@@ -86,7 +88,9 @@ const handleChange = (value) => {
   if (JSON.stringify(value[1][0]) === "[0,0,0]") {
     changePose3D(model, value[1]);
   } else {
-    setPosture(model, JSON.stringify({ version: 7, data: value[1] }));
+    console.log("value[1] :>> ", value[1]);
+    // model.postureString = `{"version":7,"data":[[0,3.8,0],[0,-90,0],[25,-0.8,-1.8],[19.7,-11,-28.1],[6,0,139.9],[0],[-6,-6,-0.6],[-6,0,0],[0],[6,6,-0.6],[7,-0.6,-74.2],[15],[5,0,0],[-90,70,75,0,10,0,10],[0,0,10,0,10,0,10],[0,0,10,0,10,0,10],[0,0,10,0,10,0,10],[0,0,10,0,10,0,10],[-7,0.6,-74.2],[15],[-5,0,0],[90,-70,75,0,10,0,10],[0,0,10,0,10,0,10],[0,0,10,0,10,0,10],[0,0,10,0,10,0,10],[0,0,10,0,10,0,10]]}`;
+    model.postureString = JSON.stringify({ version: 7, data: value[1] });
   }
 };
 
