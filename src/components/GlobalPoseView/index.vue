@@ -57,12 +57,37 @@ function getData() {
   const target = getSelectedModels();
   if (target.length) {
     const model = target[0];
-    console.log("model.l_arm.posture=", model.l_arm.posture);
-    console.log("model.l_elbow.posture=", model.l_elbow.posture);
-    console.log("model.l_wrist.posture=", model.l_wrist.posture);
-    console.log("model.r_arm.posture=", model.r_arm.posture);
-    console.log("model.r_elbow.posture=", model.r_elbow.posture);
-    console.log("model.r_wrist.posture=", model.r_wrist.posture);
+    console.log("model.l_arm.posture=", JSON.stringify(model.posture));
+    // const res = [
+    //   [0,0,0],
+    //   model.r_leg.posture,
+    //   model.r_knee.posture,
+    //   model.r_ankle.posture,
+
+    //   model.l_leg.posture,
+    //   model.l_knee.posture,
+    //   model.l_ankle.posture,
+
+    //   model.pelvis.posture,
+    //   model.neck.posture,
+    //   [0,0,0],
+    //   model.head.posture,
+
+    //   model.l_arm.posture,
+    //   model.l_elbow.posture,
+    //   model.l_wrist.posture,
+
+    //   model.r_arm.posture,
+    //   model.r_elbow.posture,
+    //   model.r_wrist.posture,
+    // ]
+    // console.log("model.l_arm.posture=", JSON.stringify(res));
+    // console.log("model.l_arm.posture=", model.l_arm.posture);
+    // console.log("model.l_elbow.posture=", model.l_elbow.posture);
+    // console.log("model.l_wrist.posture=", model.l_wrist.posture);
+    // console.log("model.r_arm.posture=", model.r_arm.posture);
+    // console.log("model.r_elbow.posture=", model.r_elbow.posture);
+    // console.log("model.r_wrist.posture=", model.r_wrist.posture);
   } else {
     alert("请选中一个模型");
   }

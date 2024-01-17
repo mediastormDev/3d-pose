@@ -83,7 +83,11 @@ const handleChange = (value) => {
   };
   const model = getModelById(getParent(intersectObj)._id);
   setPosture(model, poseString);
-  changePose3D(model, value[1]);
+  if (JSON.stringify(value[1][0]) === "[0,0,0]") {
+    changePose3D(model, value[1]);
+  } else {
+    setPosture(model, JSON.stringify({ version: 7, data: value[1] }));
+  }
 };
 
 onMounted(() => {
