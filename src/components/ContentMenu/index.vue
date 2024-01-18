@@ -84,13 +84,15 @@ const handleChange = (value) => {
     return getParent(temp.parent);
   };
   const model = getModelById(getParent(intersectObj)._id);
+
+  // 勿删，用于获取 model 当前位置数据
+  value[1][0] = model.posture.data[0];
+  // 之后才能重置 model 位置
   setPosture(model, poseString);
   if (JSON.stringify(value[1][0]) === "[0,0,0]") {
     changePose3D(model, value[1]);
   } else {
-    console.log("value[1] :>> ", value[1]);
-    // model.postureString = `{"version":7,"data":[[0,3.8,0],[0,-90,0],[25,-0.8,-1.8],[19.7,-11,-28.1],[6,0,139.9],[0],[-6,-6,-0.6],[-6,0,0],[0],[6,6,-0.6],[7,-0.6,-74.2],[15],[5,0,0],[-90,70,75,0,10,0,10],[0,0,10,0,10,0,10],[0,0,10,0,10,0,10],[0,0,10,0,10,0,10],[0,0,10,0,10,0,10],[-7,0.6,-74.2],[15],[-5,0,0],[90,-70,75,0,10,0,10],[0,0,10,0,10,0,10],[0,0,10,0,10,0,10],[0,0,10,0,10,0,10],[0,0,10,0,10,0,10]]}`;
-    model.postureString = JSON.stringify({ version: 7, data: value[1] });
+    setPosture(model, JSON.stringify({ version: 7, data: value[1] }));
   }
 };
 
