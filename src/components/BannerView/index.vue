@@ -75,7 +75,7 @@ const setRenderViewStatus = inject("setRenderViewStatus");
         name="filename"
         accept="image/*"
       />
-      <label class="render_button" for="myFile"> 上传背景 </label>
+      <label class="render_button sub_button" for="myFile"> 上传背景 </label>
       <div @click="setRenderViewStatus" class="render_button">渲染</div>
     </div>
   </div>
@@ -123,5 +123,11 @@ const setRenderViewStatus = inject("setRenderViewStatus");
       cursor: pointer;
     }
   }
+}
+
+.sub_button {
+  background-color: white !important;
+  border: 1px solid #eee !important;
+  color: #24252c !important;
 }
 </style>

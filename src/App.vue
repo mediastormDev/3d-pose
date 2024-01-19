@@ -70,6 +70,7 @@ onMounted(() => {
   position: fixed;
   left: 0;
   top: 50px;
+  bottom: 0;
   z-index: 10;
   background-color: white;
   display: flex;
@@ -91,6 +92,7 @@ onMounted(() => {
   padding: 20px;
   position: fixed;
   top: 50px;
+  bottom: 0;
   right: 0;
   z-index: 10;
   background-color: white;
