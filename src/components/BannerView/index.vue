@@ -66,14 +66,18 @@ const setRenderViewStatus = inject("setRenderViewStatus");
         />
       </div>
     </div>
-    <input
-      type="file"
-      id="myFile"
-      @change="handleChange"
-      name="filename"
-      accept="image/*"
-    />
-    <div @click="setRenderViewStatus" class="render_button">渲染</div>
+    <div style="display: flex; align-items: center">
+      <input
+        style="display: none"
+        type="file"
+        id="myFile"
+        @change="handleChange"
+        name="filename"
+        accept="image/*"
+      />
+      <label class="render_button" for="myFile"> 上传背景 </label>
+      <div @click="setRenderViewStatus" class="render_button">渲染</div>
+    </div>
   </div>
   <AddView v-if="showAdd" />
 </template>

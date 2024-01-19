@@ -47,12 +47,12 @@ export function createScene() {
 
   scene = new THREE.Scene();
   // 创建一个纹理图片加载器加载图片
-  const textureLoader = new THREE.TextureLoader();
+  // const textureLoader = new THREE.TextureLoader();
   // 加载背景图片
-  const texture = textureLoader.load("/bg_img.jpeg");
+  // const texture = textureLoader.load("/bg_img.jpeg");
 
-  // scene.background = new THREE.Color("#3d3d3d");
-  scene.background = texture;
+  scene.background = new THREE.Color("#3d3d3d");
+  // scene.background = texture;
   // scene.fog = new THREE.Fog("gainsboro", 100, 600);
 
   camera = new THREE.PerspectiveCamera(
