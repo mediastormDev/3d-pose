@@ -18,16 +18,24 @@ const toBase64 = (file) =>
     reader.onerror = reject;
   });
 
-const handleChange = async (e) => {
+const handleChange = (e) => {
   const target = e.target as HTMLInputElement;
   const files = Array.from(target.files); // 注意这里取得的是一个类数组
   if (files) {
     // 取得文件
     const uploadedFile = files[0];
     console.log("uploadedFile", uploadedFile);
-    const base64 = await toBase64(uploadedFile);
-    console.log("base64", base64);
-    setSceneBg(base64);
+    // 创建对象
+    const img = new Image();
+
+    // 改变图片的src
+    img.src = window.URL.createObjectURL(uploadedFile);
+    img.onload = async function () {
+      const base64 = await toBase64(uploadedFile);
+      setSceneBg(base64, img.width / img.height);
+      console.log("img.width", img.width);
+      console.log("img.height", img.height);
+    };
   }
 };
 

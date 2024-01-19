@@ -641,9 +641,18 @@ export default () => {
     model[part][type] += angel;
   };
 
-  const setSceneBg = (base64: string) => {
+  const setSceneBg = (base64: string, imageAspect: number) => {
     const texture = new THREE.TextureLoader().load(base64);
+    texture.colorSpace = "srgb";
     scene.background = texture;
+    const targetAspect = 1920 / 1080;
+    const factor = imageAspect / targetAspect;
+    // When factor larger than 1, that means texture 'wilder' than target。
+    // we should scale texture height to target height and then 'map' the center  of texture to target， and vice versa.
+    scene.background.offset.x = factor > 1 ? (1 - 1 / factor) / 2 : 0;
+    scene.background.repeat.x = factor > 1 ? 1 / factor : 1;
+    scene.background.offset.y = factor > 1 ? 0 : (1 - factor) / 2;
+    scene.background.repeat.y = factor > 1 ? 1 : factor;
   };
 
   // 初始化场景
