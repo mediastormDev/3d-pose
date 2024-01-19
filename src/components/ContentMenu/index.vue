@@ -90,7 +90,8 @@ const handleChange = (value) => {
   // 之后才能重置 model 位置
   setPosture(model, poseString);
   console.log("value", value);
-  if (JSON.stringify(value[1][0]) === "[0,0,0]") {
+  // if (JSON.stringify(value[1][0]) === "[0,0,0]") {
+  if (value[2] > 1) {
     changePose3D(model, value[1]);
   } else {
     setPosture(model, JSON.stringify({ version: 7, data: value[1] }));

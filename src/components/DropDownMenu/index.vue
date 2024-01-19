@@ -17,8 +17,8 @@ const hoverIndex = ref(-1);
 // const parent = ref(null);
 // const child = ref(null);
 
-const onClickSubMenu = (menu: string, submenu: string) => {
-  emits("change", [menu, submenu]);
+const onClickSubMenu = (menu: string, submenu: string, index: number) => {
+  emits("change", [menu, submenu, index]);
 };
 </script>
 
@@ -69,7 +69,7 @@ const onClickSubMenu = (menu: string, submenu: string) => {
       >
         <div ref="submenuRef" style="max-height: 300px; overflow: auto">
           <div
-            @click="onClickSubMenu(menu.value, submenu.value)"
+            @click="onClickSubMenu(menu.value, submenu.value, i)"
             v-for="(submenu, i) in submenus"
             :key="i"
             class="submenu_item"
