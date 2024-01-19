@@ -13,7 +13,7 @@ const list = ref([]);
 const { changePose3D, getModelById } = UseBodys();
 
 const getList = async () => {
-  const res = await axios.get("/api/humanpose");
+  const res = await axios.get("https://api.ysjf.com/web/v1/humanpose");
   list.value =
     res.data.map((data: any) => {
       data.data.map((it: any, index: number) => {

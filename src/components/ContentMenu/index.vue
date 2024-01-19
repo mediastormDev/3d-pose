@@ -36,7 +36,7 @@ const targets = computed(() => {
 });
 
 const getList = async () => {
-  const res = await axios.get("/api/humanpose");
+  const res = await axios.get("https://api.ysjf.com/web/v1/humanpose");
   list.value =
     res.data.map((data: any, i: number) => {
       if (!data.type || data.type !== "posture") {
@@ -89,6 +89,7 @@ const handleChange = (value) => {
   value[1][0] = model.posture.data[0];
   // 之后才能重置 model 位置
   setPosture(model, poseString);
+  console.log("value", value);
   if (JSON.stringify(value[1][0]) === "[0,0,0]") {
     changePose3D(model, value[1]);
   } else {

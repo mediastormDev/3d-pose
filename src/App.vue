@@ -57,7 +57,11 @@ onMounted(() => {
     </div>
   </div>
   <ContentMenu v-if="showContentMenu" />
-  <RenderModalView v-if="showRender" style="z-index: 11" />
+  <RenderModalView
+    :style="{ visibility: showRender ? 'visible' : 'hidden' }"
+    v-if="showRender"
+    style="z-index: 11"
+  />
 </template>
 
 <style lang="less" scoped>

@@ -8,10 +8,21 @@ import PLUS2IMG from "../../assets/plus_2.png";
 const setRenderViewStatus = inject("setRenderViewStatus");
 
 const showModal = ref(false);
+const showVideo = ref(false);
+const videoRef = ref(null);
 
 const selectedList = ref(["杭州小潘", "咖啡厅"]);
 const selected2List = ref(["少女A", "成年男性A", "杭州小潘"]);
 const selected3List = ref(["咖啡厅", "教室", "办公室"]);
+
+const start = () => {
+  showVideo.value = true;
+  if (videoRef.value.paused) {
+    videoRef.value.play();
+  } else {
+    videoRef.value.pause();
+  }
+};
 </script>
 <template>
   <div class="render_model">
@@ -91,7 +102,7 @@ const selected3List = ref(["咖啡厅", "教室", "办公室"]);
           />
           <div class="sub_title">反向描述词</div>
           <textarea rows="4" cols="50" class="input_view" />
-          <div class="export_button">导出</div>
+          <div class="export_button" @click="start">导出</div>
         </div>
         <div
           style="
@@ -111,7 +122,28 @@ const selected3List = ref(["咖啡厅", "教室", "办公室"]);
               height: 100%;
               border-radius: 6px;
             "
-          ></div>
+          >
+            <video
+              :style="{ visibility: showVideo ? 'visible' : 'hidden' }"
+              ref="videoRef"
+              playsinline
+              muted
+              class="container_box"
+              src="https://www.runoob.com/try/demo_source/mov_bbb.mp4"
+            >
+              <object
+                data="https://www.runoob.com/try/demo_source/mov_bbb.mp4"
+                width="100%"
+                height="100%"
+              >
+                <embed
+                  width="100%"
+                  height="100%"
+                  src="https://www.runoob.com/try/demo_source/mov_bbb.mp4"
+                />
+              </object>
+            </video>
+          </div>
         </div>
       </div>
     </div>
@@ -249,5 +281,10 @@ const selected3List = ref(["咖啡厅", "教室", "办公室"]);
       cursor: pointer;
     }
   }
+}
+
+.container_box {
+  width: 100%;
+  height: 100%;
 }
 </style>
