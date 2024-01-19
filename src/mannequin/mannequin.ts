@@ -1,6 +1,7 @@
 import * as THREE from "three";
 import { EffectComposer } from "three/addons/postprocessing/EffectComposer.js";
 import GradientImage from "../assets/gradients/3.jpg";
+import { RGBELoader } from "three/examples/jsm/loaders/RGBELoader.js";
 
 const MANNEQUIN_VERSION = 4.5;
 const MANNEQUIN_POSTURE_VERSION = 7;
@@ -45,7 +46,13 @@ export function createScene() {
   document.body.appendChild(renderer.domElement);
 
   scene = new THREE.Scene();
-  scene.background = new THREE.Color("#3d3d3d");
+  // 创建一个纹理图片加载器加载图片
+  const textureLoader = new THREE.TextureLoader();
+  // 加载背景图片
+  const texture = textureLoader.load("/bg_img.jpeg");
+
+  // scene.background = new THREE.Color("#3d3d3d");
+  scene.background = texture;
   // scene.fog = new THREE.Fog("gainsboro", 100, 600);
 
   camera = new THREE.PerspectiveCamera(

@@ -641,6 +641,11 @@ export default () => {
     model[part][type] += angel;
   };
 
+  const setSceneBg = (base64: string) => {
+    const texture = new THREE.TextureLoader().load(base64);
+    scene.background = texture;
+  };
+
   // 初始化场景
   const init = () => {
     createScene();
@@ -664,7 +669,6 @@ export default () => {
     const pointLight = new THREE.PointLight(0xffffff, 2, 800, 0);
     pointLight.position.set(-50, 80, 50);
     scene.add(pointLight);
-
 
     controls = new OrbitControls(camera, renderer.domElement);
 
@@ -692,5 +696,6 @@ export default () => {
     mousePostion,
     showContentMenu,
     intersectObj,
+    setSceneBg,
   };
 };

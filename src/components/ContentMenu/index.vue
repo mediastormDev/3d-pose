@@ -69,15 +69,10 @@ const getList = async () => {
 };
 
 const handleChange = (value) => {
-  // console.log(value);
-  // console.log("intersectObj :>> ", intersectObj);
   const poseString = `{"version":7,"data":[[0,3.8,0],[0,-90,0],[0,0,-2],[0,0,5],[6,0,0],[0],[-6,-6,-0.6],[-6,0,0],[0],[6,6,-0.6],[7,-0.6,-5],[15],[5,0,0],[-90,70,75,0,10,0,10],[0,0,10,0,10,0,10],[0,0,10,0,10,0,10],[0,0,10,0,10,0,10],[0,0,10,0,10,0,10],[-7,0.6,-5],[15],[-5,0,0],[90,-70,75,0,10,0,10],[0,0,10,0,10,0,10],[0,0,10,0,10,0,10],[0,0,10,0,10,0,10],[0,0,10,0,10,0,10]]}`;
 
   const getParent = (obj) => {
-    // console.log("obj :>> ", obj);
     const temp = toValue(obj);
-    // console.log("temp :>> ", temp);
-    // console.log("temp.parent :>> ", temp.parent);
     if (temp.parent.l_arm) {
       return temp.parent;
     }

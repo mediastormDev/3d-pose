@@ -5,8 +5,31 @@ import PLUSIMG from "../../assets/plus.png";
 import XIALAIMG from "../../assets/xiala.png";
 import RECALLIMG from "../../assets/recall.png";
 import FORWARD from "../../assets/forward.png";
+import useMannequin from "../../composables/useMannequin";
+
+const { setSceneBg } = useMannequin();
 
 const showAdd = ref(false);
+const toBase64 = (file) =>
+  new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onload = () => resolve(reader.result);
+    reader.onerror = reject;
+  });
+
+const handleChange = async (e) => {
+  const target = e.target as HTMLInputElement;
+  const files = Array.from(target.files); // 注意这里取得的是一个类数组
+  if (files) {
+    // 取得文件
+    const uploadedFile = files[0];
+    console.log("uploadedFile", uploadedFile);
+    const base64 = await toBase64(uploadedFile);
+    console.log("base64", base64);
+    setSceneBg(base64);
+  }
+};
 
 const setRenderViewStatus = inject("setRenderViewStatus");
 </script>
@@ -43,6 +66,13 @@ const setRenderViewStatus = inject("setRenderViewStatus");
         />
       </div>
     </div>
+    <input
+      type="file"
+      id="myFile"
+      @change="handleChange"
+      name="filename"
+      accept="image/*"
+    />
     <div @click="setRenderViewStatus" class="render_button">渲染</div>
   </div>
   <AddView v-if="showAdd" />
