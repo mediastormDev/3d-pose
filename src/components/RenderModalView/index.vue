@@ -4,12 +4,16 @@ import CLOSEIMG from "../../assets/close@2x.png";
 import XIALAIMG from "../../assets/xiala.png";
 import XIALA2IMG from "../../assets/xiala@2x.png";
 import PLUS2IMG from "../../assets/plus_2.png";
+import VideoURL from "../../assets/video_1.mov";
 
 const setRenderViewStatus = inject("setRenderViewStatus");
 
 const showModal = ref(false);
 const showVideo = ref(false);
 const videoRef = ref(null);
+
+const selectedIndex = ref(0);
+const selectedIndex1 = ref(0);
 
 const selectedList = ref(["杭州小潘", "咖啡厅"]);
 const selected2List = ref(["少女A", "成年男性A", "杭州小潘"]);
@@ -62,9 +66,10 @@ const start = () => {
               <div style="display: flex; align-items: center; margin-top: 10px">
                 <div
                   class="selected_item"
-                  :class="{ selected: index == 2 }"
+                  :class="{ selected: index == selectedIndex }"
                   v-for="(selected, index) in selected2List"
                   :key="index"
+                  @click="selectedIndex = index"
                 >
                   {{ selected }}
                 </div>
@@ -84,9 +89,10 @@ const start = () => {
               <div style="display: flex; align-items: center; margin-top: 10px">
                 <div
                   class="selected_item"
-                  :class="{ selected: index == 0 }"
+                  :class="{ selected: index == selectedIndex1 }"
                   v-for="(selected, index) in selected3List"
                   :key="index"
+                  @click="selectedIndex1 = index"
                 >
                   {{ selected }}
                 </div>
@@ -129,18 +135,10 @@ const start = () => {
               playsinline
               muted
               class="container_box"
-              src="https://www.runoob.com/try/demo_source/mov_bbb.mp4"
+              :src="VideoURL"
             >
-              <object
-                data="https://www.runoob.com/try/demo_source/mov_bbb.mp4"
-                width="100%"
-                height="100%"
-              >
-                <embed
-                  width="100%"
-                  height="100%"
-                  src="https://www.runoob.com/try/demo_source/mov_bbb.mp4"
-                />
+              <object :data="VideoURL" width="100%" height="100%">
+                <embed width="100%" height="100%" :src="VideoURL" />
               </object>
             </video>
           </div>
@@ -286,5 +284,6 @@ const start = () => {
 .container_box {
   width: 100%;
   height: 100%;
+  background-color: black;
 }
 </style>
