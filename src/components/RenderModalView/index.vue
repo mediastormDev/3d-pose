@@ -1,10 +1,11 @@
 <script lang="ts" setup>
-import { ref, inject } from "vue";
+import { ref, inject, computed } from "vue";
 import CLOSEIMG from "../../assets/close@2x.png";
 import XIALAIMG from "../../assets/xiala.png";
 import XIALA2IMG from "../../assets/xiala@2x.png";
 import PLUS2IMG from "../../assets/plus_2.png";
-import VideoURL from "../../assets/video_1.mov";
+// import VideoURL from "../../assets/video_1.mov";
+import VideoURL from "../../assets/video_2.mov";
 
 const setRenderViewStatus = inject("setRenderViewStatus");
 
@@ -15,9 +16,35 @@ const videoRef = ref(null);
 const selectedIndex = ref(0);
 const selectedIndex1 = ref(0);
 
-const selectedList = ref(["杭州小潘", "咖啡厅"]);
+const selectedList = computed(() => {
+  return [
+    selected2List.value[selectedIndex.value],
+    selected3List.value[selectedIndex1.value],
+  ];
+});
 const selected2List = ref(["少女A", "成年男性A", "杭州小潘"]);
-const selected3List = ref(["咖啡厅", "教室", "办公室"]);
+const selected3List = ref([
+  "咖啡厅",
+  "教室",
+  "办公室",
+  "城市",
+  "餐厅",
+  "工厂",
+  "家庭",
+  "酒店",
+  "商场",
+  "摄影棚",
+  "花园",
+  "森林",
+  "城市",
+  "海",
+  "山",
+  "田野",
+  "溜冰场",
+  "沙滩",
+  "天空",
+  "公园",
+]);
 
 const start = () => {
   showVideo.value = true;
@@ -46,7 +73,14 @@ const start = () => {
           <div style="margin-bottom: 25px; position: relative">
             <div class="sub_title" style="margin-bottom: 5px">预设</div>
             <div class="multi_select" @click="showModal = !showModal">
-              <div style="display: flex; align-items: center">
+              <div
+                style="
+                  display: flex;
+                  align-items: center;
+                  row-gap: 5px;
+                  column-gap: 5px;
+                "
+              >
                 <div
                   class="selected_item"
                   v-for="(selected, index) in selectedList"
@@ -63,7 +97,15 @@ const start = () => {
             </div>
             <div v-if="showModal" class="pop_menu">
               <div class="title">外型预设</div>
-              <div style="display: flex; align-items: center; margin-top: 10px">
+              <div
+                style="
+                  display: flex;
+                  row-gap: 5px;
+                  column-gap: 5px;
+                  align-items: center;
+                  margin-top: 10px;
+                "
+              >
                 <div
                   class="selected_item"
                   :class="{ selected: index == selectedIndex }"
@@ -86,7 +128,16 @@ const start = () => {
               </div>
 
               <div class="title" style="margin-top: 20px">场地预设</div>
-              <div style="display: flex; align-items: center; margin-top: 10px">
+              <div
+                style="
+                  display: flex;
+                  flex-wrap: wrap;
+                  row-gap: 5px;
+                  column-gap: 5px;
+                  align-items: center;
+                  margin-top: 10px;
+                "
+              >
                 <div
                   class="selected_item"
                   :class="{ selected: index == selectedIndex1 }"
@@ -174,9 +225,9 @@ const start = () => {
   }
 }
 
-.selected_item + .selected_item {
-  margin-left: 5px;
-}
+// .selected_item + .selected_item {
+//   margin-left: 5px;
+// }
 
 .multi_select {
   display: flex;

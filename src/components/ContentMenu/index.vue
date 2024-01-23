@@ -86,7 +86,7 @@ const handleChange = (value) => {
   setPosture(model, poseString);
   console.log("value", value);
   // if (JSON.stringify(value[1][0]) === "[0,0,0]") {
-  if (value[2] > 2) {
+  if (value[2] > 3) {
     changePose3D(model, value[1]);
   } else {
     setPosture(model, JSON.stringify({ version: 7, data: value[1] }));
