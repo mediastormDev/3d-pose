@@ -3,19 +3,28 @@ import ARROWIMG from "../../assets/right_1.png";
 import RENOUIMG from "../../assets/renou.png";
 import CUBEIMG from "../../assets/cube.png";
 import ITEMIMG from "../../assets/item.png";
+import UseBodys from "../../composables/useModels";
+const { addBody } = UseBodys();
+
+const addMale = () => {
+  addBody(`${+new Date()}`, "Male", "#3498db");
+};
+const addFeMale = () => {
+  addBody(`${+new Date()}`, "Female", "#3498db");
+};
 </script>
 
 <template>
   <div class="add_view">
     <div class="item">
-      <div style="display: flex; align-items: center">
+      <div style="display: flex; align-items: center" @click="addMale">
         <img :src="RENOUIMG" style="width: 16px; height: 16px" alt="" />
         <div class="title">人偶</div>
       </div>
       <img :src="ARROWIMG" style="width: 20px; height: 20px" alt="" />
     </div>
     <div class="item">
-      <div style="display: flex; align-items: center">
+      <div style="display: flex; align-items: center" @click="addFeMale">
         <img :src="CUBEIMG" style="width: 16px; height: 16px" alt="" />
         <div class="title">几何体</div>
       </div>
