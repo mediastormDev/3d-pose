@@ -17,6 +17,7 @@ export class Ball {
   vy: number;
   ax: number;
   ay: number;
+  type: string;
   constructor(context, options = {}) {
     this.context = context;
     this.rotate = options.rotate || 0;
@@ -29,6 +30,7 @@ export class Ball {
     this.vy = options.vy || 0;
     this.ax = options.ax || 0;
     this.ay = options.ay || 0;
+    this.type = options.type;
   }
 
   isContainsPoint(x: number, y: number) {
@@ -95,7 +97,7 @@ export class Ball {
     this.context.font = "10px serif";
     this.context.textAlign = "center";
     this.context.fillText(
-      this.color === "#8e44ad" ? "女" : "男",
+      this.type === "Female" ? "女" : "男",
       this.x,
       this.y + 2
     );
@@ -114,7 +116,7 @@ let rotate = 0;
 const leftOffSet = ref(0);
 const topOffSet = ref(0);
 
-export const createBall = (id: string, color = "red") => {
+export const createBall = (id: string, color = "red", type = "male") => {
   if (!context) {
     console.error("no context");
     return;
@@ -125,6 +127,7 @@ export const createBall = (id: string, color = "red") => {
       y: canvasTopView.height / window.devicePixelRatio / 2,
       color,
       id,
+      type,
     })
   );
 };

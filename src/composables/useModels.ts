@@ -675,7 +675,7 @@ export default () => {
       color,
       name: `${+new Date()}`,
     });
-    createBall(id, color);
+    createBall(id, color, type);
     createBody(id, type);
   };
 

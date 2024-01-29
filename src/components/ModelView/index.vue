@@ -14,7 +14,7 @@ const { bodys } = UseBodys();
       <div class="name_view">
         <img style="width: 16px" :src="RENOUIMG" alt="" />
         <div class="name_box">
-          {{ body.color === "#8e44ad" ? "女" : "男" }}演员
+          {{ body.type === "Female" ? "女" : "男" }}演员
         </div>
       </div>
       <div class="color_view" :style="{ background: body.color }"></div>
