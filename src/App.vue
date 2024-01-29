@@ -27,8 +27,8 @@ provide("setRenderViewStatus", setRenderViewStatus);
 onMounted(() => {
   init();
   const id = "testId";
-  addBody(id, "Male", "#3498db");
-  addBody(id + "1", "Male", "#3498db");
+  // addBody(id, "Male", "#3498db");
+  // addBody(id + "1", "Male", "#3498db");
   // addBody(id + "1", "Female", "#8e44ad");
 });
 </script>
