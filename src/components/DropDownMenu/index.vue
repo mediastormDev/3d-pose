@@ -7,7 +7,7 @@ interface IMenu {
   label: string;
   value: string;
 }
-const emits = defineEmits(["change"]);
+const emits = defineEmits(["change", "clickMenu"]);
 const props = defineProps<{ menus: IMenu[]; submenus: IMenu[] }>();
 
 const submenuRef = ref(null);
@@ -19,6 +19,10 @@ const hoverIndex = ref(-1);
 
 const onClickSubMenu = (menu: string, submenu: string, index: number) => {
   emits("change", [menu, submenu, index]);
+};
+
+const onClickMenu = (menu: any, index: number) => {
+  emits("clickMenu", [menu, index]);
 };
 </script>
 
@@ -40,6 +44,7 @@ const onClickSubMenu = (menu: string, submenu: string, index: number) => {
           justify-content: space-between;
           width: 100%;
         "
+        @click="onClickMenu(menu, index)"
       >
         <div style="display: flex; align-items: center">
           <img
