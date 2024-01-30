@@ -568,7 +568,6 @@ export default () => {
 
     const elemNone = !rotMov.value;
     const spinA = obj instanceof Ankle ? Math.PI / 2 : 0;
-
     gauge.rotation.set(0, 0, -spinA);
     if (rotMov.value === "rotX" || (elemNone && mouseButton & 0x2))
       gauge.rotation.set(0, Math.PI / 2, 2 * spinA);

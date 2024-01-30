@@ -1,4 +1,5 @@
 <script lang="ts" setup>
+import { scene, animate } from "../../mannequin/mannequin";
 import UseMannequin from "../../composables/useMannequin";
 import UseBodys from "../../composables/useModels";
 import IMPORTIMG from "../../assets/import.png";
@@ -70,6 +71,9 @@ const getList = async () => {
 
 const clickMenu = (event: any) => {
   console.log("event", event);
+  setInterval(() => {
+    scene.rotateY(-2 / 100);
+  }, 1000 / 60);
 };
 
 const handleChange = (value) => {
