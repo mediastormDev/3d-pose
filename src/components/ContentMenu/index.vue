@@ -72,7 +72,7 @@ const getList = async () => {
 const clickMenu = (event: any) => {
   console.log("event", event);
   setInterval(() => {
-    scene.rotateY(-2 / 100);
+    scene.rotateY(-2 / 100 / 2);
   }, 1000 / 60);
 };
 
