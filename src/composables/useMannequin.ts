@@ -5,6 +5,8 @@ import { RenderPass } from "three/addons/postprocessing/RenderPass.js";
 import { OutlinePass } from "three/addons/postprocessing/OutlinePass.js";
 import { ShaderPass } from "three/addons/postprocessing/ShaderPass.js";
 import { STLLoader } from "three/examples/jsm/loaders/STLLoader";
+import { LineMaterial } from "three/addons/lines/LineMaterial.js";
+import { LineGeometry } from "three/addons/lines/LineGeometry.js";
 // SMAA抗锯齿通道
 import { SMAAPass } from "three/addons/postprocessing/SMAAPass.js";
 
@@ -332,7 +334,19 @@ export default () => {
       color: 0x0055ff,
     });
 
-    const lineMaterial = new THREE.LineBasicMaterial({ color: "crimson" });
+    // const lineMaterial = new LineMaterial({
+    //   color: 0xffffff,
+    //   linewidth: 5, // in world units with size attenuation, pixels otherwise
+    //   vertexColors: true,
+
+    //   //resolution:  // to be set by renderer, eventually
+    //   dashed: false,
+    //   alphaToCoverage: true,
+    // });
+
+    const lineMaterial = new THREE.LineBasicMaterial({
+      color: "crimson",
+    });
 
     const geometry = new THREE.SphereGeometry(1, 32, 16);
     const mesh = new THREE.Mesh(geometry, material);
@@ -359,6 +373,9 @@ export default () => {
     points.push(body.torso.point(0, 0, 0));
     points.push(body.pelvis.point(0, 0, 0));
     const lineGeometry = new THREE.BufferGeometry().setFromPoints(points);
+    console.log("points :>> ", points);
+    // const lineGeometry = new LineGeometry();
+    // lineGeometry.setPositions(points);
     const loop = new THREE.Line(lineGeometry, lineMaterial);
     loop.castShadow = true;
     scene.add(loop);
