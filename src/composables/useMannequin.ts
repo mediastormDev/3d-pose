@@ -5,8 +5,7 @@ import { RenderPass } from "three/addons/postprocessing/RenderPass.js";
 import { OutlinePass } from "three/addons/postprocessing/OutlinePass.js";
 import { ShaderPass } from "three/addons/postprocessing/ShaderPass.js";
 import { STLLoader } from "three/examples/jsm/loaders/STLLoader";
-import { LineMaterial } from "three/addons/lines/LineMaterial.js";
-import { LineGeometry } from "three/addons/lines/LineGeometry.js";
+import { MeshLine, MeshLineMaterial } from "three.meshline";
 // SMAA抗锯齿通道
 import { SMAAPass } from "three/addons/postprocessing/SMAAPass.js";
 
@@ -334,19 +333,9 @@ export default () => {
       color: 0x0055ff,
     });
 
-    // const lineMaterial = new LineMaterial({
-    //   color: 0xffffff,
-    //   linewidth: 5, // in world units with size attenuation, pixels otherwise
-    //   vertexColors: true,
-
-    //   //resolution:  // to be set by renderer, eventually
-    //   dashed: false,
-    //   alphaToCoverage: true,
+    // const lineMaterial = new THREE.LineBasicMaterial({
+    //   color: "crimson",
     // });
-
-    const lineMaterial = new THREE.LineBasicMaterial({
-      color: "crimson",
-    });
 
     const geometry = new THREE.SphereGeometry(1, 32, 16);
     const mesh = new THREE.Mesh(geometry, material);
@@ -373,11 +362,14 @@ export default () => {
     points.push(body.torso.point(0, 0, 0));
     points.push(body.pelvis.point(0, 0, 0));
     const lineGeometry = new THREE.BufferGeometry().setFromPoints(points);
-    console.log("points :>> ", points);
-    // const lineGeometry = new LineGeometry();
-    // lineGeometry.setPositions(points);
-    const loop = new THREE.Line(lineGeometry, lineMaterial);
-    loop.castShadow = true;
+    const lineMesh = new MeshLine();
+    lineMesh.setGeometry(lineGeometry);
+    const lineMaterial = new MeshLineMaterial({
+      color: "crimson",
+      lineWidth: 0.5,
+    });
+    lineMesh.castShadow = true;
+    const loop = new THREE.Mesh(lineMesh.geometry, lineMaterial);
     scene.add(loop);
 
     const lArmMesh = mesh.clone();
@@ -417,10 +409,15 @@ export default () => {
     points2.push(body.l_arm.point(0, 0, 0));
     points2.push(body.l_elbow.point(0, 0, 0));
     points2.push(body.l_wrist.point(0, 0, 0));
-    const lineMaterial2 = lineMaterial.clone();
     const lineGeometry2 = new THREE.BufferGeometry().setFromPoints(points2);
-    const loop2 = new THREE.Line(lineGeometry2, lineMaterial2);
-    loop.castShadow = true;
+    const lineMesh2 = new MeshLine();
+    lineMesh2.setGeometry(lineGeometry2);
+    const lineMaterial2 = new MeshLineMaterial({
+      color: "crimson",
+      lineWidth: 0.5,
+    });
+    lineMesh2.castShadow = true;
+    const loop2 = new THREE.Mesh(lineMesh2.geometry, lineMaterial2);
     scene.add(loop2);
 
     const rArmMesh = mesh.clone();
@@ -460,10 +457,15 @@ export default () => {
     points3.push(body.r_arm.point(0, 0, 0));
     points3.push(body.r_elbow.point(0, 0, 0));
     points3.push(body.r_wrist.point(0, 0, 0));
-    const lineMaterial3 = lineMaterial.clone();
     const lineGeometry3 = new THREE.BufferGeometry().setFromPoints(points3);
-    const loop3 = new THREE.Line(lineGeometry3, lineMaterial3);
-    loop.castShadow = true;
+    const lineMesh3 = new MeshLine();
+    lineMesh3.setGeometry(lineGeometry3);
+    const lineMaterial3 = new MeshLineMaterial({
+      color: "crimson",
+      lineWidth: 0.5,
+    });
+    lineMesh3.castShadow = true;
+    const loop3 = new THREE.Mesh(lineMesh3.geometry, lineMaterial3);
     scene.add(loop3);
 
     const llegMesh = mesh.clone();
@@ -478,15 +480,42 @@ export default () => {
     body.l_ankle.hide();
     body.l_ankle.attach(lankleMesh);
 
+    // const lineMaterial4 = lineMaterial.clone();
+    // const lineGeometry4 = new THREE.BufferGeometry().setFromPoints(points4);
+    // const loop4 = new THREE.Line(lineGeometry4, lineMaterial4);
+    // loop.castShadow = true;
+    // scene.add(loop4);
+
+    // const points4 = [];
+    // points4.push(body.pelvis.point(0, 0, 0));
+    // points4.push(body.l_leg.point(0, 0, 0));
+    // points4.push(body.l_knee.point(0, 0, 0));
+    // points4.push(body.l_ankle.point(0, 0, 0));
+    // const lineGeometry4 = new THREE.BufferGeometry().setFromPoints(points4);
+    // const lineMesh4 = new MeshLine();
+    // lineMesh4.setGeometry(lineGeometry4);
+    // const lineMaterial4 = new MeshLineMaterial({
+    //   color: "crimson",
+    //   lineWidth: 0.5,
+    // });
+    // lineMesh4.castShadow = true;
+    // const loop4 = new THREE.Mesh(lineMesh4.geometry, lineMaterial4);
+    // scene.add(loop4);
+
     const points4 = [];
     points4.push(body.pelvis.point(0, 0, 0));
     points4.push(body.l_leg.point(0, 0, 0));
     points4.push(body.l_knee.point(0, 0, 0));
     points4.push(body.l_ankle.point(0, 0, 0));
-    const lineMaterial4 = lineMaterial.clone();
     const lineGeometry4 = new THREE.BufferGeometry().setFromPoints(points4);
-    const loop4 = new THREE.Line(lineGeometry4, lineMaterial4);
-    loop.castShadow = true;
+    const lineMesh4 = new MeshLine();
+    lineMesh4.setGeometry(lineGeometry4);
+    const lineMaterial4 = new MeshLineMaterial({
+      color: "crimson",
+      lineWidth: 0.5,
+    });
+    lineMesh4.castShadow = true;
+    const loop4 = new THREE.Mesh(lineMesh4.geometry, lineMaterial4);
     scene.add(loop4);
 
     const rlegMesh = mesh.clone();
@@ -506,10 +535,15 @@ export default () => {
     points5.push(body.r_leg.point(0, 0, 0));
     points5.push(body.r_knee.point(0, 0, 0));
     points5.push(body.r_ankle.point(0, 0, 0));
-    const lineMaterial5 = lineMaterial.clone();
     const lineGeometry5 = new THREE.BufferGeometry().setFromPoints(points5);
-    const loop5 = new THREE.Line(lineGeometry5, lineMaterial5);
-    loop.castShadow = true;
+    const lineMesh5 = new MeshLine();
+    lineMesh5.setGeometry(lineGeometry5);
+    const lineMaterial5 = new MeshLineMaterial({
+      color: "crimson",
+      lineWidth: 0.5,
+    });
+    lineMesh5.castShadow = true;
+    const loop5 = new THREE.Mesh(lineMesh5.geometry, lineMaterial5);
     scene.add(loop5);
 
     // const loader = new STLLoader();
