@@ -318,6 +318,7 @@ export default () => {
     }
 
     // addOutLine(model);
+    // changeBodyPart(model);
 
     // const string = prompt(
     //   "Reset the posture to:",
@@ -327,28 +328,190 @@ export default () => {
   };
 
   const changeBodyPart = (body: any) => {
-    body.head.hide();
     const material = new THREE.MeshToonMaterial({
-      color: "white",
+      color: 0x0055ff,
     });
 
-    const loader = new STLLoader();
-    loader.load(
-      "/cube.stl",
-      function (geometry: any) {
-        const mesh = new THREE.Mesh(geometry, material);
-        mesh.scale.set(0.1, 0.1, 0.1);
-        mesh.position.y = 5;
-        mesh.castShadow = true;
-        body.head.attach(mesh);
-      },
-      (xhr: any) => {
-        console.log((xhr.loaded / xhr.total) * 100 + "% loaded");
-      },
-      (error: any) => {
-        console.log(error);
-      }
-    );
+    const lineMaterial = new THREE.LineBasicMaterial({ color: "crimson" });
+
+    const geometry = new THREE.SphereGeometry(1, 32, 16);
+    const mesh = new THREE.Mesh(geometry, material);
+    // mesh.position.y = 3;
+    mesh.castShadow = true;
+    body.head.hide();
+    body.head.attach(mesh);
+
+    const neckMesh = mesh.clone();
+    body.neck.hide();
+    body.neck.attach(neckMesh);
+
+    const torsoMesh = mesh.clone();
+    body.torso.hide();
+    body.torso.attach(torsoMesh);
+
+    const pelvisMesh = mesh.clone();
+    body.pelvis.hide();
+    body.pelvis.attach(pelvisMesh);
+
+    const points = [];
+    points.push(body.head.point(0, 0, 0));
+    points.push(body.neck.point(0, 0, 0));
+    points.push(body.torso.point(0, 0, 0));
+    points.push(body.pelvis.point(0, 0, 0));
+    const lineGeometry = new THREE.BufferGeometry().setFromPoints(points);
+    const loop = new THREE.Line(lineGeometry, lineMaterial);
+    loop.castShadow = true;
+    scene.add(loop);
+
+    const lArmMesh = mesh.clone();
+    body.l_arm.hide();
+    body.l_arm.attach(lArmMesh);
+
+    const lelbowMesh = mesh.clone();
+    body.l_elbow.hide();
+    body.l_elbow.attach(lelbowMesh);
+
+    const lwristMesh = mesh.clone();
+    body.l_wrist.hide();
+    body.l_wrist.attach(lwristMesh);
+
+    const lfingersMesh = mesh.clone();
+    body.l_fingers.hide();
+    body.l_finger_0.hide();
+    body.l_finger_0.mid.hide();
+    body.l_finger_0.tip.hide();
+    body.l_finger_1.hide();
+    body.l_finger_1.mid.hide();
+    body.l_finger_1.tip.hide();
+    body.l_finger_2.hide();
+    body.l_finger_2.mid.hide();
+    body.l_finger_2.tip.hide();
+    body.l_finger_3.hide();
+    body.l_finger_3.mid.hide();
+    body.l_finger_3.tip.hide();
+    body.l_finger_4.hide();
+    body.l_finger_4.mid.hide();
+    body.l_finger_4.tip.hide();
+    body.l_fingers.attach(lfingersMesh);
+
+    const points2 = [];
+    points2.push(body.neck.point(0, 0, 0));
+    points2.push(body.l_arm.point(0, 0, 0));
+    points2.push(body.l_arm.point(0, 0, 0));
+    points2.push(body.l_elbow.point(0, 0, 0));
+    points2.push(body.l_wrist.point(0, 0, 0));
+    const lineMaterial2 = lineMaterial.clone();
+    const lineGeometry2 = new THREE.BufferGeometry().setFromPoints(points2);
+    const loop2 = new THREE.Line(lineGeometry2, lineMaterial2);
+    loop.castShadow = true;
+    scene.add(loop2);
+
+    const rArmMesh = mesh.clone();
+    body.r_arm.hide();
+    body.r_arm.attach(rArmMesh);
+
+    const relbowMesh = mesh.clone();
+    body.r_elbow.hide();
+    body.r_elbow.attach(relbowMesh);
+
+    const rwristMesh = mesh.clone();
+    body.r_wrist.hide();
+    body.r_wrist.attach(rwristMesh);
+
+    const rfingersMesh = mesh.clone();
+    body.r_fingers.hide();
+    body.r_finger_0.hide();
+    body.r_finger_0.mid.hide();
+    body.r_finger_0.tip.hide();
+    body.r_finger_1.hide();
+    body.r_finger_1.mid.hide();
+    body.r_finger_1.tip.hide();
+    body.r_finger_2.hide();
+    body.r_finger_2.mid.hide();
+    body.r_finger_2.tip.hide();
+    body.r_finger_3.hide();
+    body.r_finger_3.mid.hide();
+    body.r_finger_3.tip.hide();
+    body.r_finger_4.hide();
+    body.r_finger_4.mid.hide();
+    body.r_finger_4.tip.hide();
+    body.r_fingers.attach(rfingersMesh);
+
+    const points3 = [];
+    points3.push(body.neck.point(0, 0, 0));
+    points3.push(body.r_arm.point(0, 0, 0));
+    points3.push(body.r_arm.point(0, 0, 0));
+    points3.push(body.r_elbow.point(0, 0, 0));
+    points3.push(body.r_wrist.point(0, 0, 0));
+    const lineMaterial3 = lineMaterial.clone();
+    const lineGeometry3 = new THREE.BufferGeometry().setFromPoints(points3);
+    const loop3 = new THREE.Line(lineGeometry3, lineMaterial3);
+    loop.castShadow = true;
+    scene.add(loop3);
+
+    const llegMesh = mesh.clone();
+    body.l_leg.hide();
+    body.l_leg.attach(llegMesh);
+
+    const lkneeMesh = mesh.clone();
+    body.l_knee.hide();
+    body.l_knee.attach(lkneeMesh);
+
+    const lankleMesh = mesh.clone();
+    body.l_ankle.hide();
+    body.l_ankle.attach(lankleMesh);
+
+    const points4 = [];
+    points4.push(body.pelvis.point(0, 0, 0));
+    points4.push(body.l_leg.point(0, 0, 0));
+    points4.push(body.l_knee.point(0, 0, 0));
+    points4.push(body.l_ankle.point(0, 0, 0));
+    const lineMaterial4 = lineMaterial.clone();
+    const lineGeometry4 = new THREE.BufferGeometry().setFromPoints(points4);
+    const loop4 = new THREE.Line(lineGeometry4, lineMaterial4);
+    loop.castShadow = true;
+    scene.add(loop4);
+
+    const rlegMesh = mesh.clone();
+    body.r_leg.hide();
+    body.r_leg.attach(rlegMesh);
+
+    const rkneeMesh = mesh.clone();
+    body.r_knee.hide();
+    body.r_knee.attach(rkneeMesh);
+
+    const rankleMesh = mesh.clone();
+    body.r_ankle.hide();
+    body.r_ankle.attach(rankleMesh);
+
+    const points5 = [];
+    points5.push(body.pelvis.point(0, 0, 0));
+    points5.push(body.r_leg.point(0, 0, 0));
+    points5.push(body.r_knee.point(0, 0, 0));
+    points5.push(body.r_ankle.point(0, 0, 0));
+    const lineMaterial5 = lineMaterial.clone();
+    const lineGeometry5 = new THREE.BufferGeometry().setFromPoints(points5);
+    const loop5 = new THREE.Line(lineGeometry5, lineMaterial5);
+    loop.castShadow = true;
+    scene.add(loop5);
+
+    // const loader = new STLLoader();
+    // loader.load(
+    //   "/cube.stl",
+    //   function (geometry: any) {
+    //     const mesh = new THREE.Mesh(geometry, material);
+    //     mesh.scale.set(0.1, 0.1, 0.1);
+    //     mesh.position.y = 5;
+    //     mesh.castShadow = true;
+    //     body.head.attach(mesh);
+    //   },
+    //   (xhr: any) => {
+    //     console.log((xhr.loaded / xhr.total) * 100 + "% loaded");
+    //   },
+    //   (error: any) => {
+    //     console.log(error);
+    //   }
+    // );
   };
 
   const getTarget = (bodyId?: string) => {
@@ -705,5 +868,6 @@ export default () => {
     showContentMenu,
     intersectObj,
     setSceneBg,
+    changeBodyPart,
   };
 };

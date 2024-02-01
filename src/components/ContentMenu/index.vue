@@ -12,7 +12,8 @@ import axios from "axios";
 import { dayjs } from "element-plus";
 import { ref, computed, onMounted, toValue } from "vue";
 
-const { mousePostion, intersectObj, setPosture } = UseMannequin();
+const { mousePostion, intersectObj, setPosture, changeBodyPart } =
+  UseMannequin();
 const { bodys, changePose3D, getModelById } = UseBodys();
 
 const menus = ref([
@@ -71,9 +72,25 @@ const getList = async () => {
 
 const clickMenu = (event: any) => {
   console.log("event", event);
-  setInterval(() => {
-    scene.rotateY(-2 / 100 / 2);
-  }, 1000 / 60);
+  if (event[1] === 1) {
+    setInterval(() => {
+      scene.rotateY(-2 / 100 / 2);
+    }, 1000 / 60);
+  } else if (event[1] === 2) {
+    changeBodyPartFn();
+  }
+};
+
+const changeBodyPartFn = () => {
+  const getParent = (obj) => {
+    const temp = toValue(obj);
+    if (temp.parent.l_arm) {
+      return temp.parent;
+    }
+    return getParent(temp.parent);
+  };
+  const model = getModelById(getParent(intersectObj)._id);
+  changeBodyPart(model);
 };
 
 const handleChange = (value) => {
